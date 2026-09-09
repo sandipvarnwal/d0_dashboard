@@ -10823,7 +10823,7 @@
     "rows": [
       [
         {
-          "value": "Till 21:00 || 09 September",
+          "value": "Till 22:00 || 09 September",
           "bg": "#1f4e78",
           "color": "#ffffff",
           "bold": true,
@@ -10982,43 +10982,43 @@
           "bold": true
         },
         {
-          "value": "8073",
+          "value": "7348",
           "bg": "#b6d7a8",
           "color": "#000000",
           "bold": true
         },
         {
-          "value": "5922",
+          "value": "5390",
           "bg": "#b6d7a8",
           "color": "#000000",
           "bold": true
         },
         {
-          "value": "1300",
+          "value": "987",
           "bg": "#b6d7a8",
           "color": "#000000",
           "bold": true
         },
         {
-          "value": "343",
+          "value": "476",
           "bg": "#b6d7a8",
           "color": "#000000",
           "bold": true
         },
         {
-          "value": "160",
+          "value": "179",
           "bg": "#b6d7a8",
           "color": "#000000",
           "bold": true
         },
         {
-          "value": "4119",
+          "value": "3748",
           "bg": "#b6d7a8",
           "color": "#000000",
           "bold": true
         },
         {
-          "value": "5922",
+          "value": "5390",
           "bg": "#b6d7a8",
           "color": "#000000",
           "bold": true
@@ -11052,19 +11052,19 @@
           "bold": true
         },
         {
-          "value": "3780",
+          "value": "3020",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
         },
         {
-          "value": "2361",
+          "value": "1829",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
         },
         {
-          "value": "842",
+          "value": "566",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
@@ -11082,13 +11082,13 @@
           "bold": true
         },
         {
-          "value": "1517",
+          "value": "1261",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
         },
         {
-          "value": "2361",
+          "value": "1829",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
@@ -11131,7 +11131,7 @@
           "bold": false
         },
         {
-          "value": "35",
+          "value": "32",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
@@ -11149,75 +11149,13 @@
           "bold": false
         },
         {
-          "value": "490",
+          "value": "493",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
         },
         {
           "value": "525",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        }
-      ],
-      [
-        {
-          "isCovered": true
-        },
-        {
-          "isCovered": true
-        },
-        {
-          "value": "137b31f29d054089",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "MR CORPORATION",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "660",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "482",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "301",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "0",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "0",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "181",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "482",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
@@ -11342,68 +11280,6 @@
         },
         {
           "value": "191",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        }
-      ],
-      [
-        {
-          "isCovered": true
-        },
-        {
-          "isCovered": true
-        },
-        {
-          "value": "d143ac665a274128",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "I KHODAL ENTERPRISE",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "252",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "179",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "15",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "0",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "0",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "164",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "179",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
@@ -11615,7 +11491,7 @@
           "bold": false
         },
         {
-          "value": "415",
+          "value": "413",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
@@ -11714,6 +11590,130 @@
         },
         {
           "value": "114",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        }
+      ],
+      [
+        {
+          "isCovered": true
+        },
+        {
+          "isCovered": true
+        },
+        {
+          "value": "41fb1b8497504275",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "ARK GROUP",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "89",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "68",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "43",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "0",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "0",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "25",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "68",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        }
+      ],
+      [
+        {
+          "isCovered": true
+        },
+        {
+          "isCovered": true
+        },
+        {
+          "value": "8a9e8f0dd5ae4fb1",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "KDN ENTERPRISE",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "65",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "61",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "0",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "0",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "0",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "61",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "61",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
@@ -12246,7 +12246,7 @@
           "bold": true
         },
         {
-          "value": "1732",
+          "value": "1767",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
@@ -12685,7 +12685,7 @@
           "bold": false
         },
         {
-          "value": "22",
+          "value": "57",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
@@ -12948,25 +12948,25 @@
           "bold": true
         },
         {
-          "value": "37",
-          "bg": "#fff2cc",
-          "color": "#000000",
-          "bold": true
-        },
-        {
           "value": "0",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
         },
         {
-          "value": "0",
+          "value": "132",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
         },
         {
-          "value": "541",
+          "value": "20",
+          "bg": "#fff2cc",
+          "color": "#000000",
+          "bold": true
+        },
+        {
+          "value": "426",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
@@ -13015,25 +13015,25 @@
           "bold": false
         },
         {
-          "value": "30",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
           "value": "0",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
         },
         {
-          "value": "0",
+          "value": "110",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
         },
         {
-          "value": "90",
+          "value": "10",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "0",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
@@ -13511,25 +13511,25 @@
           "bold": false
         },
         {
-          "value": "7",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
           "value": "0",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
         },
         {
-          "value": "0",
+          "value": "22",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
         },
         {
-          "value": "25",
+          "value": "10",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "0",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
@@ -13644,13 +13644,13 @@
           "bold": true
         },
         {
-          "value": "341",
+          "value": "342",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
         },
         {
-          "value": "160",
+          "value": "159",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
@@ -13711,13 +13711,13 @@
           "bold": false
         },
         {
-          "value": "242",
+          "value": "243",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
         },
         {
-          "value": "106",
+          "value": "105",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
@@ -14195,43 +14195,43 @@
           "bold": true
         },
         {
-          "value": "3278",
+          "value": "3158",
           "bg": "#b6d7a8",
           "color": "#000000",
           "bold": true
         },
         {
-          "value": "2776",
+          "value": "2677",
           "bg": "#b6d7a8",
           "color": "#000000",
           "bold": true
         },
         {
-          "value": "552",
+          "value": "356",
           "bg": "#b6d7a8",
           "color": "#000000",
           "bold": true
         },
         {
-          "value": "19",
+          "value": "31",
           "bg": "#b6d7a8",
           "color": "#000000",
           "bold": true
         },
         {
-          "value": "988",
+          "value": "1843",
           "bg": "#b6d7a8",
           "color": "#000000",
           "bold": true
         },
         {
-          "value": "1217",
+          "value": "447",
           "bg": "#b6d7a8",
           "color": "#000000",
           "bold": true
         },
         {
-          "value": "2776",
+          "value": "2677",
           "bg": "#b6d7a8",
           "color": "#000000",
           "bold": true
@@ -14265,19 +14265,19 @@
           "bold": true
         },
         {
-          "value": "1732",
+          "value": "1723",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
         },
         {
-          "value": "1524",
+          "value": "1517",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
         },
         {
-          "value": "148",
+          "value": "0",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
@@ -14289,19 +14289,19 @@
           "bold": true
         },
         {
-          "value": "831",
+          "value": "1498",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
         },
         {
-          "value": "526",
+          "value": "0",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
         },
         {
-          "value": "1524",
+          "value": "1517",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
@@ -14332,19 +14332,13 @@
           "bold": false
         },
         {
-          "value": "746",
+          "value": "737",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
         },
         {
-          "value": "674",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "148",
+          "value": "667",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
@@ -14362,13 +14356,19 @@
           "bold": false
         },
         {
-          "value": "526",
+          "value": "667",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
         },
         {
-          "value": "674",
+          "value": "0",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "667",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
@@ -14955,25 +14955,19 @@
           "bold": true
         },
         {
-          "value": "583",
+          "value": "446",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
         },
         {
-          "value": "538",
+          "value": "413",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
         },
         {
-          "value": "48",
-          "bg": "#fff2cc",
-          "color": "#000000",
-          "bold": true
-        },
-        {
-          "value": "0",
+          "value": "53",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
@@ -14985,13 +14979,19 @@
           "bold": true
         },
         {
-          "value": "490",
+          "value": "0",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
         },
         {
-          "value": "538",
+          "value": "360",
+          "bg": "#fff2cc",
+          "color": "#000000",
+          "bold": true
+        },
+        {
+          "value": "413",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
@@ -15008,68 +15008,6 @@
           "bold": false,
           "rowSpan": 10,
           "colSpan": 1
-        },
-        {
-          "value": "b09f8a40c47a4c92",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "VANRAY FASHION",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "153",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "139",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "0",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "0",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "0",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "139",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "139",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        }
-      ],
-      [
-        {
-          "isCovered": true
-        },
-        {
-          "isCovered": true
         },
         {
           "value": "91de512fae5e42f8",
@@ -15617,6 +15555,68 @@
         },
         {
           "value": "17",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        }
+      ],
+      [
+        {
+          "isCovered": true
+        },
+        {
+          "isCovered": true
+        },
+        {
+          "value": "5f3befb433c4423c",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "MAANI TEXTILE",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "16",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "14",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "5",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "0",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "0",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "9",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "14",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
@@ -16317,7 +16317,7 @@
           "isCovered": true
         },
         {
-          "value": "SuratTempHub_STV Total",
+          "value": "SaroliHubSplit_STV_PL Total",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
@@ -16335,19 +16335,13 @@
           "bold": true
         },
         {
-          "value": "271",
+          "value": "302",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
         },
         {
-          "value": "221",
-          "bg": "#fff2cc",
-          "color": "#000000",
-          "bold": true
-        },
-        {
-          "value": "41",
+          "value": "254",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
@@ -16359,19 +16353,25 @@
           "bold": true
         },
         {
-          "value": "54",
+          "value": "12",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
         },
         {
-          "value": "126",
+          "value": "242",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
         },
         {
-          "value": "221",
+          "value": "0",
+          "bg": "#fff2cc",
+          "color": "#000000",
+          "bold": true
+        },
+        {
+          "value": "254",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
@@ -16382,7 +16382,7 @@
           "isCovered": true
         },
         {
-          "value": "SuratTempHub_STV",
+          "value": "SaroliHubSplit_STV_PL",
           "bg": "#cfe2f3",
           "color": "#000000",
           "bold": false,
@@ -16390,31 +16390,25 @@
           "colSpan": 1
         },
         {
-          "value": "0f1dc68079834676",
+          "value": "f69a869af03a4225",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
         },
         {
-          "value": "DY Fashion",
+          "value": "Sanvedana Enterprise",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
         },
         {
-          "value": "112",
+          "value": "154",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
         },
         {
-          "value": "111",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "0",
+          "value": "154",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
@@ -16426,19 +16420,25 @@
           "bold": false
         },
         {
-          "value": "12",
+          "value": "0",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
         },
         {
-          "value": "99",
+          "value": "154",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
         },
         {
-          "value": "111",
+          "value": "0",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "154",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
@@ -16452,255 +16452,7 @@
           "isCovered": true
         },
         {
-          "value": "75ca5c3a79504b0c",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "SOURBH SILK MILLS",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "30",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "28",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "28",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "0",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "0",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "0",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "28",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        }
-      ],
-      [
-        {
-          "isCovered": true
-        },
-        {
-          "isCovered": true
-        },
-        {
-          "value": "79a72e82c49b4c0e",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "THE STYLE CLUB",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "53",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "22",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "0",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "0",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "22",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "0",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "22",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        }
-      ],
-      [
-        {
-          "isCovered": true
-        },
-        {
-          "isCovered": true
-        },
-        {
-          "value": "90c6a07aed1840c0",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "H P CREATION",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "14",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "14",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "1",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "0",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "0",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "13",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "14",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        }
-      ],
-      [
-        {
-          "isCovered": true
-        },
-        {
-          "isCovered": true
-        },
-        {
-          "value": "d815514fd0264831",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "ABABIL FASHION",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "15",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "13",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "0",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "0",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "13",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "0",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "13",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        }
-      ],
-      [
-        {
-          "isCovered": true
-        },
-        {
-          "isCovered": true
-        },
-        {
-          "value": "9d1a319a38494540",
+          "value": "02a19902bbbb4db1",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
@@ -16712,19 +16464,13 @@
           "bold": false
         },
         {
-          "value": "10",
+          "value": "55",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
         },
         {
-          "value": "9",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "9",
+          "value": "52",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
@@ -16742,13 +16488,19 @@
           "bold": false
         },
         {
+          "value": "52",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
           "value": "0",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
         },
         {
-          "value": "9",
+          "value": "52",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
@@ -16762,31 +16514,25 @@
           "isCovered": true
         },
         {
-          "value": "eddbf18ae73c43b1",
+          "value": "b509b66c4f374018",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
         },
         {
-          "value": "SIYA ENTERPRISE",
+          "value": "HITARTH ENTERPRISE",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
         },
         {
-          "value": "17",
+          "value": "44",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
         },
         {
-          "value": "8",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "1",
+          "value": "21",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
@@ -16804,13 +16550,19 @@
           "bold": false
         },
         {
-          "value": "7",
+          "value": "21",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
         },
         {
-          "value": "8",
+          "value": "0",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "21",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
@@ -16824,19 +16576,19 @@
           "isCovered": true
         },
         {
-          "value": "423daec3d7e64968",
+          "value": "3480ddf3793a4633",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
         },
         {
-          "value": "(Not Found)",
+          "value": "Grow Green India",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
         },
         {
-          "value": "7",
+          "value": "22",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
@@ -16886,19 +16638,13 @@
           "isCovered": true
         },
         {
-          "value": "2c451e1ba3024b25",
+          "value": "a346d7f2b6a14b94",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
         },
         {
-          "value": "MARUTI IMPEX",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "7",
+          "value": "SHREE KAMLAI ENTERPRISE",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
@@ -16910,7 +16656,19 @@
           "bold": false
         },
         {
-          "value": "1",
+          "value": "6",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "0",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "6",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
@@ -16923,6 +16681,32 @@
         },
         {
           "value": "0",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "6",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        }
+      ],
+      [
+        {
+          "isCovered": true
+        },
+        {
+          "isCovered": true
+        },
+        {
+          "value": "1fd6292067594f13",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "SHREE YAMUNA FASHION",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
@@ -16934,7 +16718,37 @@
           "bold": false
         },
         {
-          "value": "6",
+          "value": "4",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "0",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "0",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "4",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "0",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "4",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
@@ -16948,31 +16762,99 @@
           "isCovered": true
         },
         {
-          "value": "60e6fd68795649a4",
+          "value": "aed7fd9974124b15",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
         },
         {
-          "value": "YANSHI ART PRINTS +919687430111",
+          "value": "VAMIKA ENTERPRISE",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
         },
         {
-          "value": "6",
+          "value": "4",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
         },
         {
-          "value": "3",
+          "value": "4",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
         },
         {
-          "value": "1",
+          "value": "0",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "0",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "4",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "0",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "4",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        }
+      ],
+      [
+        {
+          "isCovered": true
+        },
+        {
+          "isCovered": true
+        },
+        {
+          "value": "03b6da63beb6405d",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "KIDZWAY FASHION +919327330969",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "2",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "2",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "0",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "2",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
@@ -16994,9 +16876,127 @@
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
+        }
+      ],
+      [
+        {
+          "isCovered": true
         },
         {
-          "value": "3",
+          "isCovered": true
+        },
+        {
+          "value": "32d6127dfb9642f2",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "RAVECHI ENTERPRISE",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "2",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "2",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "0",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "2",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "0",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "0",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "2",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        }
+      ],
+      [
+        {
+          "isCovered": true
+        },
+        {
+          "isCovered": true
+        },
+        {
+          "value": "855acd564ba4413c",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "REEVA ENTERPRISES",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "8",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "2",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "0",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "2",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "0",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "0",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "2",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
@@ -17025,7 +17025,7 @@
           "bold": true
         },
         {
-          "value": "353",
+          "value": "348",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
@@ -17037,7 +17037,7 @@
           "bold": true
         },
         {
-          "value": "87",
+          "value": "75",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
@@ -17055,7 +17055,7 @@
           "bold": true
         },
         {
-          "value": "23",
+          "value": "35",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
@@ -17402,7 +17402,7 @@
           "bold": false
         },
         {
-          "value": "99",
+          "value": "94",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
@@ -17414,25 +17414,25 @@
           "bold": false
         },
         {
+          "value": "0",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "0",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "0",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
           "value": "12",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "0",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "0",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "0",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
@@ -17718,31 +17718,31 @@
           "bold": true
         },
         {
-          "value": "1196",
+          "value": "1202",
           "bg": "#b6d7a8",
           "color": "#000000",
           "bold": true
         },
         {
-          "value": "797",
+          "value": "796",
           "bg": "#b6d7a8",
           "color": "#000000",
           "bold": true
         },
         {
-          "value": "188",
+          "value": "186",
           "bg": "#b6d7a8",
           "color": "#000000",
           "bold": true
         },
         {
-          "value": "128",
+          "value": "130",
           "bg": "#b6d7a8",
           "color": "#000000",
           "bold": true
         },
         {
-          "value": "144",
+          "value": "143",
           "bg": "#b6d7a8",
           "color": "#000000",
           "bold": true
@@ -17754,7 +17754,7 @@
           "bold": true
         },
         {
-          "value": "797",
+          "value": "796",
           "bg": "#b6d7a8",
           "color": "#000000",
           "bold": true
@@ -17788,7 +17788,7 @@
           "bold": true
         },
         {
-          "value": "294",
+          "value": "296",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
@@ -18103,7 +18103,7 @@
           "bold": false
         },
         {
-          "value": "28",
+          "value": "30",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
@@ -18796,7 +18796,7 @@
           "bold": true
         },
         {
-          "value": "287",
+          "value": "286",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
@@ -18808,13 +18808,13 @@
           "bold": true
         },
         {
-          "value": "64",
+          "value": "62",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
         },
         {
-          "value": "86",
+          "value": "88",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
@@ -18875,13 +18875,13 @@
           "bold": false
         },
         {
-          "value": "2",
+          "value": "0",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
         },
         {
-          "value": "34",
+          "value": "36",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
@@ -19359,7 +19359,7 @@
           "bold": false
         },
         {
-          "value": "24",
+          "value": "23",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
@@ -19486,13 +19486,13 @@
           "bold": true
         },
         {
-          "value": "235",
+          "value": "241",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
         },
         {
-          "value": "129",
+          "value": "128",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
@@ -19510,7 +19510,7 @@
           "bold": true
         },
         {
-          "value": "127",
+          "value": "126",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
@@ -19522,7 +19522,7 @@
           "bold": true
         },
         {
-          "value": "129",
+          "value": "128",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
@@ -19615,7 +19615,7 @@
           "bold": false
         },
         {
-          "value": "20",
+          "value": "27",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
@@ -19801,19 +19801,13 @@
           "bold": false
         },
         {
-          "value": "28",
+          "value": "27",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
         },
         {
-          "value": "11",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "0",
+          "value": "10",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
@@ -19825,7 +19819,13 @@
           "bold": false
         },
         {
-          "value": "11",
+          "value": "0",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "10",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
@@ -19837,7 +19837,7 @@
           "bold": false
         },
         {
-          "value": "11",
+          "value": "10",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
@@ -20176,7 +20176,7 @@
           "bold": true
         },
         {
-          "value": "163",
+          "value": "162",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
@@ -20241,7 +20241,7 @@
           "bold": false
         },
         {
-          "value": "163",
+          "value": "162",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
@@ -20309,19 +20309,19 @@
           "bold": true
         },
         {
-          "value": "1508",
+          "value": "1361",
           "bg": "#b6d7a8",
           "color": "#000000",
           "bold": true
         },
         {
-          "value": "761",
+          "value": "669",
           "bg": "#b6d7a8",
           "color": "#000000",
           "bold": true
         },
         {
-          "value": "300",
+          "value": "290",
           "bg": "#b6d7a8",
           "color": "#000000",
           "bold": true
@@ -20333,19 +20333,19 @@
           "bold": true
         },
         {
-          "value": "72",
+          "value": "82",
           "bg": "#b6d7a8",
           "color": "#000000",
           "bold": true
         },
         {
-          "value": "370",
+          "value": "278",
           "bg": "#b6d7a8",
           "color": "#000000",
           "bold": true
         },
         {
-          "value": "761",
+          "value": "669",
           "bg": "#b6d7a8",
           "color": "#000000",
           "bold": true
@@ -20379,13 +20379,13 @@
           "bold": true
         },
         {
-          "value": "451",
+          "value": "305",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
         },
         {
-          "value": "293",
+          "value": "201",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
@@ -20409,13 +20409,13 @@
           "bold": true
         },
         {
-          "value": "276",
+          "value": "184",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
         },
         {
-          "value": "293",
+          "value": "201",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
@@ -20483,68 +20483,6 @@
         },
         {
           "value": "97",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        }
-      ],
-      [
-        {
-          "isCovered": true
-        },
-        {
-          "isCovered": true
-        },
-        {
-          "value": "fc32f7c4a7294abc",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "Shoppax retail",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "151",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "95",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "0",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "0",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "0",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "95",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "95",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
@@ -21051,6 +20989,68 @@
           "isCovered": true
         },
         {
+          "isCovered": true
+        },
+        {
+          "value": "8c6d63b7e7ef4bf0",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "DT ENTERPRISES",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "5",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "3",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "0",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "0",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "0",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "3",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "3",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        }
+      ],
+      [
+        {
+          "isCovered": true
+        },
+        {
           "value": "FortHub_MUM_PL Total",
           "bg": "#fff2cc",
           "color": "#000000",
@@ -21069,7 +21069,7 @@
           "bold": true
         },
         {
-          "value": "671",
+          "value": "669",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
@@ -21081,7 +21081,7 @@
           "bold": true
         },
         {
-          "value": "106",
+          "value": "96",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
@@ -21093,7 +21093,7 @@
           "bold": true
         },
         {
-          "value": "39",
+          "value": "49",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
@@ -21272,19 +21272,19 @@
           "bold": false
         },
         {
+          "value": "0",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "0",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
           "value": "10",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "0",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "0",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
@@ -21508,7 +21508,7 @@
           "bold": false
         },
         {
-          "value": "14",
+          "value": "13",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
@@ -21632,7 +21632,7 @@
           "bold": false
         },
         {
-          "value": "12",
+          "value": "11",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
@@ -22449,7 +22449,7 @@
           "bold": true
         },
         {
-          "value": "119",
+          "value": "120",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
@@ -22888,7 +22888,7 @@
           "bold": false
         },
         {
-          "value": "5",
+          "value": "6",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
@@ -23832,43 +23832,43 @@
           "bold": true
         },
         {
-          "value": "1345",
+          "value": "1343",
           "bg": "#b6d7a8",
           "color": "#000000",
           "bold": true
         },
         {
-          "value": "591",
+          "value": "592",
           "bg": "#b6d7a8",
           "color": "#000000",
           "bold": true
         },
         {
-          "value": "130",
+          "value": "83",
           "bg": "#b6d7a8",
           "color": "#000000",
           "bold": true
         },
         {
-          "value": "20",
+          "value": "76",
           "bg": "#b6d7a8",
           "color": "#000000",
           "bold": true
         },
         {
-          "value": "242",
+          "value": "264",
           "bg": "#b6d7a8",
           "color": "#000000",
           "bold": true
         },
         {
-          "value": "199",
+          "value": "169",
           "bg": "#b6d7a8",
           "color": "#000000",
           "bold": true
         },
         {
-          "value": "591",
+          "value": "592",
           "bg": "#b6d7a8",
           "color": "#000000",
           "bold": true
@@ -23902,7 +23902,7 @@
           "bold": true
         },
         {
-          "value": "489",
+          "value": "482",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
@@ -23914,13 +23914,13 @@
           "bold": true
         },
         {
-          "value": "12",
+          "value": "0",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
         },
         {
-          "value": "20",
+          "value": "47",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
@@ -23932,7 +23932,7 @@
           "bold": true
         },
         {
-          "value": "15",
+          "value": "0",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
@@ -24093,7 +24093,7 @@
           "bold": false
         },
         {
-          "value": "88",
+          "value": "87",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
@@ -24217,7 +24217,7 @@
           "bold": false
         },
         {
-          "value": "141",
+          "value": "136",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
@@ -24291,7 +24291,13 @@
           "bold": false
         },
         {
-          "value": "3",
+          "value": "0",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "15",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
@@ -24304,12 +24310,6 @@
         },
         {
           "value": "0",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "12",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
@@ -24465,7 +24465,7 @@
           "bold": false
         },
         {
-          "value": "25",
+          "value": "24",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
@@ -24477,7 +24477,13 @@
           "bold": false
         },
         {
-          "value": "9",
+          "value": "0",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "12",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
@@ -24490,12 +24496,6 @@
         },
         {
           "value": "0",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "3",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
@@ -24592,7 +24592,7 @@
           "bold": true
         },
         {
-          "value": "486",
+          "value": "485",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
@@ -24845,7 +24845,7 @@
           "bold": false
         },
         {
-          "value": "81",
+          "value": "80",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
@@ -25972,19 +25972,31 @@
           "bold": true
         },
         {
-          "value": "76",
+          "value": "75",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
         },
         {
-          "value": "50",
+          "value": "51",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
         },
         {
-          "value": "38",
+          "value": "3",
+          "bg": "#fff2cc",
+          "color": "#000000",
+          "bold": true
+        },
+        {
+          "value": "29",
+          "bg": "#fff2cc",
+          "color": "#000000",
+          "bold": true
+        },
+        {
+          "value": "19",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
@@ -25996,19 +26008,7 @@
           "bold": true
         },
         {
-          "value": "0",
-          "bg": "#fff2cc",
-          "color": "#000000",
-          "bold": true
-        },
-        {
-          "value": "12",
-          "bg": "#fff2cc",
-          "color": "#000000",
-          "bold": true
-        },
-        {
-          "value": "50",
+          "value": "51",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
@@ -26051,19 +26051,19 @@
           "bold": false
         },
         {
-          "value": "32",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
           "value": "0",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
         },
         {
-          "value": "0",
+          "value": "25",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "7",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
@@ -26125,13 +26125,13 @@
           "bold": false
         },
         {
-          "value": "0",
+          "value": "6",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
         },
         {
-          "value": "6",
+          "value": "0",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
@@ -26187,6 +26187,12 @@
           "bold": false
         },
         {
+          "value": "3",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
           "value": "0",
           "bg": "#ffffff",
           "color": "#000000",
@@ -26194,6 +26200,62 @@
         },
         {
           "value": "3",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        }
+      ],
+      [
+        {
+          "isCovered": true
+        },
+        {
+          "isCovered": true
+        },
+        {
+          "value": "da63023ffb224fd4",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "(Not Found)",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "8",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "3",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "0",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "3",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "0",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "0",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
@@ -26225,69 +26287,7 @@
           "bold": false
         },
         {
-          "value": "13",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "2",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "2",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "0",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "0",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "0",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "2",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        }
-      ],
-      [
-        {
-          "isCovered": true
-        },
-        {
-          "isCovered": true
-        },
-        {
-          "value": "da63023ffb224fd4",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "(Not Found)",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "7",
+          "value": "11",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
@@ -26367,19 +26367,19 @@
           "bold": false
         },
         {
-          "value": "0",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "0",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
           "value": "1",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "0",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "0",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
@@ -26461,68 +26461,6 @@
           "isCovered": true
         },
         {
-          "value": "152011b2b0654f63",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "(Not Found)",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "1",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "1",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "0",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "0",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "0",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "1",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "1",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        }
-      ],
-      [
-        {
-          "isCovered": true
-        },
-        {
-          "isCovered": true
-        },
-        {
           "value": "1badef4e860e42fe",
           "bg": "#ffffff",
           "color": "#000000",
@@ -26559,13 +26497,13 @@
           "bold": false
         },
         {
-          "value": "0",
+          "value": "1",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
         },
         {
-          "value": "1",
+          "value": "0",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
@@ -26609,6 +26547,62 @@
           "bold": false
         },
         {
+          "value": "0",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "0",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "1",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "0",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "1",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        }
+      ],
+      [
+        {
+          "isCovered": true
+        },
+        {
+          "isCovered": true
+        },
+        {
+          "value": "6711f2efeb08413c",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "(Not Found)",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "1",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
           "value": "1",
           "bg": "#ffffff",
           "color": "#000000",
@@ -26622,6 +26616,12 @@
         },
         {
           "value": "0",
+          "bg": "#ffffff",
+          "color": "#000000",
+          "bold": false
+        },
+        {
+          "value": "1",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
@@ -26662,7 +26662,7 @@
           "bold": true
         },
         {
-          "value": "50",
+          "value": "57",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
@@ -26686,13 +26686,13 @@
           "bold": true
         },
         {
-          "value": "22",
+          "value": "25",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
         },
         {
-          "value": "11",
+          "value": "8",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
@@ -26729,7 +26729,7 @@
           "bold": false
         },
         {
-          "value": "10",
+          "value": "18",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
@@ -26939,13 +26939,13 @@
           "bold": false
         },
         {
-          "value": "0",
+          "value": "3",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
         },
         {
-          "value": "3",
+          "value": "0",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
@@ -27287,7 +27287,7 @@
           "bold": false
         },
         {
-          "value": "13",
+          "value": "12",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
@@ -27355,19 +27355,19 @@
           "bold": true
         },
         {
-          "value": "884",
+          "value": "881",
           "bg": "#b6d7a8",
           "color": "#000000",
           "bold": true
         },
         {
-          "value": "401",
+          "value": "393",
           "bg": "#b6d7a8",
           "color": "#000000",
           "bold": true
         },
         {
-          "value": "170",
+          "value": "164",
           "bg": "#b6d7a8",
           "color": "#000000",
           "bold": true
@@ -27385,13 +27385,13 @@
           "bold": true
         },
         {
-          "value": "135",
+          "value": "133",
           "bg": "#b6d7a8",
           "color": "#000000",
           "bold": true
         },
         {
-          "value": "401",
+          "value": "393",
           "bg": "#b6d7a8",
           "color": "#000000",
           "bold": true
@@ -27403,7 +27403,7 @@
           "bg": "#d9ead3",
           "color": "#000000",
           "bold": true,
-          "rowSpan": 48,
+          "rowSpan": 47,
           "colSpan": 1
         },
         {
@@ -27425,7 +27425,7 @@
           "bold": true
         },
         {
-          "value": "620",
+          "value": "625",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
@@ -27802,7 +27802,7 @@
           "bold": false
         },
         {
-          "value": "8",
+          "value": "11",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
@@ -27988,7 +27988,7 @@
           "bold": false
         },
         {
-          "value": "7",
+          "value": "9",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
@@ -28557,25 +28557,19 @@
           "bold": true
         },
         {
-          "value": "51",
+          "value": "43",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
         },
         {
-          "value": "36",
+          "value": "28",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
         },
         {
-          "value": "10",
-          "bg": "#fff2cc",
-          "color": "#000000",
-          "bold": true
-        },
-        {
-          "value": "0",
+          "value": "4",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
@@ -28587,13 +28581,19 @@
           "bold": true
         },
         {
-          "value": "26",
+          "value": "0",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
         },
         {
-          "value": "36",
+          "value": "24",
+          "bg": "#fff2cc",
+          "color": "#000000",
+          "bold": true
+        },
+        {
+          "value": "28",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
@@ -28608,7 +28608,7 @@
           "bg": "#cfe2f3",
           "color": "#000000",
           "bold": false,
-          "rowSpan": 7,
+          "rowSpan": 6,
           "colSpan": 1
         },
         {
@@ -28661,68 +28661,6 @@
         },
         {
           "value": "18",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        }
-      ],
-      [
-        {
-          "isCovered": true
-        },
-        {
-          "isCovered": true
-        },
-        {
-          "value": "92bd49d1d5934b0a",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "SHREE MART",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "8",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "8",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "6",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "0",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "0",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "2",
-          "bg": "#ffffff",
-          "color": "#000000",
-          "bold": false
-        },
-        {
-          "value": "8",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
@@ -29061,7 +28999,7 @@
           "bold": true
         },
         {
-          "value": "97",
+          "value": "96",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
@@ -29314,7 +29252,7 @@
           "bold": false
         },
         {
-          "value": "30",
+          "value": "29",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
@@ -29751,7 +29689,7 @@
           "bold": true
         },
         {
-          "value": "34",
+          "value": "35",
           "bg": "#fff2cc",
           "color": "#000000",
           "bold": true
@@ -30066,7 +30004,7 @@
           "bold": false
         },
         {
-          "value": "1",
+          "value": "2",
           "bg": "#ffffff",
           "color": "#000000",
           "bold": false
