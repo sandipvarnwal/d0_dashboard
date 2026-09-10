@@ -3,9 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Expires" content="0">
   <title>D0 DASHBOARD</title>
   <style>
     * { box-sizing: border-box; }
@@ -43,60 +40,29 @@
       border-radius: 6px;
       padding: 12px;
       margin-bottom: 12px;
-      display: none; /* Hidden by default, toggled via JS based on enableFilters */
+      display: none;
       flex-wrap: wrap;
       gap: 16px;
       align-items: center;
       box-shadow: 0 2px 4px rgba(0,0,0,0.05);
     }
-    .top-controls.visible {
-      display: flex;
-    }
+    .top-controls.visible { display: flex; }
 
-    .control-group {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .control-group label {
-      font-size: 11px;
-      font-weight: 700;
-      color: #555;
-      text-transform: uppercase;
-    }
-
+    .control-group { display: flex; flex-direction: column; gap: 4px; }
+    .control-group label { font-size: 11px; font-weight: 700; color: #555; text-transform: uppercase; }
     .control-group select, .control-group button {
-      padding: 6px 10px;
-      font-size: 12px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      background: #fff;
+      padding: 6px 10px; font-size: 12px; border: 1px solid #ccc; border-radius: 4px; background: #fff;
     }
 
-    .sort-radios {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      height: 30px;
-      font-size: 12px;
-    }
+    .sort-radios { display: flex; gap: 10px; align-items: center; height: 30px; font-size: 12px; }
 
     .btn-apply {
-      background-color: #1a73e8 !important;
-      color: #ffffff;
-      border-color: #1a73e8 !important;
-      font-weight: 600;
-      cursor: pointer;
-      margin-top: auto;
+      background-color: #1a73e8 !important; color: #ffffff; border-color: #1a73e8 !important;
+      font-weight: 600; cursor: pointer; margin-top: auto;
     }
-
     .btn-reset {
-      background-color: #f8f9fa !important;
-      color: #333;
-      border-color: #ccc !important;
-      cursor: pointer;
-      margin-top: auto;
+      background-color: #f8f9fa !important; color: #333; border-color: #ccc !important;
+      cursor: pointer; margin-top: auto;
     }
 
     .table-container { 
@@ -109,7 +75,7 @@
       background: #ffffff; 
       display: none; 
       position: relative;
-      -webkit-overflow-scrolling: touch;
+      will-change: transform;
     }
     .table-container.active { display: block; }
 
@@ -128,12 +94,17 @@
       white-space: normal !important; 
       word-wrap: break-word !important; 
       overflow-wrap: break-word !important; 
-      overflow: visible !important; 
       vertical-align: middle;
       position: relative;
     }
 
-    .freeze-row { position: sticky; z-index: 10; }
+    /* RENDER OPTIMIZATION FOR HEAVY TABLES */
+    tr {
+      content-visibility: auto;
+      contain-intrinsic-size: 1px 32px;
+    }
+
+    .freeze-row { position: sticky; z-index: 10; contain-visibility: visible !important; }
     .freeze-col { position: sticky; z-index: 10; }
     .freeze-row.freeze-col { z-index: 20; }
   </style>
@@ -145,17 +116,12 @@
     <div class="tabs" id="tab-container"></div>
   </div>
 
-  <!-- TOP CONTROL OPTIONS -->
   <div class="top-controls" id="top-controls-panel">
-    <!-- Option 1: Primary Header Row Selection -->
     <div class="control-group">
       <label for="top-row-select">1. Primary Header Row</label>
-      <select id="top-row-select" onchange="onHeaderRowChange()">
-        <!-- Populated dynamically -->
-      </select>
+      <select id="top-row-select" onchange="onHeaderRowChange()"></select>
     </div>
 
-    <!-- Option 2: Select Column -->
     <div class="control-group">
       <label for="top-col-select">2. Select Column</label>
       <select id="top-col-select" onchange="onColumnSelectChange()">
@@ -163,7 +129,6 @@
       </select>
     </div>
 
-    <!-- Option 3: Select Column Value -->
     <div class="control-group">
       <label for="top-val-select">3. Select Value</label>
       <select id="top-val-select">
@@ -171,7 +136,6 @@
       </select>
     </div>
 
-    <!-- Option 4: Sort Order -->
     <div class="control-group">
       <label>4. Sort Order</label>
       <div class="sort-radios">
@@ -180,7 +144,6 @@
       </div>
     </div>
 
-    <!-- Action Buttons -->
     <div class="control-group">
       <button class="btn-apply" onclick="applyTopFiltersAndSort()">Apply Filter & Sort</button>
     </div>
@@ -194,6 +157,7 @@
   <script>
     var globalDashboardData = {};
     var currentActiveSheetId = '';
+    var sheetRowCache = {}; // Fast JS lookup cache to eliminate DOM queries
 
     function cleanId(str) {
       return str.replace(/[^a-zA-Z0-9]/g, '_');
@@ -210,7 +174,6 @@
       if (targetBtn) targetBtn.classList.add('active');
       if (targetContainer) targetContainer.classList.add('active');
 
-      // Update Filter Controls visibility and options for the active tab
       updateFilterControlsForTab();
     }
 
@@ -282,6 +245,9 @@
 
             let topRowOffsets = [];
             let currentTopOffset = 0;
+            
+            const fragment = document.createDocumentFragment();
+            sheetRowCache[safeId] = [];
 
             data.rows.forEach((row, rIndex) => {
               const tr = document.createElement('tr');
@@ -294,13 +260,17 @@
               topRowOffsets[rIndex] = currentTopOffset;
               currentTopOffset += rowHeight;
 
+              let cachedRowValues = [];
+
               row.forEach((cell, cIndex) => {
-                if (cell.isCovered) return;
+                if (cell.isCovered) {
+                  cachedRowValues.push('');
+                  return;
+                }
 
                 const td = document.createElement('td');
                 let cellVal = cell.value !== undefined ? String(cell.value) : '';
-                td.dataset.colIndex = cIndex;
-                td.dataset.rawVal = cellVal;
+                cachedRowValues.push(cellVal);
 
                 if (cell.rowSpan && cell.rowSpan > 1) td.rowSpan = cell.rowSpan;
                 if (cell.colSpan && cell.colSpan > 1) td.colSpan = cell.colSpan;
@@ -310,8 +280,8 @@
                   td.style.minWidth = `${pixelWidths[cIndex]}px`;
                 }
 
-                td.style.backgroundColor = (cell.bg && cell.bg !== '') ? cell.bg : '#ffffff';
-                if (cell.color && cell.color !== '') td.style.color = cell.color;
+                if (cell.bg) td.style.backgroundColor = cell.bg;
+                if (cell.color) td.style.color = cell.color;
                 if (cell.bold) td.style.fontWeight = 'bold';
 
                 if (rIndex < frozenRows) { 
@@ -323,14 +293,20 @@
                   td.style.left = `${leftOffsets[cIndex]}px`; 
                 }
 
-                const textSpan = document.createElement('span');
-                textSpan.textContent = cellVal.replace(/_/g, '_ ');
-                td.appendChild(textSpan);
-
+                td.textContent = cellVal.replace(/_/g, '_ ');
                 tr.appendChild(td);
               });
-              table.appendChild(tr);
+
+              sheetRowCache[safeId].push({
+                element: tr,
+                rowIndex: rIndex,
+                values: cachedRowValues
+              });
+
+              fragment.appendChild(tr);
             });
+
+            table.appendChild(fragment);
           }
           
           container.appendChild(table);
@@ -338,7 +314,6 @@
           isFirst = false;
         }
 
-        // Initialize top control options for the first tab
         updateFilterControlsForTab();
 
       } catch (err) {
@@ -346,7 +321,6 @@
       }
     }
 
-    // Toggle Top Controls Panel based on sheet's enableFilters meta property
     function updateFilterControlsForTab() {
       const topPanel = document.getElementById('top-controls-panel');
       const sheetData = getActiveSheetData();
@@ -363,7 +337,6 @@
       }
     }
 
-    // Populate Option 1: Header Row Selector
     function populateHeaderRowSelector() {
       const rowSelect = document.getElementById('top-row-select');
       rowSelect.innerHTML = '';
@@ -372,9 +345,7 @@
       if (!sheetData || !sheetData.rows || sheetData.rows.length === 0) return;
 
       const frozenRows = (sheetData.meta && sheetData.meta.frozenRows) ? sheetData.meta.frozenRows : 1;
-      
-      const maxRowsToSearch = Math.max(frozenRows, 5);
-      const totalRows = Math.min(sheetData.rows.length, maxRowsToSearch);
+      const totalRows = Math.min(sheetData.rows.length, Math.max(frozenRows, 5));
 
       for (let r = 0; r < totalRows; r++) {
         const opt = document.createElement('option');
@@ -391,7 +362,6 @@
       populateTopColumns();
     }
 
-    // Populate Option 2: Column Dropdown based on Selected Header Row
     function populateTopColumns() {
       const colSelect = document.getElementById('top-col-select');
       colSelect.innerHTML = '<option value="">-- Choose Column --</option>';
@@ -414,7 +384,6 @@
       onColumnSelectChange();
     }
 
-    // Populate Option 3: Unique Values Dropdown based on Option 2
     function onColumnSelectChange() {
       const colIndex = document.getElementById('top-col-select').value;
       const valSelect = document.getElementById('top-val-select');
@@ -443,7 +412,7 @@
       });
     }
 
-    // Apply Filter & Sort
+    /* HIGH PERFORMANCE FILTER AND SORT */
     function applyTopFiltersAndSort() {
       const selectedRowIndex = parseInt(document.getElementById('top-row-select').value, 10);
       const colIndex = document.getElementById('top-col-select').value;
@@ -451,62 +420,65 @@
       const sortDirection = document.querySelector('input[name="top-sort"]:checked').value;
 
       const table = document.getElementById('table-' + currentActiveSheetId);
-      if (!table) return;
+      const rowCache = sheetRowCache[currentActiveSheetId];
+      if (!table || !rowCache) return;
 
       const startDataRow = selectedRowIndex + 1;
-      const rows = Array.from(table.querySelectorAll('tr'));
 
-      // 1. FILTER ROWS
-      rows.forEach(row => {
-        const rIdx = parseInt(row.dataset.rowIndex, 10);
-        if (rIdx < startDataRow) {
-          row.style.display = '';
-          return;
-        }
+      // Batch DOM operations with requestAnimationFrame
+      requestAnimationFrame(() => {
+        let dataRows = [];
 
-        if (colIndex !== "" && selectedVal !== "") {
-          const cell = row.querySelector(`td[data-col-index="${colIndex}"]`);
-          const cellVal = cell ? (cell.dataset.rawVal || '').trim() : '';
-          row.style.display = (cellVal === selectedVal) ? '' : 'none';
-        } else {
-          row.style.display = '';
-        }
-      });
-
-      // 2. SORT ROWS
-      if (colIndex !== "") {
-        const dataRows = rows.slice(startDataRow);
-
-        dataRows.sort((a, b) => {
-          const cellA = a.querySelector(`td[data-col-index="${colIndex}"]`);
-          const cellB = b.querySelector(`td[data-col-index="${colIndex}"]`);
-
-          let valA = cellA ? cellA.dataset.rawVal.trim() : '';
-          let valB = cellB ? cellB.dataset.rawVal.trim() : '';
-
-          let numA = parseFloat(valA.replace(/[^0-9.-]+/g, ""));
-          let numB = parseFloat(valB.replace(/[^0-9.-]+/g, ""));
-
-          if (!isNaN(numA) && !isNaN(numB)) {
-            return sortDirection === 'ASC' ? numA - numB : numB - numA;
+        rowCache.forEach(item => {
+          if (item.rowIndex < startDataRow) {
+            item.element.style.display = '';
+            return;
           }
 
-          return sortDirection === 'ASC' ? valA.localeCompare(valB) : valB.localeCompare(valA);
+          const cellVal = (colIndex !== "" && item.values[colIndex]) ? item.values[colIndex].trim() : '';
+
+          if (colIndex !== "" && selectedVal !== "") {
+            item.element.style.display = (cellVal === selectedVal) ? '' : 'none';
+          } else {
+            item.element.style.display = '';
+          }
+
+          dataRows.push(item);
         });
 
-        // Re-append sorted rows
-        dataRows.forEach(row => table.appendChild(row));
-      }
+        // Fast In-Memory Sort
+        if (colIndex !== "") {
+          const idx = parseInt(colIndex, 10);
+          dataRows.sort((a, b) => {
+            let valA = a.values[idx] ? a.values[idx].trim() : '';
+            let valB = b.values[idx] ? b.values[idx].trim() : '';
+
+            let numA = parseFloat(valA.replace(/[^0-9.-]+/g, ""));
+            let numB = parseFloat(valB.replace(/[^0-9.-]+/g, ""));
+
+            if (!isNaN(numA) && !isNaN(numB)) {
+              return sortDirection === 'ASC' ? numA - numB : numB - numA;
+            }
+
+            return sortDirection === 'ASC' ? valA.localeCompare(valB) : valB.localeCompare(valA);
+          });
+
+          const fragment = document.createDocumentFragment();
+          dataRows.forEach(item => fragment.appendChild(item.element));
+          table.appendChild(fragment);
+        }
+      });
     }
 
-    // Reset Top Filters
     function resetTopFilters() {
       populateHeaderRowSelector();
       document.querySelector('input[name="top-sort"][value="ASC"]').checked = true;
 
-      const table = document.getElementById('table-' + currentActiveSheetId);
-      if (table) {
-        table.querySelectorAll('tr').forEach(r => r.style.display = '');
+      const rowCache = sheetRowCache[currentActiveSheetId];
+      if (rowCache) {
+        requestAnimationFrame(() => {
+          rowCache.forEach(item => item.element.style.display = '');
+        });
       }
     }
 
