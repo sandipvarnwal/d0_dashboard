@@ -8,13 +8,13 @@
     * { box-sizing: border-box; }
     body { 
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
-      margin: 10px; 
+      margin: 8px; 
       background-color: #f4f6f8; 
       color: #333;
     }
 
-    .header-bar { margin-bottom: 12px; }
-    .header-title { font-size: 18px; font-weight: 700; color: #1a73e8; margin: 0 0 10px 0; }
+    .header-bar { margin-bottom: 8px; }
+    .header-title { font-size: 18px; font-weight: 700; color: #1a73e8; margin: 0 0 8px 0; }
     
     .tabs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; }
     .tab-btn { 
@@ -33,55 +33,29 @@
       color: #ffffff; 
     }
 
-    .top-controls {
-      background: #ffffff;
-      border: 1px solid #dcdfe6;
-      border-radius: 6px;
-      padding: 12px;
-      margin-bottom: 12px;
-      display: none;
-      flex-wrap: wrap;
-      gap: 16px;
-      align-items: center;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    }
-    .top-controls.visible { display: flex; }
-
-    .control-group { display: flex; flex-direction: column; gap: 4px; }
-    .control-group label { font-size: 11px; font-weight: 700; color: #555; text-transform: uppercase; }
-    .control-group select, .control-group button {
-      padding: 6px 10px; font-size: 12px; border: 1px solid #ccc; border-radius: 4px; background: #fff;
-    }
-
-    .sort-radios { display: flex; gap: 10px; align-items: center; height: 30px; font-size: 12px; }
-
-    .btn-apply {
-      background-color: #1a73e8 !important; color: #ffffff; border-color: #1a73e8 !important;
-      font-weight: 600; cursor: pointer; margin-top: auto;
-    }
-    .btn-reset {
-      background-color: #f8f9fa !important; color: #333; border-color: #ccc !important;
-      cursor: pointer; margin-top: auto;
-    }
-
     .pagination-bar {
       display: flex;
       align-items: center;
       justify-content: space-between;
       background: #fff;
-      padding: 8px 12px;
-      border: 1px solid #ccc;
+      padding: 6px 10px;
+      border: 1px solid #bbb;
       border-bottom: none;
       border-radius: 6px 6px 0 0;
       font-size: 12px;
     }
+    .pagination-bar button {
+      padding: 4px 8px;
+      font-size: 12px;
+      cursor: pointer;
+    }
 
     .table-container { 
       width: 100%; 
-      max-height: 70vh; 
+      max-height: 80vh; 
       overflow-x: auto; 
       overflow-y: auto;
-      border: 2px solid #555; 
+      border: 1px solid #bbb; 
       border-radius: 0 0 6px 6px;
       background: #ffffff; 
       position: relative;
@@ -94,8 +68,8 @@
     }
     
     td, th { 
-      border-right: 1px solid #666666 !important; 
-      border-bottom: 1px solid #666666 !important; 
+      border-right: 1px solid #d0d0d0 !important; 
+      border-bottom: 1px solid #d0d0d0 !important; 
       padding: 6px 8px !important; 
       font-size: 11px; 
       line-height: 1.35;
@@ -106,9 +80,113 @@
       position: relative;
     }
 
+    /* HEADER STYLING & FILTER BTN */
+    th.header-cell {
+      background-color: #2b579a;
+      color: #ffffff;
+      font-weight: 600;
+      text-align: left;
+      user-select: none;
+    }
+
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 4px;
+    }
+
+    .filter-btn {
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      color: #fff;
+      border-radius: 3px;
+      padding: 2px 5px;
+      font-size: 10px;
+      cursor: pointer;
+    }
+    .filter-btn:hover, .filter-btn.active-filter {
+      background: #ffc107;
+      color: #000;
+    }
+
     .freeze-row { position: sticky; z-index: 10; }
     .freeze-col { position: sticky; z-index: 10; }
     .freeze-row.freeze-col { z-index: 20; }
+
+    /* FILTER MENU DROPDOWN */
+    .filter-menu {
+      position: absolute;
+      width: 230px;
+      background: #ffffff;
+      border: 1px solid #ccc;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      border-radius: 6px;
+      padding: 10px;
+      z-index: 1000;
+      display: none;
+      font-size: 12px;
+      color: #333;
+    }
+    .filter-menu.show { display: block; }
+
+    .menu-section {
+      margin-bottom: 8px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .menu-sort-btn {
+      width: 100%;
+      text-align: left;
+      padding: 6px;
+      background: #f8f9fa;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      margin-bottom: 4px;
+      cursor: pointer;
+      font-size: 11px;
+    }
+    .menu-sort-btn:hover { background: #e9ecef; }
+
+    .search-box {
+      width: 100%;
+      padding: 5px;
+      font-size: 11px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      margin-bottom: 6px;
+    }
+
+    .value-list {
+      max-height: 140px;
+      overflow-y: auto;
+      border: 1px solid #eee;
+      padding: 4px;
+      border-radius: 4px;
+    }
+    .value-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 2px 0;
+      font-size: 11px;
+    }
+
+    .menu-actions {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 8px;
+    }
+    .btn-menu-action {
+      padding: 4px 10px;
+      font-size: 11px;
+      border-radius: 4px;
+      cursor: pointer;
+      border: 1px solid #ccc;
+    }
+    .btn-apply-filter { background: #1a73e8; color: #fff; border-color: #1a73e8; }
+    .btn-clear-filter { background: #f8f9fa; color: #333; }
   </style>
 </head>
 <body>
@@ -118,46 +196,10 @@
     <div class="tabs" id="tab-container"></div>
   </div>
 
-  <div class="top-controls" id="top-controls-panel">
-    <div class="control-group">
-      <label for="top-row-select">1. Primary Header Row</label>
-      <select id="top-row-select" onchange="onHeaderRowChange()"></select>
-    </div>
-
-    <div class="control-group">
-      <label for="top-col-select">2. Select Column</label>
-      <select id="top-col-select" onchange="onColumnSelectChange()">
-        <option value="">-- Choose Column --</option>
-      </select>
-    </div>
-
-    <div class="control-group">
-      <label for="top-val-select">3. Select Value</label>
-      <select id="top-val-select">
-        <option value="">-- All Values --</option>
-      </select>
-    </div>
-
-    <div class="control-group">
-      <label>4. Sort Order</label>
-      <div class="sort-radios">
-        <label><input type="radio" name="top-sort" value="ASC" checked> A → Z / 0 → 9</label>
-        <label><input type="radio" name="top-sort" value="DESC"> Z → A / 9 → 0</label>
-      </div>
-    </div>
-
-    <div class="control-group">
-      <button class="btn-apply" onclick="applyTopFiltersAndSort()">Apply Filter & Sort</button>
-    </div>
-    <div class="control-group">
-      <button class="btn-reset" onclick="resetTopFilters()">Reset</button>
-    </div>
-  </div>
-
   <div class="pagination-bar" id="pagination-bar">
     <div>
       <button onclick="changePage(-1)">◀ Prev</button>
-      <span id="page-info" style="margin: 0 10px; font-weight: bold;">Page 1</span>
+      <span id="page-info" style="margin: 0 8px; font-weight: bold;">Page 1</span>
       <button onclick="changePage(1)">Next ▶</button>
     </div>
     <div>
@@ -174,9 +216,35 @@
     <table id="dashboard-table"></table>
   </div>
 
+  <!-- DROPDOWN FILTER MENU -->
+  <div class="filter-menu" id="filter-menu">
+    <div class="menu-section">
+      <button class="menu-sort-btn" onclick="applySort('ASC')">▲ Sort A → Z / Smallest to Largest</button>
+      <button class="menu-sort-btn" onclick="applySort('DESC')">▼ Sort Z → A / Largest to Smallest</button>
+    </div>
+
+    <div class="menu-section">
+      <input type="text" class="search-box" id="menu-search" placeholder="Search values..." oninput="filterMenuValues()">
+      <div style="margin-bottom: 4px;">
+        <a href="#" style="font-size: 10px; margin-right: 8px;" onclick="toggleSelectAll(true); return false;">Select All</a>
+        <a href="#" style="font-size: 10px;" onclick="toggleSelectAll(false); return false;">Clear</a>
+      </div>
+      <div class="value-list" id="menu-value-list"></div>
+    </div>
+
+    <div class="menu-actions">
+      <button class="btn-menu-action btn-clear-filter" onclick="clearCurrentFilter()">Clear Filter</button>
+      <button class="btn-menu-action btn-apply-filter" onclick="confirmFilter()">Apply</button>
+    </div>
+  </div>
+
   <script>
     var globalDashboardData = {};
     var currentActiveSheetName = '';
+    var activeFilters = {}; // { colIndex: Set of allowed values }
+    var currentSort = null;  // { colIndex: number, direction: 'ASC'|'DESC' }
+    var activeMenuColIndex = null;
+
     var filteredRows = [];
     var currentPage = 1;
     var pageSize = 100;
@@ -220,15 +288,58 @@
     function switchTab(sheetName) {
       currentActiveSheetName = sheetName;
       currentPage = 1;
+      activeFilters = {};
+      currentSort = null;
+      closeFilterMenu();
 
       document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
       const activeBtn = document.getElementById('btn-' + cleanId(sheetName));
       if (activeBtn) activeBtn.classList.add('active');
 
-      const sheetData = globalDashboardData[sheetName];
-      filteredRows = sheetData ? (sheetData.rows || []) : [];
+      applyFiltersAndSort();
+    }
 
-      updateFilterControlsForTab();
+    function applyFiltersAndSort() {
+      const sheetData = globalDashboardData[currentActiveSheetName];
+      if (!sheetData || !sheetData.rows) return;
+
+      const frozenRows = (sheetData.meta && sheetData.meta.frozenRows) ? sheetData.meta.frozenRows : 1;
+      const headers = sheetData.rows.slice(0, frozenRows);
+      let dataRows = sheetData.rows.slice(frozenRows);
+
+      // 1. Column Filtering
+      Object.keys(activeFilters).forEach(colIdx => {
+        const allowedValues = activeFilters[colIdx];
+        if (allowedValues) {
+          dataRows = dataRows.filter(row => {
+            const val = row[colIdx] ? String(row[colIdx].value || '').trim() : '';
+            return allowedValues.has(val);
+          });
+        }
+      });
+
+      // 2. Column Sorting
+      if (currentSort) {
+        const idx = currentSort.colIndex;
+        const dir = currentSort.direction;
+
+        dataRows.sort((a, b) => {
+          let valA = a[idx] ? String(a[idx].value || '').trim() : '';
+          let valB = b[idx] ? String(b[idx].value || '').trim() : '';
+
+          let numA = parseFloat(valA.replace(/[^0-9.-]+/g, ""));
+          let numB = parseFloat(valB.replace(/[^0-9.-]+/g, ""));
+
+          if (!isNaN(numA) && !isNaN(numB)) {
+            return dir === 'ASC' ? numA - numB : numB - numA;
+          }
+
+          return dir === 'ASC' ? valA.localeCompare(valB) : valB.localeCompare(valA);
+        });
+      }
+
+      filteredRows = [...headers, ...dataRows];
+      currentPage = 1;
       renderTablePage();
     }
 
@@ -239,12 +350,11 @@
       const sheetData = globalDashboardData[currentActiveSheetName];
       if (!sheetData || !filteredRows || filteredRows.length === 0) return;
 
-      const frozenRows = (sheetData.meta && sheetData.meta.frozenRows !== undefined) ? sheetData.meta.frozenRows : 0;
+      const frozenRows = (sheetData.meta && sheetData.meta.frozenRows !== undefined) ? sheetData.meta.frozenRows : 1;
       const frozenCols = (sheetData.meta && sheetData.meta.frozenCols !== undefined) ? sheetData.meta.frozenCols : 0;
       const colWidths = (sheetData.meta && sheetData.meta.columnWidths) ? sheetData.meta.columnWidths : [];
       const customRowHeights = (sheetData.meta && sheetData.meta.rowHeights) ? sheetData.meta.rowHeights : {};
 
-      // Separate Headers from Data
       const headerRows = filteredRows.slice(0, frozenRows);
       const dataRows = filteredRows.slice(frozenRows);
 
@@ -266,7 +376,7 @@
 
       for (let c = 0; c < maxCols; c++) {
         const charCount = colWidths[c] !== undefined ? colWidths[c] : 12;
-        const px = Math.round(charCount * 10) + 30; 
+        const px = Math.round(charCount * 10) + 35; 
         pixelWidths[c] = px;
 
         if (c < frozenCols) {
@@ -300,7 +410,10 @@
         row.forEach((cell, cIndex) => {
           if (cell.isCovered) return;
 
-          const td = document.createElement('td');
+          const isHeader = rIndex < frozenRows;
+          const td = document.createElement(isHeader ? 'th' : 'td');
+          if (isHeader) td.classList.add('header-cell');
+
           let cellVal = cell.value !== undefined ? String(cell.value) : '';
 
           if (cell.rowSpan && cell.rowSpan > 1) td.rowSpan = cell.rowSpan;
@@ -311,8 +424,8 @@
             td.style.minWidth = `${pixelWidths[cIndex]}px`;
           }
 
-          if (cell.bg) td.style.backgroundColor = cell.bg;
-          if (cell.color) td.style.color = cell.color;
+          if (cell.bg && !isHeader) td.style.backgroundColor = cell.bg;
+          if (cell.color && !isHeader) td.style.color = cell.color;
           if (cell.bold) td.style.fontWeight = 'bold';
 
           if (rIndex < frozenRows) { 
@@ -324,7 +437,28 @@
             td.style.left = `${leftOffsets[cIndex]}px`; 
           }
 
-          td.textContent = cellVal.replace(/_/g, '_ ');
+          if (isHeader && rIndex === frozenRows - 1) {
+            const container = document.createElement('div');
+            container.className = 'header-content';
+
+            const title = document.createElement('span');
+            title.textContent = cellVal.replace(/_/g, '_ ');
+
+            const btn = document.createElement('button');
+            btn.className = 'filter-btn' + (activeFilters[cIndex] ? ' active-filter' : '');
+            btn.textContent = activeFilters[cIndex] ? '▼ 🔍' : '▼';
+            btn.onclick = (e) => {
+              e.stopPropagation();
+              openFilterMenu(e, cIndex);
+            };
+
+            container.appendChild(title);
+            container.appendChild(btn);
+            td.appendChild(container);
+          } else {
+            td.textContent = cellVal.replace(/_/g, '_ ');
+          }
+
           tr.appendChild(td);
         });
 
@@ -332,6 +466,93 @@
       });
 
       table.appendChild(fragment);
+    }
+
+    /* FILTER MENU DROPDOWN HANDLERS */
+    function openFilterMenu(event, colIndex) {
+      activeMenuColIndex = colIndex;
+      const menu = document.getElementById('filter-menu');
+      
+      const sheetData = globalDashboardData[currentActiveSheetName];
+      const frozenRows = (sheetData.meta && sheetData.meta.frozenRows) ? sheetData.meta.frozenRows : 1;
+      
+      let uniqueVals = new Set();
+      for (let r = frozenRows; r < sheetData.rows.length; r++) {
+        const row = sheetData.rows[r];
+        if (row[colIndex] && !row[colIndex].isCovered) {
+          let val = String(row[colIndex].value || '').trim();
+          uniqueVals.add(val);
+        }
+      }
+
+      const valList = document.getElementById('menu-value-list');
+      valList.innerHTML = '';
+      
+      const currentlyAllowed = activeFilters[colIndex];
+
+      Array.from(uniqueVals).sort().forEach(val => {
+        const item = document.createElement('label');
+        item.className = 'value-item';
+
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.value = val;
+        checkbox.checked = currentlyAllowed ? currentlyAllowed.has(val) : true;
+
+        item.appendChild(checkbox);
+        item.appendChild(document.createTextNode(val === '' ? '(Blanks)' : val));
+        valList.appendChild(item);
+      });
+
+      document.getElementById('menu-search').value = '';
+
+      const rect = event.target.getBoundingClientRect();
+      menu.style.top = (rect.bottom + window.scrollY) + 'px';
+      menu.style.left = Math.min(rect.left + window.scrollX, window.innerWidth - 240) + 'px';
+      menu.classList.add('show');
+    }
+
+    function closeFilterMenu() {
+      document.getElementById('filter-menu').classList.remove('show');
+    }
+
+    function filterMenuValues() {
+      const q = document.getElementById('menu-search').value.toLowerCase();
+      document.querySelectorAll('#menu-value-list .value-item').forEach(item => {
+        const text = item.textContent.toLowerCase();
+        item.style.display = text.includes(q) ? 'flex' : 'none';
+      });
+    }
+
+    function toggleSelectAll(selectAll) {
+      document.querySelectorAll('#menu-value-list input[type="checkbox"]').forEach(cb => {
+        if (cb.parentElement.style.display !== 'none') {
+          cb.checked = selectAll;
+        }
+      });
+    }
+
+    function confirmFilter() {
+      const checkedVals = new Set();
+      document.querySelectorAll('#menu-value-list input[type="checkbox"]:checked').forEach(cb => {
+        checkedVals.add(cb.value);
+      });
+
+      activeFilters[activeMenuColIndex] = checkedVals;
+      closeFilterMenu();
+      applyFiltersAndSort();
+    }
+
+    function clearCurrentFilter() {
+      delete activeFilters[activeMenuColIndex];
+      closeFilterMenu();
+      applyFiltersAndSort();
+    }
+
+    function applySort(direction) {
+      currentSort = { colIndex: activeMenuColIndex, direction: direction };
+      closeFilterMenu();
+      applyFiltersAndSort();
     }
 
     function changePage(delta) {
@@ -345,148 +566,12 @@
       renderTablePage();
     }
 
-    function updateFilterControlsForTab() {
-      const topPanel = document.getElementById('top-controls-panel');
-      const sheetData = globalDashboardData[currentActiveSheetName];
-
-      const enableFilters = (sheetData && sheetData.meta && sheetData.meta.enableFilters !== undefined) 
-                            ? sheetData.meta.enableFilters 
-                            : true;
-
-      if (enableFilters) {
-        topPanel.classList.add('visible');
-        populateHeaderRowSelector();
-      } else {
-        topPanel.classList.remove('visible');
+    document.addEventListener('click', (e) => {
+      const menu = document.getElementById('filter-menu');
+      if (menu.classList.contains('show') && !menu.contains(e.target) && !e.target.classList.contains('filter-btn')) {
+        closeFilterMenu();
       }
-    }
-
-    function populateHeaderRowSelector() {
-      const rowSelect = document.getElementById('top-row-select');
-      rowSelect.innerHTML = '';
-
-      const sheetData = globalDashboardData[currentActiveSheetName];
-      if (!sheetData || !sheetData.rows || sheetData.rows.length === 0) return;
-
-      const frozenRows = (sheetData.meta && sheetData.meta.frozenRows) ? sheetData.meta.frozenRows : 1;
-      const totalRows = Math.min(sheetData.rows.length, Math.max(frozenRows, 5));
-
-      for (let r = 0; r < totalRows; r++) {
-        const opt = document.createElement('option');
-        opt.value = r;
-        opt.textContent = `Row ${r + 1}`;
-        rowSelect.appendChild(opt);
-      }
-
-      rowSelect.value = frozenRows > 0 ? frozenRows - 1 : 0;
-      populateTopColumns();
-    }
-
-    function onHeaderRowChange() {
-      populateTopColumns();
-    }
-
-    function populateTopColumns() {
-      const colSelect = document.getElementById('top-col-select');
-      colSelect.innerHTML = '<option value="">-- Choose Column --</option>';
-
-      const selectedRowIndex = parseInt(document.getElementById('top-row-select').value, 10);
-      const sheetData = globalDashboardData[currentActiveSheetName];
-      
-      if (!sheetData || !sheetData.rows || isNaN(selectedRowIndex) || !sheetData.rows[selectedRowIndex]) return;
-
-      const headerRow = sheetData.rows[selectedRowIndex];
-      headerRow.forEach((cell, index) => {
-        if (!cell.isCovered && cell.value !== undefined && String(cell.value).trim() !== '') {
-          const opt = document.createElement('option');
-          opt.value = index;
-          opt.textContent = String(cell.value).trim();
-          colSelect.appendChild(opt);
-        }
-      });
-
-      onColumnSelectChange();
-    }
-
-    function onColumnSelectChange() {
-      const colIndex = document.getElementById('top-col-select').value;
-      const valSelect = document.getElementById('top-val-select');
-      valSelect.innerHTML = '<option value="">-- All Values --</option>';
-
-      if (colIndex === "") return;
-
-      const selectedRowIndex = parseInt(document.getElementById('top-row-select').value, 10);
-      const sheetData = globalDashboardData[currentActiveSheetName];
-      const startDataRow = selectedRowIndex + 1;
-      
-      let uniqueVals = new Set();
-      for (let r = startDataRow; r < sheetData.rows.length; r++) {
-        const row = sheetData.rows[r];
-        if (row[colIndex] && !row[colIndex].isCovered) {
-          let val = String(row[colIndex].value || '').trim();
-          if (val !== '') uniqueVals.add(val);
-        }
-      }
-
-      Array.from(uniqueVals).sort().forEach(val => {
-        const opt = document.createElement('option');
-        opt.value = val;
-        opt.textContent = val;
-        valSelect.appendChild(opt);
-      });
-    }
-
-    function applyTopFiltersAndSort() {
-      const selectedRowIndex = parseInt(document.getElementById('top-row-select').value, 10);
-      const colIndex = document.getElementById('top-col-select').value;
-      const selectedVal = document.getElementById('top-val-select').value;
-      const sortDirection = document.querySelector('input[name="top-sort"]:checked').value;
-
-      const sheetData = globalDashboardData[currentActiveSheetName];
-      if (!sheetData || !sheetData.rows) return;
-
-      const startDataRow = selectedRowIndex + 1;
-      const headers = sheetData.rows.slice(0, startDataRow);
-      let dataRows = sheetData.rows.slice(startDataRow);
-
-      if (colIndex !== "" && selectedVal !== "") {
-        dataRows = dataRows.filter(row => {
-          const cellVal = row[colIndex] ? String(row[colIndex].value || '').trim() : '';
-          return cellVal === selectedVal;
-        });
-      }
-
-      if (colIndex !== "") {
-        const idx = parseInt(colIndex, 10);
-        dataRows.sort((a, b) => {
-          let valA = a[idx] ? String(a[idx].value || '').trim() : '';
-          let valB = b[idx] ? String(b[idx].value || '').trim() : '';
-
-          let numA = parseFloat(valA.replace(/[^0-9.-]+/g, ""));
-          let numB = parseFloat(valB.replace(/[^0-9.-]+/g, ""));
-
-          if (!isNaN(numA) && !isNaN(numB)) {
-            return sortDirection === 'ASC' ? numA - numB : numB - numA;
-          }
-
-          return sortDirection === 'ASC' ? valA.localeCompare(valB) : valB.localeCompare(valA);
-        });
-      }
-
-      filteredRows = [...headers, ...dataRows];
-      currentPage = 1;
-      renderTablePage();
-    }
-
-    function resetTopFilters() {
-      populateHeaderRowSelector();
-      document.querySelector('input[name="top-sort"][value="ASC"]').checked = true;
-
-      const sheetData = globalDashboardData[currentActiveSheetName];
-      filteredRows = sheetData ? (sheetData.rows || []) : [];
-      currentPage = 1;
-      renderTablePage();
-    }
+    });
 
     loadDashboard();
   </script>
