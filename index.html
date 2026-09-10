@@ -80,20 +80,23 @@
       overflow-wrap: break-word !important; 
       vertical-align: middle;
       position: relative;
+      background-color: #ffffff;
     }
 
     th.header-cell {
-      background-color: #2b579a;
-      color: #ffffff;
+      background-color: #2b579a !important;
+      color: #ffffff !important;
       font-weight: 600;
       text-align: left;
       user-select: none;
     }
 
-    .total-row {
+    /* GRAND TOTAL ROW STYLING */
+    .total-row td, .total-row th {
       background-color: #e8f0fe !important;
       font-weight: bold !important;
       color: #1a73e8 !important;
+      border-bottom: 2px solid #1a73e8 !important;
     }
 
     .header-content {
@@ -117,9 +120,10 @@
       color: #000;
     }
 
-    .freeze-row { position: sticky; z-index: 10; }
-    .freeze-col { position: sticky; z-index: 10; }
-    .freeze-row.freeze-col { z-index: 20; }
+    /* STICKY FREEZE CLASSES */
+    .freeze-row { position: sticky !important; z-index: 10; }
+    .freeze-col { position: sticky !important; z-index: 10; }
+    .freeze-row.freeze-col { z-index: 30 !important; }
 
     .filter-menu {
       position: absolute;
@@ -305,6 +309,11 @@
       const enableFilters = (sheetData.meta && sheetData.meta.enableFilters !== undefined) ? sheetData.meta.enableFilters : true;
       const frozenRows = (sheetData.meta && sheetData.meta.frozenRows !== undefined) ? sheetData.meta.frozenRows : 1;
       const frozenCols = (sheetData.meta && sheetData.meta.frozenCols !== undefined) ? sheetData.meta.frozenCols : 0;
+      
+      // OPTIONAL META CONFIGS FOR EXPLICIT ROW/COL FREEZING
+      const freezeSpecificRowOnly = sheetData.meta.freezeSpecificRowOnly; // e.g., 3 to freeze 3rd row only
+      const freezeSpecificColOnly = sheetData.meta.freezeSpecificColOnly; // e.g., 3 to freeze 3rd col only
+
       const colWidths = (sheetData.meta && sheetData.meta.columnWidths) ? sheetData.meta.columnWidths : [];
 
       const headerRows = filteredRows.slice(0, frozenRows);
@@ -330,7 +339,7 @@
         tableContainer.style.borderRadius = '6px';
       }
 
-      // Compute Grand Total across ALL filtered dataRows (all pages)
+      // Compute Grand Total across ALL filtered dataRows
       let maxCols = 0;
       filteredRows.forEach(r => { if(r.length > maxCols) maxCols = r.length; });
 
@@ -387,7 +396,7 @@
         const px = Math.round(charCount * 10) + 35; 
         pixelWidths[c] = px;
 
-        if (c < frozenCols) leftOffsets[c] = totalTableWidth;
+        leftOffsets[c] = totalTableWidth;
         totalTableWidth += px;
       }
 
@@ -415,6 +424,7 @@
         const rowHeight = 32;
         tr.style.height = `${rowHeight}px`;
 
+        // Freeze calculations for Header & Total Row
         if (rIndex <= frozenRows) {
           topRowOffsets[rIndex] = currentTopOffset;
           currentTopOffset += rowHeight;
@@ -438,13 +448,30 @@
           if (cell.color && !isHeader && !isTotalRow) td.style.color = cell.color;
           if (cell.bold) td.style.fontWeight = 'bold';
 
-          if (rIndex <= frozenRows) { 
-            td.classList.add('freeze-row'); 
-            td.style.top = `${topRowOffsets[rIndex]}px`; 
+          // ROW FREEZE LOGIC
+          let isRowFrozen = false;
+          if (freezeSpecificRowOnly !== undefined) {
+            isRowFrozen = (rIndex + 1) === freezeSpecificRowOnly;
+          } else {
+            isRowFrozen = rIndex <= frozenRows; // Freeze headers + total row by default
           }
-          if (cIndex < frozenCols) { 
-            td.classList.add('freeze-col'); 
-            td.style.left = `${leftOffsets[cIndex]}px`; 
+
+          if (isRowFrozen) {
+            td.classList.add('freeze-row');
+            td.style.top = `${topRowOffsets[rIndex] || 0}px`;
+          }
+
+          // COLUMN FREEZE LOGIC
+          let isColFrozen = false;
+          if (freezeSpecificColOnly !== undefined) {
+            isColFrozen = (cIndex + 1) === freezeSpecificColOnly;
+          } else {
+            isColFrozen = cIndex < frozenCols;
+          }
+
+          if (isColFrozen) {
+            td.classList.add('freeze-col');
+            td.style.left = freezeSpecificColOnly !== undefined ? '0px' : `${leftOffsets[cIndex]}px`;
           }
 
           if (isHeader && rIndex === frozenRows - 1 && enableFilters) {
@@ -479,16 +506,33 @@
       table.appendChild(fragment);
     }
 
+    /* CASCADING FILTER MENU HANDLER */
     function openFilterMenu(event, colIndex) {
       activeMenuColIndex = colIndex;
       const menu = document.getElementById('filter-menu');
       const sheetData = globalDashboardData[currentActiveSheetName];
       const frozenRows = (sheetData.meta && sheetData.meta.frozenRows) ? sheetData.meta.frozenRows : 1;
       
+      const activeFilters = sheetFilters[currentActiveSheetName] || {};
+
+      // Compute valid unique options based on ALL OTHER active filters
       let uniqueVals = new Set();
       for (let r = frozenRows; r < sheetData.rows.length; r++) {
         const row = sheetData.rows[r];
-        if (row[colIndex] && !row[colIndex].isCovered) {
+        if (!row || !row[colIndex] || row[colIndex].isCovered) continue;
+
+        let rowMatchesOtherFilters = true;
+
+        for (const [otherColIdx, allowedSet] of Object.entries(activeFilters)) {
+          if (parseInt(otherColIdx, 10) === colIndex) continue; // Skip target column
+          const cellVal = row[otherColIdx] ? String(row[otherColIdx].value || '').trim() : '';
+          if (!allowedSet.has(cellVal)) {
+            rowMatchesOtherFilters = false;
+            break;
+          }
+        }
+
+        if (rowMatchesOtherFilters) {
           uniqueVals.add(String(row[colIndex].value || '').trim());
         }
       }
@@ -496,7 +540,6 @@
       const valList = document.getElementById('menu-value-list');
       valList.innerHTML = '';
       
-      const activeFilters = sheetFilters[currentActiveSheetName] || {};
       const currentlyAllowed = activeFilters[colIndex];
 
       Array.from(uniqueVals).sort().forEach(val => {
