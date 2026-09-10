@@ -150,9 +150,9 @@
     }
 
     /* STICKY FREEZE CLASSES */
-    .freeze-row { position: sticky !important; z-index: 10; }
+    .freeze-row { position: sticky !important; }
     .freeze-col { position: sticky !important; z-index: 10; }
-    .freeze-row.freeze-col { z-index: 30 !important; }
+    .freeze-row.freeze-col { z-index: 35 !important; }
 
     /* FILTER MENU */
     .filter-menu {
@@ -359,7 +359,7 @@
       let maxCols = 0;
       filteredRows.forEach(r => { if(r.length > maxCols) maxCols = r.length; });
 
-      // ONLY CALCULATE AND RENDER GRAND TOTAL IF FILTERS ARE ENABLED FOR THIS SHEET
+      // Build Grand Total Row if enabled
       let rowsToRender = [];
       let totalRowIndex = -1;
 
@@ -434,8 +434,20 @@
       }
       table.appendChild(colGroup);
 
+      // Pre-calculate cumulative row height offsets for sticky header & total rows
       let topRowOffsets = [];
       let currentTopOffset = 0;
+      const totalStickyRowsCount = enableFilters ? (frozenRows + 1) : frozenRows;
+
+      rowsToRender.forEach((row, rIndex) => {
+        if (rIndex < totalStickyRowsCount) {
+          topRowOffsets[rIndex] = currentTopOffset;
+          // Allocate 18px height for Grand Total row and 34px for normal header rows
+          const h = (rIndex === totalRowIndex) ? 18 : 34;
+          currentTopOffset += h;
+        }
+      });
+
       const fragment = document.createDocumentFragment();
 
       rowsToRender.forEach((row, rIndex) => {
@@ -445,15 +457,8 @@
 
         if (isTotalRow) tr.classList.add('total-row');
 
-        // Grand total row height is reduced by 50% (~18px vs regular header ~34px)
         const rowHeight = isTotalRow ? 18 : (isHeader ? 34 : 30);
         tr.style.height = `${rowHeight}px`;
-
-        const maxFrozenRowLimit = enableFilters ? (frozenRows + 1) : frozenRows;
-        if (rIndex < maxFrozenRowLimit) {
-          topRowOffsets[rIndex] = currentTopOffset;
-          currentTopOffset += rowHeight;
-        }
 
         row.forEach((cell, cIndex) => {
           if (cell.isCovered) return;
@@ -473,10 +478,12 @@
           if (cell.color && !isHeader && !isTotalRow) td.style.color = cell.color;
           if (cell.bold) td.style.fontWeight = 'bold';
 
-          // ROW FREEZE LOGIC
-          if (rIndex < maxFrozenRowLimit) {
+          // STICKY TOP OFFSET FIX: Set precise top offset and z-index for headers and Grand Total row
+          if (rIndex < totalStickyRowsCount) {
             td.classList.add('freeze-row');
-            td.style.top = `${topRowOffsets[rIndex] || 0}px`;
+            td.style.top = `${topRowOffsets[rIndex]}px`;
+            // Ensure proper stacking order so headers stay on top of the Grand Total row
+            td.style.zIndex = isHeader ? '25' : '20';
           }
 
           // COLUMN FREEZE LOGIC
