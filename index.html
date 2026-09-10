@@ -9,8 +9,8 @@
     body { 
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
       margin: 4px; 
-      background-color: #f4f6f8; 
-      color: #333;
+      background-color: #121212; 
+      color: #e0e0e0;
     }
 
     /* COMPACT TOOLBAR */
@@ -22,9 +22,9 @@
       width: 100%;
       flex-wrap: nowrap;
       overflow-x: auto;
-      background: #fff;
+      background: #1e1e1e;
       padding: 3px 4px;
-      border: 1px solid #bbb;
+      border: 1px solid #333;
       border-radius: 4px;
     }
     
@@ -32,9 +32,9 @@
       padding: 2px 4px;
       font-size: 9px;
       font-weight: 600;
-      color: #1a73e8;
-      background-color: #ffffff;
-      border: 1px solid #1a73e8;
+      color: #8ab4f8;
+      background-color: #2d2d2d;
+      border: 1px solid #8ab4f8;
       border-radius: 3px;
       outline: none;
       cursor: pointer;
@@ -49,21 +49,23 @@
       font-weight: 600;
       cursor: pointer;
       border-radius: 3px;
-      border: 1px solid #ccc;
-      background: #f8f9fa;
+      border: 1px solid #444;
+      background: #2d2d2d;
+      color: #fff;
       white-space: nowrap;
       height: 22px;
       flex-shrink: 0;
     }
     .btn-clear-all {
-      background-color: #fce8e6;
-      color: #c5221f;
-      border-color: #fad2cf;
+      background-color: #5c1d1d;
+      color: #f28b82;
+      border-color: #a50e0e;
     }
 
     .page-info-label {
       font-size: 8.5px;
       font-weight: bold;
+      color: #ccc;
       white-space: nowrap;
       flex-shrink: 0;
     }
@@ -73,7 +75,9 @@
       padding: 1px 2px;
       height: 22px;
       border-radius: 3px;
-      border: 1px solid #ccc;
+      border: 1px solid #444;
+      background: #2d2d2d;
+      color: #fff;
       flex-shrink: 0;
     }
 
@@ -83,9 +87,9 @@
       max-height: 84vh; 
       overflow-x: auto; 
       overflow-y: auto;
-      border: 1px solid #bbb; 
+      border: 1px solid #333; 
       border-radius: 4px;
-      background: #ffffff; 
+      background: #181818; 
       position: relative;
     }
 
@@ -96,8 +100,8 @@
     }
     
     td, th { 
-      border-right: 1px solid #d0d0d0 !important; 
-      border-bottom: 1px solid #d0d0d0 !important; 
+      border-right: 1px solid #333 !important; 
+      border-bottom: 1px solid #333 !important; 
       padding: 4px 5px !important; 
       font-size: 10px; 
       line-height: 1.2;
@@ -106,8 +110,9 @@
       overflow-wrap: break-word !important; 
       vertical-align: middle;
       position: relative;
-      background-color: #ffffff;
-      text-align: left; /* Default text alignment */
+      background-color: #1e1e1e; /* Default Dark background */
+      color: #ffffff;            /* Default White text */
+      text-align: left;
     }
 
     /* Center alignment utility for numeric cells */
@@ -116,7 +121,7 @@
     }
 
     th.header-cell {
-      background-color: #2b579a !important;
+      background-color: #1a365d !important;
       color: #ffffff !important;
       font-weight: 600;
       text-align: left;
@@ -124,10 +129,10 @@
     }
 
     .total-row td, .total-row th {
-      background-color: #e8f0fe !important;
+      background-color: #0d324d !important;
       font-weight: bold !important;
-      color: #1a73e8 !important;
-      border-bottom: 2px solid #1a73e8 !important;
+      color: #8ab4f8 !important;
+      border-bottom: 2px solid #8ab4f8 !important;
       padding: 2px 4px !important; 
       font-size: 9.5px !important;
       line-height: 1.1 !important;
@@ -136,9 +141,9 @@
     .summary-mode-select {
       font-size: 9px;
       font-weight: bold;
-      color: #1a73e8;
-      background: transparent;
-      border: 1px solid #1a73e8;
+      color: #8ab4f8;
+      background: #1e1e1e;
+      border: 1px solid #8ab4f8;
       border-radius: 3px;
       padding: 0 2px;
       outline: none;
@@ -172,7 +177,7 @@
     }
     .freeze-row.total-cell {
       z-index: 150 !important;
-      background-color: #e8f0fe !important;
+      background-color: #0d324d !important;
     }
     .freeze-col { 
       position: sticky !important; 
@@ -185,27 +190,27 @@
     .filter-menu {
       position: absolute;
       width: 210px;
-      background: #ffffff;
-      border: 1px solid #ccc;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      background: #252525;
+      border: 1px solid #444;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
       border-radius: 6px;
       padding: 6px;
       z-index: 1000;
       display: none;
       font-size: 10px;
-      color: #333;
+      color: #eee;
     }
     .filter-menu.show { display: block; }
 
-    .menu-section { margin-bottom: 4px; padding-bottom: 4px; border-bottom: 1px solid #eee; }
-    .menu-sort-btn { width: 100%; text-align: left; padding: 3px 5px; background: #f8f9fa; border: 1px solid #ddd; border-radius: 3px; margin-bottom: 3px; cursor: pointer; font-size: 9px; }
-    .search-box { width: 100%; padding: 3px; font-size: 9.5px; border: 1px solid #ccc; border-radius: 3px; margin-bottom: 4px; }
-    .value-list { max-height: 120px; overflow-y: auto; border: 1px solid #eee; padding: 3px; border-radius: 3px; }
-    .value-item { display: flex; align-items: center; gap: 4px; padding: 2px 0; font-size: 9.5px; }
+    .menu-section { margin-bottom: 4px; padding-bottom: 4px; border-bottom: 1px solid #333; }
+    .menu-sort-btn { width: 100%; text-align: left; padding: 3px 5px; background: #333; color: #fff; border: 1px solid #444; border-radius: 3px; margin-bottom: 3px; cursor: pointer; font-size: 9px; }
+    .search-box { width: 100%; padding: 3px; font-size: 9.5px; border: 1px solid #444; background: #1a1a1a; color: #fff; border-radius: 3px; margin-bottom: 4px; }
+    .value-list { max-height: 120px; overflow-y: auto; border: 1px solid #333; padding: 3px; border-radius: 3px; background: #1a1a1a; }
+    .value-item { display: flex; align-items: center; gap: 4px; padding: 2px 0; font-size: 9.5px; color: #eee; }
     .menu-actions { display: flex; justify-content: space-between; margin-top: 4px; }
-    .btn-menu-action { padding: 2px 5px; font-size: 9px; border-radius: 3px; cursor: pointer; border: 1px solid #ccc; }
+    .btn-menu-action { padding: 2px 5px; font-size: 9px; border-radius: 3px; cursor: pointer; border: 1px solid #444; }
     .btn-apply-filter { background: #1a73e8; color: #fff; border-color: #1a73e8; }
-    .btn-clear-filter { background: #f8f9fa; color: #333; }
+    .btn-clear-filter { background: #333; color: #ccc; }
   </style>
 </head>
 <body>
@@ -214,7 +219,7 @@
   <div class="toolbar-row">
     <select class="sheet-select" id="sheet-dropdown" onchange="switchTab(this.value)"></select>
     
-    <!-- FILTER & PAGINATION CONTROLS (VISIBLE ONLY WHEN enableFilters IS TRUE) -->
+    <!-- FILTER & PAGINATION CONTROLS -->
     <button class="btn-toolbar btn-clear-all filter-control" id="btn-clear-all" onclick="clearAllSheetFilters()" title="Clear All Active Filters">Clear All Filters</button>
 
     <button class="btn-toolbar filter-control" id="btn-prev-page" onclick="changePage(-1)">◀</button>
@@ -241,8 +246,8 @@
     <div class="menu-section">
       <input type="text" class="search-box" id="menu-search" placeholder="Search values..." oninput="filterMenuValues()">
       <div style="margin-bottom: 4px;">
-        <a href="#" style="font-size: 9px; margin-right: 6px;" onclick="toggleSelectAll(true); return false;">Select All</a>
-        <a href="#" style="font-size: 9px;" onclick="toggleSelectAll(false); return false;">Clear</a>
+        <a href="#" style="font-size: 9px; margin-right: 6px; color: #8ab4f8;" onclick="toggleSelectAll(true); return false;">Select All</a>
+        <a href="#" style="font-size: 9px; color: #8ab4f8;" onclick="toggleSelectAll(false); return false;">Clear</a>
       </div>
       <div class="value-list" id="menu-value-list"></div>
     </div>
@@ -264,11 +269,26 @@
     var pageSize = 300;
     var currentSummaryMode = 'SUM';
 
-    // Helper to determine if a value is purely numeric
+    // Helper to determine if a value is numeric
     function isNumericValue(val) {
       if (val === undefined || val === null || val === '') return false;
       const cleanVal = String(val).replace(/,/g, '').trim();
       return cleanVal !== '' && !isNaN(Number(cleanVal));
+    }
+
+    // Helper to detect if background color is white or near-white
+    function isWhiteOrLightBg(bg) {
+      if (!bg) return true; // Default/missing background is treated as white/light
+      const val = String(bg).toLowerCase().trim();
+      if (val === '#ffffff' || val === '#fff' || val === 'white' || val === 'transparent') return true;
+      if (val.startsWith('rgb')) {
+        const matches = val.match(/\d+/g);
+        if (matches && matches.length >= 3) {
+          const [r, g, b] = matches.map(Number);
+          return r > 220 && g > 220 && b > 220; // High brightness / white
+        }
+      }
+      return false;
     }
 
     async function loadDashboard() {
@@ -517,11 +537,20 @@
           td.style.width = `${pixelWidths[cIndex]}px`;
           td.style.minWidth = `${pixelWidths[cIndex]}px`;
 
-          if (cell.bg && !isHeader && !isTotalRow) td.style.backgroundColor = cell.bg;
-          if (cell.color && !isHeader && !isTotalRow) td.style.color = cell.color;
+          // DARK THEME CHECK FOR WHITE BACKGROUNDS
+          if (!isHeader && !isTotalRow) {
+            if (isWhiteOrLightBg(cell.bg)) {
+              td.style.backgroundColor = '#1e1e1e';
+              td.style.color = '#ffffff';
+            } else {
+              if (cell.bg) td.style.backgroundColor = cell.bg;
+              if (cell.color) td.style.color = cell.color;
+            }
+          }
+
           if (cell.bold) td.style.fontWeight = 'bold';
 
-          // CENTER ALIGN ALL NUMERICAL VALUES (INCLUDING GRAND TOTAL & REGULAR ROWS)
+          // CENTER ALIGN NUMERICAL VALUES
           if (isNumericValue(cellVal)) {
             td.classList.add('text-center');
           }
