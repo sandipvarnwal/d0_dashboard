@@ -120,7 +120,7 @@
       user-select: none;
     }
 
-    /* SUMMARY ROW WITH INLINE SELECT */
+    /* SUMMARY ROW WITH INLINE SELECT & SOLID BACKING */
     .total-row td, .total-row th {
       background-color: #e8f0fe !important;
       font-weight: bold !important;
@@ -164,10 +164,22 @@
       color: #000;
     }
 
-    /* STICKY Z-INDEX FIX - PREVENT OVERLAP BEHIND */
-    .freeze-row { position: sticky !important; }
-    .freeze-col { position: sticky !important; z-index: 20; }
-    .freeze-row.freeze-col { z-index: 60 !important; }
+    /* CRITICAL STICKY POSITIONING & Z-INDEX LAYERING */
+    .freeze-row { 
+      position: sticky !important; 
+      z-index: 100 !important;
+    }
+    .freeze-row.total-cell {
+      z-index: 150 !important;
+      background-color: #e8f0fe !important;
+    }
+    .freeze-col { 
+      position: sticky !important; 
+      z-index: 50 !important; 
+    }
+    .freeze-row.freeze-col { 
+      z-index: 200 !important; 
+    }
 
     /* FILTER MENU */
     .filter-menu {
@@ -254,7 +266,7 @@
     var filteredRows = [];
     var currentPage = 1;
     var pageSize = 300;
-    var currentSummaryMode = 'SUM'; // Mode: 'SUM' or 'COUNT'
+    var currentSummaryMode = 'SUM';
 
     async function loadDashboard() {
       try {
@@ -312,7 +324,6 @@
       const activeFilters = sheetFilters[currentActiveSheetName] || {};
       const currentSort = sheetSorts[currentActiveSheetName];
 
-      // Filter rows
       Object.keys(activeFilters).forEach(colIdx => {
         const allowedValues = activeFilters[colIdx];
         if (allowedValues) {
@@ -323,7 +334,6 @@
         }
       });
 
-      // Sort rows
       if (currentSort) {
         const idx = currentSort.colIndex;
         const dir = currentSort.direction;
@@ -361,7 +371,6 @@
       const headerRows = filteredRows.slice(0, frozenRows);
       const dataRows = filteredRows.slice(frozenRows);
 
-      // Pagination setup
       const pagBar = document.getElementById('pagination-bar');
       let visibleDataRows = dataRows;
 
@@ -380,7 +389,6 @@
       let maxCols = 0;
       filteredRows.forEach(r => { if(r.length > maxCols) maxCols = r.length; });
 
-      // Build Summary Row
       let rowsToRender = [];
       let totalRowIndex = -1;
 
@@ -470,20 +478,9 @@
       }
       table.appendChild(colGroup);
 
-      // Height offsets for header & total rows
-      let topRowOffsets = [];
-      let currentTopOffset = 0;
-      const totalStickyRowsCount = enableFilters ? (frozenRows + 1) : frozenRows;
-
-      rowsToRender.forEach((row, rIndex) => {
-        if (rIndex < totalStickyRowsCount) {
-          topRowOffsets[rIndex] = currentTopOffset;
-          const h = (rIndex === totalRowIndex) ? 22 : 34;
-          currentTopOffset += h;
-        }
-      });
-
+      // DOM-BASED EXACT OFFSET CALCULATIONS FOR STICKY HEADERS & GRAND TOTAL ROW
       const fragment = document.createDocumentFragment();
+      const totalStickyRowsCount = enableFilters ? (frozenRows + 1) : frozenRows;
 
       rowsToRender.forEach((row, rIndex) => {
         const tr = document.createElement('tr');
@@ -492,7 +489,7 @@
 
         if (isTotalRow) tr.classList.add('total-row');
 
-        const rowHeight = isTotalRow ? 22 : (isHeader ? 34 : 30);
+        const rowHeight = isTotalRow ? 24 : (isHeader ? 34 : 30);
         tr.style.height = `${rowHeight}px`;
 
         row.forEach((cell, cIndex) => {
@@ -513,14 +510,18 @@
           if (cell.color && !isHeader && !isTotalRow) td.style.color = cell.color;
           if (cell.bold) td.style.fontWeight = 'bold';
 
-          // STICKY TOP FIX WITH ELEVATED Z-INDEX
+          // DYNAMIC STICKY OFFSETS
           if (rIndex < totalStickyRowsCount) {
             td.classList.add('freeze-row');
-            td.style.top = `${topRowOffsets[rIndex]}px`;
-            td.style.zIndex = isHeader ? '50' : '40';
+            if (isTotalRow) {
+              td.classList.add('total-cell');
+              // Offset Grand Total row below header rows dynamically (34px * number of header rows)
+              td.style.top = `${frozenRows * 34}px`;
+            } else {
+              td.style.top = `${rIndex * 34}px`;
+            }
           }
 
-          // COLUMN FREEZE LOGIC
           if (cIndex < frozenCols) {
             td.classList.add('freeze-col');
             td.style.left = `${leftOffsets[cIndex]}px`;
