@@ -231,10 +231,13 @@
           const table = document.createElement('table');
           table.id = 'table-' + safeId;
 
-          const frozenRows = (data && data.meta && data.meta.frozenRows) ? data.meta.frozenRows : 0;
-          const frozenCols = (data && data.meta && data.meta.frozenCols) ? data.meta.frozenCols : 0;
+          const frozenRows = (data && data.meta && data.meta.frozenRows !== undefined) ? data.meta.frozenRows : 0;
+          const frozenCols = (data && data.meta && data.meta.frozenCols !== undefined) ? data.meta.frozenCols : 0;
           const colWidths = (data && data.meta && data.meta.columnWidths) ? data.meta.columnWidths : [];
           const customRowHeights = (data && data.meta && data.meta.rowHeights) ? data.meta.rowHeights : {};
+          
+          // Check if filters are enabled for this specific sheet (defaults to true if undefined)
+          const enableFilters = (data && data.meta && data.meta.enableFilters !== undefined) ? data.meta.enableFilters : true;
 
           activeFilters[safeId] = {};
 
@@ -315,8 +318,8 @@
                 textSpan.textContent = cellVal.replace(/_/g, '_ ');
                 td.appendChild(textSpan);
 
-                // Attach Filter UI to frozen header row
-                if (rIndex === (frozenRows > 0 ? frozenRows - 1 : 0)) {
+                // Attach Filter UI ONLY IF enableFilters is true for this sheet
+                if (enableFilters && rIndex === (frozenRows > 0 ? frozenRows - 1 : 0)) {
                   attachFilterUI(td, safeId, cIndex, data.rows, frozenRows);
                 }
 
@@ -446,7 +449,9 @@
       const tbody = table;
       const rows = Array.from(table.querySelectorAll('tr')).filter(r => r.dataset.rowIndex !== undefined);
       
-      const frozenRowsCount = parseInt(rows[0].querySelector('td').dataset.rowIndex || 0, 10);
+      // Calculate frozen header row span
+      const firstRowTd = rows[0] ? rows[0].querySelector('td') : null;
+      const frozenRowsCount = firstRowTd ? parseInt(firstRowTd.dataset.rowIndex || 0, 10) : 0;
 
       const headerRows = rows.slice(0, frozenRowsCount + 1);
       const dataRows = rows.slice(frozenRowsCount + 1);
