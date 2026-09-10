@@ -2,28 +2,21 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>D0 DASHBOARD</title>
   <style>
     * { box-sizing: border-box; }
     body { 
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
-      margin: 8px; 
+      margin: 10px; 
       background-color: #f4f6f8; 
       color: #333;
-      touch-action: pan-x pan-y;
     }
 
-    .header-bar { margin-bottom: 8px; }
-    .header-title { font-size: 18px; font-weight: 700; color: #1a73e8; margin: 0 0 8px 0; }
+    .header-bar { margin-bottom: 12px; }
+    .header-title { font-size: 18px; font-weight: 700; color: #1a73e8; margin: 0 0 10px 0; }
     
-    .tabs { 
-      display: flex; 
-      gap: 8px; 
-      overflow-x: auto; 
-      padding-bottom: 4px; 
-      -webkit-overflow-scrolling: touch;
-    }
+    .tabs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; }
     .tab-btn { 
       padding: 8px 14px; 
       cursor: pointer; 
@@ -33,7 +26,6 @@
       font-size: 13px;
       font-weight: 600;
       white-space: nowrap;
-      touch-action: manipulation;
     }
     .tab-btn.active { 
       background: #1a73e8; 
@@ -41,17 +33,51 @@
       color: #ffffff; 
     }
 
+    /* TOP CONTROLS PANEL */
+    .top-controls {
+      background: #ffffff;
+      border: 1px solid #dcdfe6;
+      border-radius: 6px;
+      padding: 12px;
+      margin-bottom: 12px;
+      display: none;
+      flex-wrap: wrap;
+      gap: 16px;
+      align-items: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .top-controls.visible { display: flex; }
+
+    .control-group { display: flex; flex-direction: column; gap: 4px; }
+    .control-group label { font-size: 11px; font-weight: 700; color: #555; text-transform: uppercase; }
+    .control-group select, .control-group button {
+      padding: 6px 10px; font-size: 12px; border: 1px solid #ccc; border-radius: 4px; background: #fff;
+    }
+
+    .sort-radios { display: flex; gap: 10px; align-items: center; height: 30px; font-size: 12px; }
+
+    .btn-apply {
+      background-color: #1a73e8 !important; color: #ffffff; border-color: #1a73e8 !important;
+      font-weight: 600; cursor: pointer; margin-top: auto;
+    }
+    .btn-reset {
+      background-color: #f8f9fa !important; color: #333; border-color: #ccc !important;
+      cursor: pointer; margin-top: auto;
+    }
+
     .table-container { 
       width: 100%; 
-      max-height: 80vh; 
+      max-height: 75vh; 
       overflow-x: auto; 
       overflow-y: auto;
-      border: 1px solid #bbb; 
+      border: 2px solid #555; 
       border-radius: 6px;
       background: #ffffff; 
+      display: none; 
       position: relative;
-      -webkit-overflow-scrolling: touch;
+      will-change: transform;
     }
+    .table-container.active { display: block; }
 
     table { 
       border-collapse: separate; 
@@ -60,8 +86,8 @@
     }
     
     td, th { 
-      border-right: 1px solid #d0d0d0 !important; 
-      border-bottom: 1px solid #d0d0d0 !important; 
+      border-right: 1px solid #666666 !important; 
+      border-bottom: 1px solid #666666 !important; 
       padding: 6px 8px !important; 
       font-size: 11px; 
       line-height: 1.35;
@@ -70,66 +96,17 @@
       overflow-wrap: break-word !important; 
       vertical-align: middle;
       position: relative;
-      background-color: #ffffff;
     }
 
-    th.header-cell {
-      background-color: #2b579a !important;
-      color: #ffffff !important;
-      font-weight: 600;
-      text-align: left;
-      user-select: none;
+    /* RENDER OPTIMIZATION FOR HEAVY TABLES */
+    tr {
+      content-visibility: auto;
+      contain-intrinsic-size: 1px 32px;
     }
 
-    tr.grand-total-row td {
-      background-color: #d9ead3 !important;
-      font-weight: bold !important;
-      color: #0b5394 !important;
-      border-bottom: 2px solid #2b579a !important;
-    }
-
-    /* STICKY FREEZING LAYERS */
-    .freeze-row { position: sticky; z-index: 20; }
-    .freeze-col { position: sticky; z-index: 15; }
-    .freeze-row.freeze-col { z-index: 30; }
-
-    .header-content {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 4px;
-    }
-
-    .filter-btn {
-      background: rgba(255, 255, 255, 0.25);
-      border: none;
-      color: #fff;
-      border-radius: 3px;
-      padding: 3px 6px;
-      font-size: 10px;
-      cursor: pointer;
-    }
-    .filter-btn.active-filter { background: #ffc107; color: #000; }
-
-    .filter-menu {
-      position: absolute;
-      width: 240px;
-      background: #ffffff;
-      border: 1px solid #ccc;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      border-radius: 6px;
-      padding: 10px;
-      z-index: 1000;
-      display: none;
-      font-size: 12px;
-    }
-    .filter-menu.show { display: block; }
-    .search-box { width: 100%; padding: 6px; font-size: 11px; border: 1px solid #ccc; border-radius: 4px; margin-bottom: 6px; }
-    .value-list { max-height: 150px; overflow-y: auto; border: 1px solid #eee; padding: 4px; border-radius: 4px; }
-    .value-item { display: flex; align-items: center; gap: 6px; padding: 3px 0; font-size: 11px; }
-    .menu-actions { display: flex; justify-content: space-between; margin-top: 8px; }
-    .btn-menu-action { padding: 5px 10px; font-size: 11px; border-radius: 4px; cursor: pointer; border: 1px solid #ccc; }
-    .btn-apply-filter { background: #1a73e8; color: #fff; border-color: #1a73e8; }
+    .freeze-row { position: sticky; z-index: 10; contain-visibility: visible !important; }
+    .freeze-col { position: sticky; z-index: 10; }
+    .freeze-row.freeze-col { z-index: 20; }
   </style>
 </head>
 <body>
@@ -139,28 +116,66 @@
     <div class="tabs" id="tab-container"></div>
   </div>
 
-  <div class="table-container" id="table-container">
-    <table id="dashboard-table"></table>
+  <div class="top-controls" id="top-controls-panel">
+    <div class="control-group">
+      <label for="top-row-select">1. Primary Header Row</label>
+      <select id="top-row-select" onchange="onHeaderRowChange()"></select>
+    </div>
+
+    <div class="control-group">
+      <label for="top-col-select">2. Select Column</label>
+      <select id="top-col-select" onchange="onColumnSelectChange()">
+        <option value="">-- Choose Column --</option>
+      </select>
+    </div>
+
+    <div class="control-group">
+      <label for="top-val-select">3. Select Value</label>
+      <select id="top-val-select">
+        <option value="">-- All Values --</option>
+      </select>
+    </div>
+
+    <div class="control-group">
+      <label>4. Sort Order</label>
+      <div class="sort-radios">
+        <label><input type="radio" name="top-sort" value="ASC" checked> A → Z / 0 → 9</label>
+        <label><input type="radio" name="top-sort" value="DESC"> Z → A / 9 → 0</label>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <button class="btn-apply" onclick="applyTopFiltersAndSort()">Apply Filter & Sort</button>
+    </div>
+    <div class="control-group">
+      <button class="btn-reset" onclick="resetTopFilters()">Reset</button>
+    </div>
   </div>
 
-  <div class="filter-menu" id="filter-menu">
-    <input type="text" class="search-box" id="menu-search" placeholder="Search..." oninput="filterMenuValues()">
-    <div style="margin-bottom: 4px;">
-      <a href="#" style="font-size: 10px; margin-right: 8px;" onclick="toggleSelectAll(true); return false;">Select All</a>
-      <a href="#" style="font-size: 10px;" onclick="toggleSelectAll(false); return false;">Clear</a>
-    </div>
-    <div class="value-list" id="menu-value-list"></div>
-    <div class="menu-actions">
-      <button class="btn-menu-action" onclick="clearCurrentFilter()">Clear Filter</button>
-      <button class="btn-menu-action btn-apply-filter" onclick="confirmFilter()">Apply</button>
-    </div>
-  </div>
+  <div id="tables-wrapper"></div>
 
   <script>
     var globalDashboardData = {};
-    var currentActiveSheetName = '';
-    var sheetFilters = {}; 
-    var activeMenuColIndex = null;
+    var currentActiveSheetId = '';
+    var sheetRowCache = {}; // Fast JS lookup cache to eliminate DOM queries
+
+    function cleanId(str) {
+      return str.replace(/[^a-zA-Z0-9]/g, '_');
+    }
+
+    function switchTab(cleanSheetId) {
+      currentActiveSheetId = cleanSheetId;
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.table-container').forEach(tc => tc.classList.remove('active'));
+      
+      const targetBtn = document.getElementById('btn-' + cleanSheetId);
+      const targetContainer = document.getElementById('container-' + cleanSheetId);
+      
+      if (targetBtn) targetBtn.classList.add('active');
+      if (targetContainer) targetContainer.classList.add('active');
+
+      updateFilterControlsForTab();
+    }
 
     async function loadDashboard() {
       try {
@@ -168,276 +183,313 @@
         globalDashboardData = await response.json();
         
         const tabContainer = document.getElementById('tab-container');
+        const tablesWrapper = document.getElementById('tables-wrapper');
         tabContainer.innerHTML = '';
+        tablesWrapper.innerHTML = '';
+
         let isFirst = true;
 
         for (const [sheetName, data] of Object.entries(globalDashboardData)) {
-          sheetFilters[sheetName] = {};
-          if (isFirst) currentActiveSheetName = sheetName;
+          const safeId = cleanId(sheetName);
+          const tabLabel = (data && data.meta && data.meta.displayName) ? data.meta.displayName : sheetName;
+
+          if (isFirst) currentActiveSheetId = safeId;
 
           const btn = document.createElement('button');
           btn.className = 'tab-btn' + (isFirst ? ' active' : '');
-          btn.textContent = (data.meta && data.meta.displayName) ? data.meta.displayName : sheetName;
-          btn.onclick = () => switchTab(sheetName);
+          btn.id = 'btn-' + safeId;
+          btn.textContent = tabLabel;
+          btn.onclick = () => switchTab(safeId);
           tabContainer.appendChild(btn);
+
+          const container = document.createElement('div');
+          container.className = 'table-container' + (isFirst ? ' active' : '');
+          container.id = 'container-' + safeId;
+          
+          const table = document.createElement('table');
+          table.id = 'table-' + safeId;
+
+          const frozenRows = (data && data.meta && data.meta.frozenRows !== undefined) ? data.meta.frozenRows : 0;
+          const frozenCols = (data && data.meta && data.meta.frozenCols !== undefined) ? data.meta.frozenCols : 0;
+          const colWidths = (data && data.meta && data.meta.columnWidths) ? data.meta.columnWidths : [];
+          const customRowHeights = (data && data.meta && data.meta.rowHeights) ? data.meta.rowHeights : {};
+
+          if (data && data.rows && data.rows.length > 0) {
+            let maxCols = 0;
+            data.rows.forEach(r => { if(r.length > maxCols) maxCols = r.length; });
+
+            let pixelWidths = [];
+            let leftOffsets = [];
+            let totalTableWidth = 0;
+
+            for (let c = 0; c < maxCols; c++) {
+              const charCount = colWidths[c] !== undefined ? colWidths[c] : 12;
+              const px = Math.round(charCount * 10) + 30; 
+              pixelWidths[c] = px;
+
+              if (c < frozenCols) {
+                leftOffsets[c] = totalTableWidth;
+              }
+              totalTableWidth += px;
+            }
+
+            table.style.width = `${totalTableWidth}px`;
+
+            const colGroup = document.createElement('colgroup');
+            for (let c = 0; c < maxCols; c++) {
+              const col = document.createElement('col');
+              col.style.width = `${pixelWidths[c]}px`;
+              colGroup.appendChild(col);
+            }
+            table.appendChild(colGroup);
+
+            let topRowOffsets = [];
+            let currentTopOffset = 0;
+            
+            const fragment = document.createDocumentFragment();
+            sheetRowCache[safeId] = [];
+
+            data.rows.forEach((row, rIndex) => {
+              const tr = document.createElement('tr');
+              tr.dataset.rowIndex = rIndex;
+              
+              const sheetRowNumber = rIndex + 1;
+              const rowHeight = customRowHeights[sheetRowNumber] ? customRowHeights[sheetRowNumber] : 32;
+              
+              tr.style.height = `${rowHeight}px`;
+              topRowOffsets[rIndex] = currentTopOffset;
+              currentTopOffset += rowHeight;
+
+              let cachedRowValues = [];
+
+              row.forEach((cell, cIndex) => {
+                if (cell.isCovered) {
+                  cachedRowValues.push('');
+                  return;
+                }
+
+                const td = document.createElement('td');
+                let cellVal = cell.value !== undefined ? String(cell.value) : '';
+                cachedRowValues.push(cellVal);
+
+                if (cell.rowSpan && cell.rowSpan > 1) td.rowSpan = cell.rowSpan;
+                if (cell.colSpan && cell.colSpan > 1) td.colSpan = cell.colSpan;
+
+                if (!cell.colSpan || cell.colSpan === 1) {
+                  td.style.width = `${pixelWidths[cIndex]}px`;
+                  td.style.minWidth = `${pixelWidths[cIndex]}px`;
+                }
+
+                if (cell.bg) td.style.backgroundColor = cell.bg;
+                if (cell.color) td.style.color = cell.color;
+                if (cell.bold) td.style.fontWeight = 'bold';
+
+                if (rIndex < frozenRows) { 
+                  td.classList.add('freeze-row'); 
+                  td.style.top = `${topRowOffsets[rIndex]}px`; 
+                }
+                if (cIndex < frozenCols) { 
+                  td.classList.add('freeze-col'); 
+                  td.style.left = `${leftOffsets[cIndex]}px`; 
+                }
+
+                td.textContent = cellVal.replace(/_/g, '_ ');
+                tr.appendChild(td);
+              });
+
+              sheetRowCache[safeId].push({
+                element: tr,
+                rowIndex: rIndex,
+                values: cachedRowValues
+              });
+
+              fragment.appendChild(tr);
+            });
+
+            table.appendChild(fragment);
+          }
+          
+          container.appendChild(table);
+          tablesWrapper.appendChild(container);
           isFirst = false;
         }
 
-        switchTab(currentActiveSheetName);
+        updateFilterControlsForTab();
+
       } catch (err) {
-        console.error('Error loading data:', err);
+        console.error('Error loading dashboard data:', err);
       }
     }
 
-    function switchTab(sheetName) {
-      currentActiveSheetName = sheetName;
-      closeFilterMenu();
-      document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.textContent === (globalDashboardData[sheetName].meta.displayName || sheetName));
-      });
-      renderTable();
+    function updateFilterControlsForTab() {
+      const topPanel = document.getElementById('top-controls-panel');
+      const sheetData = getActiveSheetData();
+
+      const enableFilters = (sheetData && sheetData.meta && sheetData.meta.enableFilters !== undefined) 
+                            ? sheetData.meta.enableFilters 
+                            : true;
+
+      if (enableFilters) {
+        topPanel.classList.add('visible');
+        populateHeaderRowSelector();
+      } else {
+        topPanel.classList.remove('visible');
+      }
     }
 
-    function renderTable() {
-      const table = document.getElementById('dashboard-table');
-      table.innerHTML = '';
+    function populateHeaderRowSelector() {
+      const rowSelect = document.getElementById('top-row-select');
+      rowSelect.innerHTML = '';
 
-      const sheetData = globalDashboardData[currentActiveSheetName];
+      const sheetData = getActiveSheetData();
       if (!sheetData || !sheetData.rows || sheetData.rows.length === 0) return;
 
-      const meta = sheetData.meta || {};
-      const freezeRowIndex = meta.freezeRowIndex || 1;
-      const freezeColIndex = meta.freezeColIndex || 0;
-      const colWidths = meta.columnWidths || [];
+      const frozenRows = (sheetData.meta && sheetData.meta.frozenRows) ? sheetData.meta.frozenRows : 1;
+      const totalRows = Math.min(sheetData.rows.length, Math.max(frozenRows, 5));
 
-      const rawHeaders = sheetData.rows.slice(0, freezeRowIndex);
-      let dataRows = sheetData.rows.slice(freezeRowIndex);
-
-      // Filter rows dynamically
-      const activeFilters = sheetFilters[currentActiveSheetName] || {};
-      Object.keys(activeFilters).forEach(colIdx => {
-        const allowed = activeFilters[colIdx];
-        if (allowed) {
-          dataRows = dataRows.filter(row => allowed.has(row[colIdx] ? String(row[colIdx].value || '').trim() : ''));
-        }
-      });
-
-      let maxCols = 0;
-      sheetData.rows.forEach(r => { if (r.length > maxCols) maxCols = r.length; });
-
-      // Compute Grand Totals dynamically for numeric columns
-      let grandTotals = new Array(maxCols).fill(null);
-      let isNumericCol = new Array(maxCols).fill(true);
-
-      dataRows.forEach(row => {
-        row.forEach((cell, c) => {
-          if (!cell || cell.isCovered) return;
-          let valStr = String(cell.value || '').trim().replace(/,/g, '').replace(/%/g, '');
-          let num = parseFloat(valStr);
-          if (valStr !== '' && !isNaN(num)) {
-            if (grandTotals[c] === null) grandTotals[c] = 0;
-            grandTotals[c] += num;
-          } else if (valStr !== '') {
-            isNumericCol[c] = false;
-          }
-        });
-      });
-
-      // Construct Grand Total row object
-      let grandTotalRow = [];
-      for (let c = 0; c < maxCols; c++) {
-        if (c === 0) {
-          grandTotalRow.push({ value: 'Grand Total', bold: true });
-        } else if (isNumericCol[c] && grandTotals[c] !== null) {
-          let formattedVal = Number.isInteger(grandTotals[c]) ? grandTotals[c].toLocaleString() : grandTotals[c].toFixed(2);
-          grandTotalRow.push({ value: formattedVal, bold: true });
-        } else {
-          grandTotalRow.push({ value: '-', bold: false });
-        }
+      for (let r = 0; r < totalRows; r++) {
+        const opt = document.createElement('option');
+        opt.value = r;
+        opt.textContent = `Row ${r + 1}`;
+        rowSelect.appendChild(opt);
       }
 
-      // Build column width and sticky left positions
-      let pixelWidths = [];
-      let stickyLeftPositions = [];
-      let currentStickyLeft = 0;
-
-      for (let c = 0; c < maxCols; c++) {
-        let px = Math.round((colWidths[c] || 10) * 10) + 35;
-        pixelWidths[c] = px;
-        stickyLeftPositions[c] = currentStickyLeft;
-        if (c < freezeColIndex) currentStickyLeft += px;
-      }
-
-      const colGroup = document.createElement('colgroup');
-      for (let c = 0; c < maxCols; c++) {
-        const col = document.createElement('col');
-        col.style.width = `${pixelWidths[c]}px`;
-        colGroup.appendChild(col);
-      }
-      table.appendChild(colGroup);
-
-      let topRowOffsets = [];
-      let currentTopOffset = 0;
-      const fragment = document.createDocumentFragment();
-
-      // Render Header Rows + Frozen Grand Total Row
-      const headerRowsToRender = [...rawHeaders, grandTotalRow];
-
-      headerRowsToRender.forEach((row, rIndex) => {
-        const tr = document.createElement('tr');
-        const isGrandTotal = rIndex === headerRowsToRender.length - 1;
-        if (isGrandTotal) tr.className = 'grand-total-row';
-
-        const rowHeight = 32;
-        tr.style.height = `${rowHeight}px`;
-        topRowOffsets[rIndex] = currentTopOffset;
-        currentTopOffset += rowHeight;
-
-        row.forEach((cell, cIndex) => {
-          if (cell.isCovered) return;
-
-          const td = document.createElement(isGrandTotal ? 'td' : 'th');
-          if (!isGrandTotal) td.classList.add('header-cell');
-
-          td.style.width = `${pixelWidths[cIndex]}px`;
-          td.classList.add('freeze-row');
-          td.style.top = `${topRowOffsets[rIndex]}px`;
-
-          if (cIndex < freezeColIndex) {
-            td.classList.add('freeze-col');
-            td.style.left = `${stickyLeftPositions[cIndex]}px`;
-          }
-
-          let cellVal = cell.value !== undefined ? String(cell.value) : '';
-
-          if (!isGrandTotal && rIndex === rawHeaders.length - 1 && meta.enableFilters) {
-            const container = document.createElement('div');
-            container.className = 'header-content';
-
-            const title = document.createElement('span');
-            title.textContent = cellVal;
-
-            const btn = document.createElement('button');
-            btn.className = 'filter-btn' + (activeFilters[cIndex] ? ' active-filter' : '');
-            btn.textContent = activeFilters[cIndex] ? '▼ 🔍' : '▼';
-            btn.onclick = (e) => { e.stopPropagation(); openFilterMenu(e, cIndex); };
-
-            container.appendChild(title);
-            container.appendChild(btn);
-            td.appendChild(container);
-          } else {
-            td.textContent = cellVal;
-          }
-
-          tr.appendChild(td);
-        });
-
-        fragment.appendChild(tr);
-      });
-
-      // Render Data Rows
-      dataRows.forEach((row) => {
-        const tr = document.createElement('tr');
-        tr.style.height = `32px`;
-
-        row.forEach((cell, cIndex) => {
-          if (cell.isCovered) return;
-
-          const td = document.createElement('td');
-          td.style.width = `${pixelWidths[cIndex]}px`;
-
-          if (cell.bg) td.style.backgroundColor = cell.bg;
-          if (cell.color) td.style.color = cell.color;
-          if (cell.bold) td.style.fontWeight = 'bold';
-
-          if (cIndex < freezeColIndex) {
-            td.classList.add('freeze-col');
-            td.style.left = `${stickyLeftPositions[cIndex]}px`;
-          }
-
-          td.textContent = cell.value !== undefined ? String(cell.value) : '';
-          tr.appendChild(td);
-        });
-
-        fragment.appendChild(tr);
-      });
-
-      table.appendChild(fragment);
+      rowSelect.value = frozenRows > 0 ? frozenRows - 1 : 0;
+      populateTopColumns();
     }
 
-    function openFilterMenu(event, colIndex) {
-      activeMenuColIndex = colIndex;
-      const menu = document.getElementById('filter-menu');
-      const sheetData = globalDashboardData[currentActiveSheetName];
+    function onHeaderRowChange() {
+      populateTopColumns();
+    }
 
-      let uniqueVals = new Set();
-      sheetData.rows.slice(sheetData.meta.freezeRowIndex || 1).forEach(row => {
-        if (row[colIndex] && !row[colIndex].isCovered) {
-          uniqueVals.add(String(row[colIndex].value || '').trim());
+    function populateTopColumns() {
+      const colSelect = document.getElementById('top-col-select');
+      colSelect.innerHTML = '<option value="">-- Choose Column --</option>';
+
+      const selectedRowIndex = parseInt(document.getElementById('top-row-select').value, 10);
+      const sheetData = getActiveSheetData();
+      
+      if (!sheetData || !sheetData.rows || isNaN(selectedRowIndex) || !sheetData.rows[selectedRowIndex]) return;
+
+      const headerRow = sheetData.rows[selectedRowIndex];
+      headerRow.forEach((cell, index) => {
+        if (!cell.isCovered && cell.value !== undefined && String(cell.value).trim() !== '') {
+          const opt = document.createElement('option');
+          opt.value = index;
+          opt.textContent = String(cell.value).trim();
+          colSelect.appendChild(opt);
         }
       });
 
-      const valList = document.getElementById('menu-value-list');
-      valList.innerHTML = '';
-      const activeFilters = sheetFilters[currentActiveSheetName] || {};
-      const currentlyAllowed = activeFilters[colIndex];
+      onColumnSelectChange();
+    }
+
+    function onColumnSelectChange() {
+      const colIndex = document.getElementById('top-col-select').value;
+      const valSelect = document.getElementById('top-val-select');
+      valSelect.innerHTML = '<option value="">-- All Values --</option>';
+
+      if (colIndex === "") return;
+
+      const selectedRowIndex = parseInt(document.getElementById('top-row-select').value, 10);
+      const sheetData = getActiveSheetData();
+      const startDataRow = selectedRowIndex + 1;
+      
+      let uniqueVals = new Set();
+      for (let r = startDataRow; r < sheetData.rows.length; r++) {
+        const row = sheetData.rows[r];
+        if (row[colIndex] && !row[colIndex].isCovered) {
+          let val = String(row[colIndex].value || '').trim();
+          if (val !== '') uniqueVals.add(val);
+        }
+      }
 
       Array.from(uniqueVals).sort().forEach(val => {
-        const item = document.createElement('label');
-        item.className = 'value-item';
-        const checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
-        checkbox.value = val;
-        checkbox.checked = currentlyAllowed ? currentlyAllowed.has(val) : true;
-
-        item.appendChild(checkbox);
-        item.appendChild(document.createTextNode(val === '' ? '(Blanks)' : val));
-        valList.appendChild(item);
-      });
-
-      document.getElementById('menu-search').value = '';
-      const rect = event.target.getBoundingClientRect();
-      menu.style.top = (rect.bottom + window.scrollY) + 'px';
-      menu.style.left = Math.min(rect.left + window.scrollX, window.innerWidth - 250) + 'px';
-      menu.classList.add('show');
-    }
-
-    function closeFilterMenu() { document.getElementById('filter-menu').classList.remove('show'); }
-
-    function filterMenuValues() {
-      const q = document.getElementById('menu-search').value.toLowerCase();
-      document.querySelectorAll('#menu-value-list .value-item').forEach(item => {
-        item.style.display = item.textContent.toLowerCase().includes(q) ? 'flex' : 'none';
+        const opt = document.createElement('option');
+        opt.value = val;
+        opt.textContent = val;
+        valSelect.appendChild(opt);
       });
     }
 
-    function toggleSelectAll(selectAll) {
-      document.querySelectorAll('#menu-value-list input[type="checkbox"]').forEach(cb => {
-        if (cb.parentElement.style.display !== 'none') cb.checked = selectAll;
+    /* HIGH PERFORMANCE FILTER AND SORT */
+    function applyTopFiltersAndSort() {
+      const selectedRowIndex = parseInt(document.getElementById('top-row-select').value, 10);
+      const colIndex = document.getElementById('top-col-select').value;
+      const selectedVal = document.getElementById('top-val-select').value;
+      const sortDirection = document.querySelector('input[name="top-sort"]:checked').value;
+
+      const table = document.getElementById('table-' + currentActiveSheetId);
+      const rowCache = sheetRowCache[currentActiveSheetId];
+      if (!table || !rowCache) return;
+
+      const startDataRow = selectedRowIndex + 1;
+
+      // Batch DOM operations with requestAnimationFrame
+      requestAnimationFrame(() => {
+        let dataRows = [];
+
+        rowCache.forEach(item => {
+          if (item.rowIndex < startDataRow) {
+            item.element.style.display = '';
+            return;
+          }
+
+          const cellVal = (colIndex !== "" && item.values[colIndex]) ? item.values[colIndex].trim() : '';
+
+          if (colIndex !== "" && selectedVal !== "") {
+            item.element.style.display = (cellVal === selectedVal) ? '' : 'none';
+          } else {
+            item.element.style.display = '';
+          }
+
+          dataRows.push(item);
+        });
+
+        // Fast In-Memory Sort
+        if (colIndex !== "") {
+          const idx = parseInt(colIndex, 10);
+          dataRows.sort((a, b) => {
+            let valA = a.values[idx] ? a.values[idx].trim() : '';
+            let valB = b.values[idx] ? b.values[idx].trim() : '';
+
+            let numA = parseFloat(valA.replace(/[^0-9.-]+/g, ""));
+            let numB = parseFloat(valB.replace(/[^0-9.-]+/g, ""));
+
+            if (!isNaN(numA) && !isNaN(numB)) {
+              return sortDirection === 'ASC' ? numA - numB : numB - numA;
+            }
+
+            return sortDirection === 'ASC' ? valA.localeCompare(valB) : valB.localeCompare(valA);
+          });
+
+          const fragment = document.createDocumentFragment();
+          dataRows.forEach(item => fragment.appendChild(item.element));
+          table.appendChild(fragment);
+        }
       });
     }
 
-    function confirmFilter() {
-      const checkedVals = new Set();
-      document.querySelectorAll('#menu-value-list input[type="checkbox"]:checked').forEach(cb => checkedVals.add(cb.value));
-      if (!sheetFilters[currentActiveSheetName]) sheetFilters[currentActiveSheetName] = {};
-      sheetFilters[currentActiveSheetName][activeMenuColIndex] = checkedVals;
-      closeFilterMenu();
-      renderTable();
-    }
+    function resetTopFilters() {
+      populateHeaderRowSelector();
+      document.querySelector('input[name="top-sort"][value="ASC"]').checked = true;
 
-    function clearCurrentFilter() {
-      if (sheetFilters[currentActiveSheetName]) delete sheetFilters[currentActiveSheetName][activeMenuColIndex];
-      closeFilterMenu();
-      renderTable();
-    }
-
-    document.addEventListener('click', (e) => {
-      const menu = document.getElementById('filter-menu');
-      if (menu.classList.contains('show') && !menu.contains(e.target) && !e.target.classList.contains('filter-btn')) {
-        closeFilterMenu();
+      const rowCache = sheetRowCache[currentActiveSheetId];
+      if (rowCache) {
+        requestAnimationFrame(() => {
+          rowCache.forEach(item => item.element.style.display = '');
+        });
       }
-    });
+    }
+
+    function getActiveSheetData() {
+      for (const [sheetName, data] of Object.entries(globalDashboardData)) {
+        if (cleanId(sheetName) === currentActiveSheetId) {
+          return data;
+        }
+      }
+      return null;
+    }
 
     loadDashboard();
   </script>
