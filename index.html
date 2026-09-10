@@ -33,7 +33,6 @@
       color: #ffffff; 
     }
 
-    /* TOP CONTROLS PANEL */
     .top-controls {
       background: #ffffff;
       border: 1px solid #dcdfe6;
@@ -65,19 +64,28 @@
       cursor: pointer; margin-top: auto;
     }
 
+    .pagination-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #fff;
+      padding: 8px 12px;
+      border: 1px solid #ccc;
+      border-bottom: none;
+      border-radius: 6px 6px 0 0;
+      font-size: 12px;
+    }
+
     .table-container { 
       width: 100%; 
-      max-height: 75vh; 
+      max-height: 70vh; 
       overflow-x: auto; 
       overflow-y: auto;
       border: 2px solid #555; 
-      border-radius: 6px;
+      border-radius: 0 0 6px 6px;
       background: #ffffff; 
-      display: none; 
       position: relative;
-      will-change: transform;
     }
-    .table-container.active { display: block; }
 
     table { 
       border-collapse: separate; 
@@ -98,13 +106,7 @@
       position: relative;
     }
 
-    /* RENDER OPTIMIZATION FOR HEAVY TABLES */
-    tr {
-      content-visibility: auto;
-      contain-intrinsic-size: 1px 32px;
-    }
-
-    .freeze-row { position: sticky; z-index: 10; contain-visibility: visible !important; }
+    .freeze-row { position: sticky; z-index: 10; }
     .freeze-col { position: sticky; z-index: 10; }
     .freeze-row.freeze-col { z-index: 20; }
   </style>
@@ -152,29 +154,35 @@
     </div>
   </div>
 
-  <div id="tables-wrapper"></div>
+  <div class="pagination-bar" id="pagination-bar">
+    <div>
+      <button onclick="changePage(-1)">◀ Prev</button>
+      <span id="page-info" style="margin: 0 10px; font-weight: bold;">Page 1</span>
+      <button onclick="changePage(1)">Next ▶</button>
+    </div>
+    <div>
+      <label>Rows per page: </label>
+      <select id="page-size-select" onchange="onPageSizeChange()">
+        <option value="50">50</option>
+        <option value="100" selected>100</option>
+        <option value="200">200</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="table-container" id="table-container">
+    <table id="dashboard-table"></table>
+  </div>
 
   <script>
     var globalDashboardData = {};
-    var currentActiveSheetId = '';
-    var sheetRowCache = {}; // Fast JS lookup cache to eliminate DOM queries
+    var currentActiveSheetName = '';
+    var filteredRows = [];
+    var currentPage = 1;
+    var pageSize = 100;
 
     function cleanId(str) {
       return str.replace(/[^a-zA-Z0-9]/g, '_');
-    }
-
-    function switchTab(cleanSheetId) {
-      currentActiveSheetId = cleanSheetId;
-      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-      document.querySelectorAll('.table-container').forEach(tc => tc.classList.remove('active'));
-      
-      const targetBtn = document.getElementById('btn-' + cleanSheetId);
-      const targetContainer = document.getElementById('container-' + cleanSheetId);
-      
-      if (targetBtn) targetBtn.classList.add('active');
-      if (targetContainer) targetContainer.classList.add('active');
-
-      updateFilterControlsForTab();
     }
 
     async function loadDashboard() {
@@ -183,147 +191,163 @@
         globalDashboardData = await response.json();
         
         const tabContainer = document.getElementById('tab-container');
-        const tablesWrapper = document.getElementById('tables-wrapper');
         tabContainer.innerHTML = '';
-        tablesWrapper.innerHTML = '';
 
         let isFirst = true;
 
         for (const [sheetName, data] of Object.entries(globalDashboardData)) {
-          const safeId = cleanId(sheetName);
           const tabLabel = (data && data.meta && data.meta.displayName) ? data.meta.displayName : sheetName;
 
-          if (isFirst) currentActiveSheetId = safeId;
+          if (isFirst) currentActiveSheetName = sheetName;
 
           const btn = document.createElement('button');
           btn.className = 'tab-btn' + (isFirst ? ' active' : '');
-          btn.id = 'btn-' + safeId;
+          btn.id = 'btn-' + cleanId(sheetName);
           btn.textContent = tabLabel;
-          btn.onclick = () => switchTab(safeId);
+          btn.onclick = () => switchTab(sheetName);
           tabContainer.appendChild(btn);
 
-          const container = document.createElement('div');
-          container.className = 'table-container' + (isFirst ? ' active' : '');
-          container.id = 'container-' + safeId;
-          
-          const table = document.createElement('table');
-          table.id = 'table-' + safeId;
-
-          const frozenRows = (data && data.meta && data.meta.frozenRows !== undefined) ? data.meta.frozenRows : 0;
-          const frozenCols = (data && data.meta && data.meta.frozenCols !== undefined) ? data.meta.frozenCols : 0;
-          const colWidths = (data && data.meta && data.meta.columnWidths) ? data.meta.columnWidths : [];
-          const customRowHeights = (data && data.meta && data.meta.rowHeights) ? data.meta.rowHeights : {};
-
-          if (data && data.rows && data.rows.length > 0) {
-            let maxCols = 0;
-            data.rows.forEach(r => { if(r.length > maxCols) maxCols = r.length; });
-
-            let pixelWidths = [];
-            let leftOffsets = [];
-            let totalTableWidth = 0;
-
-            for (let c = 0; c < maxCols; c++) {
-              const charCount = colWidths[c] !== undefined ? colWidths[c] : 12;
-              const px = Math.round(charCount * 10) + 30; 
-              pixelWidths[c] = px;
-
-              if (c < frozenCols) {
-                leftOffsets[c] = totalTableWidth;
-              }
-              totalTableWidth += px;
-            }
-
-            table.style.width = `${totalTableWidth}px`;
-
-            const colGroup = document.createElement('colgroup');
-            for (let c = 0; c < maxCols; c++) {
-              const col = document.createElement('col');
-              col.style.width = `${pixelWidths[c]}px`;
-              colGroup.appendChild(col);
-            }
-            table.appendChild(colGroup);
-
-            let topRowOffsets = [];
-            let currentTopOffset = 0;
-            
-            const fragment = document.createDocumentFragment();
-            sheetRowCache[safeId] = [];
-
-            data.rows.forEach((row, rIndex) => {
-              const tr = document.createElement('tr');
-              tr.dataset.rowIndex = rIndex;
-              
-              const sheetRowNumber = rIndex + 1;
-              const rowHeight = customRowHeights[sheetRowNumber] ? customRowHeights[sheetRowNumber] : 32;
-              
-              tr.style.height = `${rowHeight}px`;
-              topRowOffsets[rIndex] = currentTopOffset;
-              currentTopOffset += rowHeight;
-
-              let cachedRowValues = [];
-
-              row.forEach((cell, cIndex) => {
-                if (cell.isCovered) {
-                  cachedRowValues.push('');
-                  return;
-                }
-
-                const td = document.createElement('td');
-                let cellVal = cell.value !== undefined ? String(cell.value) : '';
-                cachedRowValues.push(cellVal);
-
-                if (cell.rowSpan && cell.rowSpan > 1) td.rowSpan = cell.rowSpan;
-                if (cell.colSpan && cell.colSpan > 1) td.colSpan = cell.colSpan;
-
-                if (!cell.colSpan || cell.colSpan === 1) {
-                  td.style.width = `${pixelWidths[cIndex]}px`;
-                  td.style.minWidth = `${pixelWidths[cIndex]}px`;
-                }
-
-                if (cell.bg) td.style.backgroundColor = cell.bg;
-                if (cell.color) td.style.color = cell.color;
-                if (cell.bold) td.style.fontWeight = 'bold';
-
-                if (rIndex < frozenRows) { 
-                  td.classList.add('freeze-row'); 
-                  td.style.top = `${topRowOffsets[rIndex]}px`; 
-                }
-                if (cIndex < frozenCols) { 
-                  td.classList.add('freeze-col'); 
-                  td.style.left = `${leftOffsets[cIndex]}px`; 
-                }
-
-                td.textContent = cellVal.replace(/_/g, '_ ');
-                tr.appendChild(td);
-              });
-
-              sheetRowCache[safeId].push({
-                element: tr,
-                rowIndex: rIndex,
-                values: cachedRowValues
-              });
-
-              fragment.appendChild(tr);
-            });
-
-            table.appendChild(fragment);
-          }
-          
-          container.appendChild(table);
-          tablesWrapper.appendChild(container);
           isFirst = false;
         }
 
-        updateFilterControlsForTab();
+        switchTab(currentActiveSheetName);
 
       } catch (err) {
         console.error('Error loading dashboard data:', err);
       }
     }
 
+    function switchTab(sheetName) {
+      currentActiveSheetName = sheetName;
+      currentPage = 1;
+
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      const activeBtn = document.getElementById('btn-' + cleanId(sheetName));
+      if (activeBtn) activeBtn.classList.add('active');
+
+      const sheetData = globalDashboardData[sheetName];
+      filteredRows = sheetData ? (sheetData.rows || []) : [];
+
+      updateFilterControlsForTab();
+      renderTablePage();
+    }
+
+    function renderTablePage() {
+      const table = document.getElementById('dashboard-table');
+      table.innerHTML = '';
+
+      const sheetData = globalDashboardData[currentActiveSheetName];
+      if (!sheetData || !filteredRows || filteredRows.length === 0) return;
+
+      const frozenRows = (sheetData.meta && sheetData.meta.frozenRows !== undefined) ? sheetData.meta.frozenRows : 0;
+      const frozenCols = (sheetData.meta && sheetData.meta.frozenCols !== undefined) ? sheetData.meta.frozenCols : 0;
+      const colWidths = (sheetData.meta && sheetData.meta.columnWidths) ? sheetData.meta.columnWidths : [];
+      const customRowHeights = (sheetData.meta && sheetData.meta.rowHeights) ? sheetData.meta.rowHeights : {};
+
+      // Separate Headers from Data
+      const headerRows = filteredRows.slice(0, frozenRows);
+      const dataRows = filteredRows.slice(frozenRows);
+
+      const totalPages = Math.max(1, Math.ceil(dataRows.length / pageSize));
+      if (currentPage > totalPages) currentPage = totalPages;
+
+      document.getElementById('page-info').textContent = `Page ${currentPage} of ${totalPages} (${dataRows.length} rows)`;
+
+      const startIdx = (currentPage - 1) * pageSize;
+      const visibleDataRows = dataRows.slice(startIdx, startIdx + pageSize);
+      const rowsToRender = [...headerRows, ...visibleDataRows];
+
+      let maxCols = 0;
+      rowsToRender.forEach(r => { if(r.length > maxCols) maxCols = r.length; });
+
+      let pixelWidths = [];
+      let leftOffsets = [];
+      let totalTableWidth = 0;
+
+      for (let c = 0; c < maxCols; c++) {
+        const charCount = colWidths[c] !== undefined ? colWidths[c] : 12;
+        const px = Math.round(charCount * 10) + 30; 
+        pixelWidths[c] = px;
+
+        if (c < frozenCols) {
+          leftOffsets[c] = totalTableWidth;
+        }
+        totalTableWidth += px;
+      }
+
+      table.style.width = `${totalTableWidth}px`;
+
+      const colGroup = document.createElement('colgroup');
+      for (let c = 0; c < maxCols; c++) {
+        const col = document.createElement('col');
+        col.style.width = `${pixelWidths[c]}px`;
+        colGroup.appendChild(col);
+      }
+      table.appendChild(colGroup);
+
+      let topRowOffsets = [];
+      let currentTopOffset = 0;
+      const fragment = document.createDocumentFragment();
+
+      rowsToRender.forEach((row, rIndex) => {
+        const tr = document.createElement('tr');
+        const rowHeight = customRowHeights[rIndex + 1] ? customRowHeights[rIndex + 1] : 32;
+        
+        tr.style.height = `${rowHeight}px`;
+        topRowOffsets[rIndex] = currentTopOffset;
+        currentTopOffset += rowHeight;
+
+        row.forEach((cell, cIndex) => {
+          if (cell.isCovered) return;
+
+          const td = document.createElement('td');
+          let cellVal = cell.value !== undefined ? String(cell.value) : '';
+
+          if (cell.rowSpan && cell.rowSpan > 1) td.rowSpan = cell.rowSpan;
+          if (cell.colSpan && cell.colSpan > 1) td.colSpan = cell.colSpan;
+
+          if (!cell.colSpan || cell.colSpan === 1) {
+            td.style.width = `${pixelWidths[cIndex]}px`;
+            td.style.minWidth = `${pixelWidths[cIndex]}px`;
+          }
+
+          if (cell.bg) td.style.backgroundColor = cell.bg;
+          if (cell.color) td.style.color = cell.color;
+          if (cell.bold) td.style.fontWeight = 'bold';
+
+          if (rIndex < frozenRows) { 
+            td.classList.add('freeze-row'); 
+            td.style.top = `${topRowOffsets[rIndex]}px`; 
+          }
+          if (cIndex < frozenCols) { 
+            td.classList.add('freeze-col'); 
+            td.style.left = `${leftOffsets[cIndex]}px`; 
+          }
+
+          td.textContent = cellVal.replace(/_/g, '_ ');
+          tr.appendChild(td);
+        });
+
+        fragment.appendChild(tr);
+      });
+
+      table.appendChild(fragment);
+    }
+
+    function changePage(delta) {
+      currentPage += delta;
+      renderTablePage();
+    }
+
+    function onPageSizeChange() {
+      pageSize = parseInt(document.getElementById('page-size-select').value, 10);
+      currentPage = 1;
+      renderTablePage();
+    }
+
     function updateFilterControlsForTab() {
       const topPanel = document.getElementById('top-controls-panel');
-      const sheetData = getActiveSheetData();
+      const sheetData = globalDashboardData[currentActiveSheetName];
 
       const enableFilters = (sheetData && sheetData.meta && sheetData.meta.enableFilters !== undefined) 
                             ? sheetData.meta.enableFilters 
@@ -341,7 +365,7 @@
       const rowSelect = document.getElementById('top-row-select');
       rowSelect.innerHTML = '';
 
-      const sheetData = getActiveSheetData();
+      const sheetData = globalDashboardData[currentActiveSheetName];
       if (!sheetData || !sheetData.rows || sheetData.rows.length === 0) return;
 
       const frozenRows = (sheetData.meta && sheetData.meta.frozenRows) ? sheetData.meta.frozenRows : 1;
@@ -367,7 +391,7 @@
       colSelect.innerHTML = '<option value="">-- Choose Column --</option>';
 
       const selectedRowIndex = parseInt(document.getElementById('top-row-select').value, 10);
-      const sheetData = getActiveSheetData();
+      const sheetData = globalDashboardData[currentActiveSheetName];
       
       if (!sheetData || !sheetData.rows || isNaN(selectedRowIndex) || !sheetData.rows[selectedRowIndex]) return;
 
@@ -392,7 +416,7 @@
       if (colIndex === "") return;
 
       const selectedRowIndex = parseInt(document.getElementById('top-row-select').value, 10);
-      const sheetData = getActiveSheetData();
+      const sheetData = globalDashboardData[currentActiveSheetName];
       const startDataRow = selectedRowIndex + 1;
       
       let uniqueVals = new Set();
@@ -412,83 +436,56 @@
       });
     }
 
-    /* HIGH PERFORMANCE FILTER AND SORT */
     function applyTopFiltersAndSort() {
       const selectedRowIndex = parseInt(document.getElementById('top-row-select').value, 10);
       const colIndex = document.getElementById('top-col-select').value;
       const selectedVal = document.getElementById('top-val-select').value;
       const sortDirection = document.querySelector('input[name="top-sort"]:checked').value;
 
-      const table = document.getElementById('table-' + currentActiveSheetId);
-      const rowCache = sheetRowCache[currentActiveSheetId];
-      if (!table || !rowCache) return;
+      const sheetData = globalDashboardData[currentActiveSheetName];
+      if (!sheetData || !sheetData.rows) return;
 
       const startDataRow = selectedRowIndex + 1;
+      const headers = sheetData.rows.slice(0, startDataRow);
+      let dataRows = sheetData.rows.slice(startDataRow);
 
-      // Batch DOM operations with requestAnimationFrame
-      requestAnimationFrame(() => {
-        let dataRows = [];
-
-        rowCache.forEach(item => {
-          if (item.rowIndex < startDataRow) {
-            item.element.style.display = '';
-            return;
-          }
-
-          const cellVal = (colIndex !== "" && item.values[colIndex]) ? item.values[colIndex].trim() : '';
-
-          if (colIndex !== "" && selectedVal !== "") {
-            item.element.style.display = (cellVal === selectedVal) ? '' : 'none';
-          } else {
-            item.element.style.display = '';
-          }
-
-          dataRows.push(item);
+      if (colIndex !== "" && selectedVal !== "") {
+        dataRows = dataRows.filter(row => {
+          const cellVal = row[colIndex] ? String(row[colIndex].value || '').trim() : '';
+          return cellVal === selectedVal;
         });
+      }
 
-        // Fast In-Memory Sort
-        if (colIndex !== "") {
-          const idx = parseInt(colIndex, 10);
-          dataRows.sort((a, b) => {
-            let valA = a.values[idx] ? a.values[idx].trim() : '';
-            let valB = b.values[idx] ? b.values[idx].trim() : '';
+      if (colIndex !== "") {
+        const idx = parseInt(colIndex, 10);
+        dataRows.sort((a, b) => {
+          let valA = a[idx] ? String(a[idx].value || '').trim() : '';
+          let valB = b[idx] ? String(b[idx].value || '').trim() : '';
 
-            let numA = parseFloat(valA.replace(/[^0-9.-]+/g, ""));
-            let numB = parseFloat(valB.replace(/[^0-9.-]+/g, ""));
+          let numA = parseFloat(valA.replace(/[^0-9.-]+/g, ""));
+          let numB = parseFloat(valB.replace(/[^0-9.-]+/g, ""));
 
-            if (!isNaN(numA) && !isNaN(numB)) {
-              return sortDirection === 'ASC' ? numA - numB : numB - numA;
-            }
+          if (!isNaN(numA) && !isNaN(numB)) {
+            return sortDirection === 'ASC' ? numA - numB : numB - numA;
+          }
 
-            return sortDirection === 'ASC' ? valA.localeCompare(valB) : valB.localeCompare(valA);
-          });
+          return sortDirection === 'ASC' ? valA.localeCompare(valB) : valB.localeCompare(valA);
+        });
+      }
 
-          const fragment = document.createDocumentFragment();
-          dataRows.forEach(item => fragment.appendChild(item.element));
-          table.appendChild(fragment);
-        }
-      });
+      filteredRows = [...headers, ...dataRows];
+      currentPage = 1;
+      renderTablePage();
     }
 
     function resetTopFilters() {
       populateHeaderRowSelector();
       document.querySelector('input[name="top-sort"][value="ASC"]').checked = true;
 
-      const rowCache = sheetRowCache[currentActiveSheetId];
-      if (rowCache) {
-        requestAnimationFrame(() => {
-          rowCache.forEach(item => item.element.style.display = '');
-        });
-      }
-    }
-
-    function getActiveSheetData() {
-      for (const [sheetName, data] of Object.entries(globalDashboardData)) {
-        if (cleanId(sheetName) === currentActiveSheetId) {
-          return data;
-        }
-      }
-      return null;
+      const sheetData = globalDashboardData[currentActiveSheetName];
+      filteredRows = sheetData ? (sheetData.rows || []) : [];
+      currentPage = 1;
+      renderTablePage();
     }
 
     loadDashboard();
