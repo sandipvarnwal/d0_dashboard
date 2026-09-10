@@ -36,9 +36,69 @@
       color: #ffffff; 
     }
 
+    /* TOP CONTROLS PANEL */
+    .top-controls {
+      background: #ffffff;
+      border: 1px solid #dcdfe6;
+      border-radius: 6px;
+      padding: 12px;
+      margin-bottom: 12px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      align-items: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .control-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .control-group label {
+      font-size: 11px;
+      font-weight: 700;
+      color: #555;
+      text-transform: uppercase;
+    }
+
+    .control-group select, .control-group button {
+      padding: 6px 10px;
+      font-size: 12px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background: #fff;
+    }
+
+    .sort-radios {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      height: 30px;
+      font-size: 12px;
+    }
+
+    .btn-apply {
+      background-color: #1a73e8 !important;
+      color: #ffffff;
+      border-color: #1a73e8 !important;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: auto;
+    }
+
+    .btn-reset {
+      background-color: #f8f9fa !important;
+      color: #333;
+      border-color: #ccc !important;
+      cursor: pointer;
+      margin-top: auto;
+    }
+
     .table-container { 
       width: 100%; 
-      max-height: 80vh; 
+      max-height: 75vh; 
       overflow-x: auto; 
       overflow-y: auto;
       border: 2px solid #555; 
@@ -73,98 +133,6 @@
     .freeze-row { position: sticky; z-index: 10; }
     .freeze-col { position: sticky; z-index: 10; }
     .freeze-row.freeze-col { z-index: 20; }
-
-    /* FILTER UI STYLES */
-    .filter-btn {
-      display: inline-block;
-      margin-left: 4px;
-      cursor: pointer;
-      font-size: 10px;
-      color: #1a73e8;
-      background: #e8f0fe;
-      border: 1px solid #1a73e8;
-      border-radius: 3px;
-      padding: 1px 4px;
-      vertical-align: middle;
-    }
-    .filter-btn.active-filter {
-      background: #1a73e8;
-      color: #ffffff;
-    }
-
-    .filter-popover {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      width: 200px;
-      background: #ffffff;
-      border: 1px solid #999;
-      box-shadow: 0px 4px 10px rgba(0,0,0,0.25);
-      z-index: 1000;
-      padding: 8px;
-      border-radius: 4px;
-      display: none;
-      font-weight: normal;
-      text-align: left;
-    }
-
-    .filter-popover.show { display: block; }
-
-    .filter-actions {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 6px;
-      gap: 4px;
-    }
-
-    .filter-actions button {
-      font-size: 10px;
-      padding: 3px 6px;
-      cursor: pointer;
-      border: 1px solid #ccc;
-      border-radius: 3px;
-      background: #f8f9fa;
-    }
-
-    .sort-btn-group {
-      display: flex;
-      gap: 4px;
-      margin-bottom: 6px;
-    }
-    .sort-btn-group button {
-      flex: 1;
-      font-size: 10px;
-      padding: 4px;
-      cursor: pointer;
-      border: 1px solid #1a73e8;
-      background: #ffffff;
-      color: #1a73e8;
-      border-radius: 3px;
-    }
-
-    .filter-search {
-      width: 100%;
-      font-size: 11px;
-      padding: 4px;
-      margin-bottom: 6px;
-      border: 1px solid #ccc;
-      border-radius: 3px;
-    }
-
-    .filter-list {
-      max-height: 140px;
-      overflow-y: auto;
-      border: 1px solid #eee;
-      padding: 4px;
-    }
-
-    .filter-item {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 11px;
-      margin-bottom: 3px;
-    }
   </style>
 </head>
 <body>
@@ -174,16 +142,54 @@
     <div class="tabs" id="tab-container"></div>
   </div>
 
+  <!-- TOP 3 CONTROL OPTIONS -->
+  <div class="top-controls">
+    <!-- Option 1: Select Column -->
+    <div class="control-group">
+      <label for="top-col-select">1. Select Column</label>
+      <select id="top-col-select" onchange="onColumnSelectChange()">
+        <option value="">-- Choose Column --</option>
+      </select>
+    </div>
+
+    <!-- Option 2: Select Column Value -->
+    <div class="control-group">
+      <label for="top-val-select">2. Select Value</label>
+      <select id="top-val-select">
+        <option value="">-- All Values --</option>
+      </select>
+    </div>
+
+    <!-- Option 3: Sort Order -->
+    <div class="control-group">
+      <label>3. Sort Order</label>
+      <div class="sort-radios">
+        <label><input type="radio" name="top-sort" value="ASC" checked> A → Z / 0 → 9</label>
+        <label><input type="radio" name="top-sort" value="DESC"> Z → A / 9 → 0</label>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="control-group">
+      <button class="btn-apply" onclick="applyTopFiltersAndSort()">Apply Filter & Sort</button>
+    </div>
+    <div class="control-group">
+      <button class="btn-reset" onclick="resetTopFilters()">Reset</button>
+    </div>
+  </div>
+
   <div id="tables-wrapper"></div>
 
   <script>
-    var activeFilters = {}; 
+    var globalDashboardData = {};
+    var currentActiveSheetId = '';
 
     function cleanId(str) {
       return str.replace(/[^a-zA-Z0-9]/g, '_');
     }
 
     function switchTab(cleanSheetId) {
+      currentActiveSheetId = cleanSheetId;
       document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
       document.querySelectorAll('.table-container').forEach(tc => tc.classList.remove('active'));
       
@@ -192,19 +198,15 @@
       
       if (targetBtn) targetBtn.classList.add('active');
       if (targetContainer) targetContainer.classList.add('active');
-    }
 
-    // Close popovers on click outside
-    document.addEventListener('click', function(e) {
-      if (!e.target.closest('.filter-popover') && !e.target.closest('.filter-btn')) {
-        document.querySelectorAll('.filter-popover').forEach(p => p.classList.remove('show'));
-      }
-    });
+      // Populate Top Column Selector for active tab
+      populateTopColumns();
+    }
 
     async function loadDashboard() {
       try {
         const response = await fetch('./data.json?t=' + new Date().getTime());
-        const allData = await response.json();
+        globalDashboardData = await response.json();
         
         const tabContainer = document.getElementById('tab-container');
         const tablesWrapper = document.getElementById('tables-wrapper');
@@ -213,9 +215,11 @@
 
         let isFirst = true;
 
-        for (const [sheetName, data] of Object.entries(allData)) {
+        for (const [sheetName, data] of Object.entries(globalDashboardData)) {
           const safeId = cleanId(sheetName);
           const tabLabel = (data && data.meta && data.meta.displayName) ? data.meta.displayName : sheetName;
+
+          if (isFirst) currentActiveSheetId = safeId;
 
           const btn = document.createElement('button');
           btn.className = 'tab-btn' + (isFirst ? ' active' : '');
@@ -235,11 +239,6 @@
           const frozenCols = (data && data.meta && data.meta.frozenCols !== undefined) ? data.meta.frozenCols : 0;
           const colWidths = (data && data.meta && data.meta.columnWidths) ? data.meta.columnWidths : [];
           const customRowHeights = (data && data.meta && data.meta.rowHeights) ? data.meta.rowHeights : {};
-          
-          // Check if filters are enabled for this specific sheet (defaults to true if undefined)
-          const enableFilters = (data && data.meta && data.meta.enableFilters !== undefined) ? data.meta.enableFilters : true;
-
-          activeFilters[safeId] = {};
 
           if (data && data.rows && data.rows.length > 0) {
             let maxCols = 0;
@@ -313,15 +312,9 @@
                   td.style.left = `${leftOffsets[cIndex]}px`; 
                 }
 
-                // Append text content
                 const textSpan = document.createElement('span');
                 textSpan.textContent = cellVal.replace(/_/g, '_ ');
                 td.appendChild(textSpan);
-
-                // Attach Filter UI ONLY IF enableFilters is true for this sheet
-                if (enableFilters && rIndex === (frozenRows > 0 ? frozenRows - 1 : 0)) {
-                  attachFilterUI(td, safeId, cIndex, data.rows, frozenRows);
-                }
 
                 tr.appendChild(td);
               });
@@ -333,150 +326,138 @@
           tablesWrapper.appendChild(container);
           isFirst = false;
         }
+
+        // Initialize top control options
+        populateTopColumns();
+
       } catch (err) {
         console.error('Error loading dashboard data:', err);
       }
     }
 
-    function attachFilterUI(td, sheetId, colIndex, allRows, frozenRows) {
-      const filterBtn = document.createElement('span');
-      filterBtn.className = 'filter-btn';
-      filterBtn.innerHTML = '▼';
-      filterBtn.title = 'Filter / Sort';
+    // Populate Option 1: Column Dropdown
+    function populateTopColumns() {
+      const colSelect = document.getElementById('top-col-select');
+      colSelect.innerHTML = '<option value="">-- Choose Column --</option>';
 
-      const popover = document.createElement('div');
-      popover.className = 'filter-popover';
+      const sheetData = getActiveSheetData();
+      if (!sheetData || !sheetData.rows || sheetData.rows.length === 0) return;
 
-      // Gather Unique Column Values (skipping headers)
-      let rawValues = [];
-      for (let r = frozenRows; r < allRows.length; r++) {
-        if (allRows[r][colIndex] && !allRows[r][colIndex].isCovered) {
-          let val = String(allRows[r][colIndex].value || '').trim();
-          if (val !== '') rawValues.push(val);
+      const headerRow = sheetData.rows[0];
+      headerRow.forEach((cell, index) => {
+        if (!cell.isCovered && cell.value) {
+          const opt = document.createElement('option');
+          opt.value = index;
+          opt.textContent = String(cell.value).trim();
+          colSelect.appendChild(opt);
         }
-      }
-      let uniqueValues = Array.from(new Set(rawValues)).sort();
+      });
 
-      popover.innerHTML = `
-        <div class="sort-btn-group">
-          <button onclick="sortTable('${sheetId}', ${colIndex}, 'ASC')">Smallest → Largest</button>
-          <button onclick="sortTable('${sheetId}', ${colIndex}, 'DESC')">Largest → Smallest</button>
-        </div>
-        <div class="filter-actions">
-          <button onclick="selectAllFilters('${sheetId}', ${colIndex}, true)">Select All</button>
-          <button onclick="selectAllFilters('${sheetId}', ${colIndex}, false)">Clear All</button>
-        </div>
-        <input type="text" class="filter-search" placeholder="Search..." oninput="searchFilterList(this)">
-        <div class="filter-list" id="flist-${sheetId}-${colIndex}">
-          ${uniqueValues.map(v => `
-            <label class="filter-item">
-              <input type="checkbox" value="${v}" checked onchange="applyColumnFilter('${sheetId}', ${colIndex})">
-              <span>${v}</span>
-            </label>
-          `).join('')}
-        </div>
-      `;
-
-      filterBtn.onclick = (e) => {
-        e.stopPropagation();
-        document.querySelectorAll('.filter-popover').forEach(p => {
-          if (p !== popover) p.classList.remove('show');
-        });
-        popover.classList.toggle('show');
-      };
-
-      td.appendChild(filterBtn);
-      td.appendChild(popover);
+      // Clear values dropdown when sheet switches
+      onColumnSelectChange();
     }
 
-    function searchFilterList(input) {
-      const filter = input.value.toLowerCase();
-      const items = input.nextElementSibling.querySelectorAll('.filter-item');
-      items.forEach(item => {
-        const text = item.textContent.toLowerCase();
-        item.style.display = text.includes(filter) ? 'flex' : 'none';
+    // Populate Option 2: Unique Values Dropdown based on Option 1
+    function onColumnSelectChange() {
+      const colIndex = document.getElementById('top-col-select').value;
+      const valSelect = document.getElementById('top-val-select');
+      valSelect.innerHTML = '<option value="">-- All Values --</option>';
+
+      if (colIndex === "") return;
+
+      const sheetData = getActiveSheetData();
+      const frozenRows = (sheetData.meta && sheetData.meta.frozenRows !== undefined) ? sheetData.meta.frozenRows : 1;
+      
+      let uniqueVals = new Set();
+      for (let r = frozenRows; r < sheetData.rows.length; r++) {
+        const row = sheetData.rows[r];
+        if (row[colIndex] && !row[colIndex].isCovered) {
+          let val = String(row[colIndex].value || '').trim();
+          if (val !== '') uniqueVals.add(val);
+        }
+      }
+
+      Array.from(uniqueVals).sort().forEach(val => {
+        const opt = document.createElement('option');
+        opt.value = val;
+        opt.textContent = val;
+        valSelect.appendChild(opt);
       });
     }
 
-    function selectAllFilters(sheetId, colIndex, isSelectAll) {
-      const container = document.getElementById(`flist-${sheetId}-${colIndex}`);
-      container.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = isSelectAll);
-      applyColumnFilter(sheetId, colIndex);
-    }
+    // Apply Filter (Option 2) & Sort (Option 3)
+    function applyTopFiltersAndSort() {
+      const colIndex = document.getElementById('top-col-select').value;
+      const selectedVal = document.getElementById('top-val-select').value;
+      const sortDirection = document.querySelector('input[name="top-sort"]:checked').value;
 
-    function applyColumnFilter(sheetId, colIndex) {
-      const container = document.getElementById(`flist-${sheetId}-${colIndex}`);
-      const checkedVals = Array.from(container.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value);
-      const totalVals = container.querySelectorAll('input[type="checkbox"]').length;
+      const table = document.getElementById('table-' + currentActiveSheetId);
+      if (!table) return;
 
-      if (checkedVals.length < totalVals) {
-        activeFilters[sheetId][colIndex] = checkedVals;
-      } else {
-        delete activeFilters[sheetId][colIndex];
-      }
+      const sheetData = getActiveSheetData();
+      const frozenRowsCount = (sheetData.meta && sheetData.meta.frozenRows !== undefined) ? sheetData.meta.frozenRows : 1;
+      const rows = Array.from(table.querySelectorAll('tr'));
 
-      // Update Filter Button Style
-      const table = document.getElementById('table-' + sheetId);
-      const th = table.querySelector(`td[data-col-index="${colIndex}"] .filter-btn`);
-      if (th) {
-        if (activeFilters[sheetId][colIndex]) th.classList.add('active-filter');
-        else th.classList.remove('active-filter');
-      }
-
-      // Filter Rows
-      const rows = table.querySelectorAll('tr');
+      // 1. FILTER ROWS
       rows.forEach(row => {
         const rIdx = parseInt(row.dataset.rowIndex, 10);
-        if (isNaN(rIdx)) return;
+        if (rIdx < frozenRowsCount) return; // Keep headers visible
 
-        let show = true;
-        for (const [cIdx, allowedVals] of Object.entries(activeFilters[sheetId])) {
-          const cell = row.querySelector(`td[data-col-index="${cIdx}"]`);
-          if (cell) {
-            const cellVal = (cell.dataset.rawVal || '').trim();
-            if (!allowedVals.includes(cellVal) && cellVal !== '') {
-              show = false;
-              break;
-            }
-          }
+        if (colIndex !== "" && selectedVal !== "") {
+          const cell = row.querySelector(`td[data-col-index="${colIndex}"]`);
+          const cellVal = cell ? (cell.dataset.rawVal || '').trim() : '';
+          row.style.display = (cellVal === selectedVal) ? '' : 'none';
+        } else {
+          row.style.display = ''; // Reset visibility
         }
-        row.style.display = show ? '' : 'none';
       });
+
+      // 2. SORT ROWS (Option 3)
+      if (colIndex !== "") {
+        const dataRows = rows.slice(frozenRowsCount);
+
+        dataRows.sort((a, b) => {
+          const cellA = a.querySelector(`td[data-col-index="${colIndex}"]`);
+          const cellB = b.querySelector(`td[data-col-index="${colIndex}"]`);
+
+          let valA = cellA ? cellA.dataset.rawVal.trim() : '';
+          let valB = cellB ? cellB.dataset.rawVal.trim() : '';
+
+          let numA = parseFloat(valA.replace(/[^0-9.-]+/g, ""));
+          let numB = parseFloat(valB.replace(/[^0-9.-]+/g, ""));
+
+          if (!isNaN(numA) && !isNaN(numB)) {
+            return sortDirection === 'ASC' ? numA - numB : numB - numA;
+          }
+
+          return sortDirection === 'ASC' ? valA.localeCompare(valB) : valB.localeCompare(valA);
+        });
+
+        // Re-append sorted rows
+        dataRows.forEach(row => table.appendChild(row));
+      }
     }
 
-    function sortTable(sheetId, colIndex, direction) {
-      const table = document.getElementById('table-' + sheetId);
-      const tbody = table;
-      const rows = Array.from(table.querySelectorAll('tr')).filter(r => r.dataset.rowIndex !== undefined);
-      
-      // Calculate frozen header row span
-      const firstRowTd = rows[0] ? rows[0].querySelector('td') : null;
-      const frozenRowsCount = firstRowTd ? parseInt(firstRowTd.dataset.rowIndex || 0, 10) : 0;
+    // Reset Top Filters
+    function resetTopFilters() {
+      document.getElementById('top-col-select').value = '';
+      onColumnSelectChange();
+      document.querySelector('input[name="top-sort"][value="ASC"]').checked = true;
 
-      const headerRows = rows.slice(0, frozenRowsCount + 1);
-      const dataRows = rows.slice(frozenRowsCount + 1);
+      const table = document.getElementById('table-' + currentActiveSheetId);
+      if (table) {
+        table.querySelectorAll('tr').forEach(r => r.style.display = '');
+      }
+    }
 
-      dataRows.sort((a, b) => {
-        const cellA = a.querySelector(`td[data-col-index="${colIndex}"]`);
-        const cellB = b.querySelector(`td[data-col-index="${colIndex}"]`);
-
-        let valA = cellA ? cellA.dataset.rawVal.trim() : '';
-        let valB = cellB ? cellB.dataset.rawVal.trim() : '';
-
-        // Numeric Sorting Detection
-        let numA = parseFloat(valA.replace(/[^0-9.-]+/g, ""));
-        let numB = parseFloat(valB.replace(/[^0-9.-]+/g, ""));
-
-        if (!isNaN(numA) && !isNaN(numB)) {
-          return direction === 'ASC' ? numA - numB : numB - numA;
+    // Helper to extract active sheet object
+    function getActiveSheetData() {
+      for (const [sheetName, data] of Object.entries(globalDashboardData)) {
+        if (cleanId(sheetName) === currentActiveSheetId) {
+          return data;
         }
-
-        // String Sorting
-        return direction === 'ASC' ? valA.localeCompare(valB) : valB.localeCompare(valA);
-      });
-
-      // Re-append rows in sorted order
-      dataRows.forEach(row => tbody.appendChild(row));
+      }
+      return null;
     }
 
     loadDashboard();
