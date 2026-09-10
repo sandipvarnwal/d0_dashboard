@@ -13,52 +13,78 @@
       color: #333;
     }
 
-    .header-bar { margin-bottom: 8px; }
-    .header-title { font-size: 18px; font-weight: 700; color: #1a73e8; margin: 0 0 8px 0; }
-    
-    .tabs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; }
-    .tab-btn { 
-      padding: 8px 14px; 
-      cursor: pointer; 
-      border: 1px solid #ccc; 
-      background: #ffffff; 
-      border-radius: 6px;
-      font-size: 13px;
-      font-weight: 600;
+    /* HEADER & DROPDOWN SIDE-BY-SIDE */
+    .header-bar { 
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 8px; 
+    }
+    .header-title { 
+      font-size: 16px; 
+      font-weight: 700; 
+      color: #1a73e8; 
+      margin: 0; 
       white-space: nowrap;
     }
-    .tab-btn.active { 
-      background: #1a73e8; 
-      border-color: #1a73e8; 
-      color: #ffffff; 
+    
+    .sheet-select {
+      padding: 5px 10px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #1a73e8;
+      background-color: #ffffff;
+      border: 1px solid #1a73e8;
+      border-radius: 6px;
+      outline: none;
+      cursor: pointer;
+      flex-grow: 1;
+      max-width: 250px;
     }
 
+    /* COMPACT PAGINATION BAR */
     .pagination-bar {
       display: none;
       align-items: center;
       justify-content: space-between;
       background: #fff;
-      padding: 6px 10px;
+      padding: 4px 8px;
       border: 1px solid #bbb;
       border-bottom: none;
       border-radius: 6px 6px 0 0;
-      font-size: 12px;
+      font-size: 10.5px;
+      white-space: nowrap;
     }
     .pagination-bar.visible { display: flex; }
     
-    .pagination-bar button {
-      padding: 4px 8px;
-      font-size: 12px;
-      cursor: pointer;
+    .pagination-group {
+      display: flex;
+      align-items: center;
+      gap: 4px;
     }
 
+    .pagination-bar button {
+      padding: 2px 6px;
+      font-size: 10px;
+      cursor: pointer;
+      border-radius: 3px;
+      border: 1px solid #ccc;
+      background: #f8f9fa;
+    }
+
+    .pagination-bar select {
+      font-size: 10px;
+      padding: 1px 3px;
+    }
+
+    /* TABLE CONTAINER */
     .table-container { 
       width: 100%; 
       max-height: 80vh; 
       overflow-x: auto; 
       overflow-y: auto;
       border: 1px solid #bbb; 
-      border-radius: 6px;
+      border-radius: 0 0 6px 6px;
       background: #ffffff; 
       position: relative;
     }
@@ -91,12 +117,15 @@
       user-select: none;
     }
 
-    /* GRAND TOTAL ROW STYLING */
+    /* 50% REDUCED HEIGHT GRAND TOTAL ROW */
     .total-row td, .total-row th {
       background-color: #e8f0fe !important;
       font-weight: bold !important;
       color: #1a73e8 !important;
       border-bottom: 2px solid #1a73e8 !important;
+      padding: 2px 6px !important; 
+      font-size: 10px !important;
+      line-height: 1.1 !important;
     }
 
     .header-content {
@@ -111,8 +140,8 @@
       border: none;
       color: #fff;
       border-radius: 3px;
-      padding: 2px 5px;
-      font-size: 10px;
+      padding: 1px 4px;
+      font-size: 9px;
       cursor: pointer;
     }
     .filter-btn:hover, .filter-btn.active-filter {
@@ -125,6 +154,7 @@
     .freeze-col { position: sticky !important; z-index: 10; }
     .freeze-row.freeze-col { z-index: 30 !important; }
 
+    /* FILTER MENU */
     .filter-menu {
       position: absolute;
       width: 230px;
@@ -135,19 +165,19 @@
       padding: 10px;
       z-index: 1000;
       display: none;
-      font-size: 12px;
+      font-size: 11px;
       color: #333;
     }
     .filter-menu.show { display: block; }
 
     .menu-section { margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px solid #eee; }
-    .menu-sort-btn { width: 100%; text-align: left; padding: 6px; background: #f8f9fa; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 4px; cursor: pointer; font-size: 11px; }
+    .menu-sort-btn { width: 100%; text-align: left; padding: 4px 6px; background: #f8f9fa; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 4px; cursor: pointer; font-size: 10px; }
     .menu-sort-btn:hover { background: #e9ecef; }
-    .search-box { width: 100%; padding: 5px; font-size: 11px; border: 1px solid #ccc; border-radius: 4px; margin-bottom: 6px; }
+    .search-box { width: 100%; padding: 4px; font-size: 11px; border: 1px solid #ccc; border-radius: 4px; margin-bottom: 6px; }
     .value-list { max-height: 140px; overflow-y: auto; border: 1px solid #eee; padding: 4px; border-radius: 4px; }
     .value-item { display: flex; align-items: center; gap: 6px; padding: 2px 0; font-size: 11px; }
     .menu-actions { display: flex; justify-content: space-between; margin-top: 8px; }
-    .btn-menu-action { padding: 4px 10px; font-size: 11px; border-radius: 4px; cursor: pointer; border: 1px solid #ccc; }
+    .btn-menu-action { padding: 4px 8px; font-size: 10px; border-radius: 4px; cursor: pointer; border: 1px solid #ccc; }
     .btn-apply-filter { background: #1a73e8; color: #fff; border-color: #1a73e8; }
     .btn-clear-filter { background: #f8f9fa; color: #333; }
   </style>
@@ -156,17 +186,17 @@
 
   <div class="header-bar">
     <h1 class="header-title">D0 DASHBOARD</h1>
-    <div class="tabs" id="tab-container"></div>
+    <select class="sheet-select" id="sheet-dropdown" onchange="switchTab(this.value)"></select>
   </div>
 
   <div class="pagination-bar" id="pagination-bar">
-    <div>
+    <div class="pagination-group">
       <button onclick="changePage(-1)">◀ Prev</button>
-      <span id="page-info" style="margin: 0 8px; font-weight: bold;">Page 1</span>
+      <span id="page-info" style="font-weight: bold;">Page 1</span>
       <button onclick="changePage(1)">Next ▶</button>
     </div>
-    <div>
-      <label>Rows per page: </label>
+    <div class="pagination-group">
+      <label>Per page: </label>
       <select id="page-size-select" onchange="onPageSizeChange()">
         <option value="50">50</option>
         <option value="100">100</option>
@@ -210,15 +240,13 @@
     var currentPage = 1;
     var pageSize = 300;
 
-    function cleanId(str) { return str.replace(/[^a-zA-Z0-9]/g, '_'); }
-
     async function loadDashboard() {
       try {
         const response = await fetch('./data.json?t=' + new Date().getTime());
         globalDashboardData = await response.json();
         
-        const tabContainer = document.getElementById('tab-container');
-        tabContainer.innerHTML = '';
+        const dropdown = document.getElementById('sheet-dropdown');
+        dropdown.innerHTML = '';
         let isFirst = true;
 
         for (const [sheetName, data] of Object.entries(globalDashboardData)) {
@@ -228,12 +256,10 @@
           const tabLabel = (data && data.meta && data.meta.displayName) ? data.meta.displayName : sheetName;
           if (isFirst) currentActiveSheetName = sheetName;
 
-          const btn = document.createElement('button');
-          btn.className = 'tab-btn' + (isFirst ? ' active' : '');
-          btn.id = 'btn-' + cleanId(sheetName);
-          btn.textContent = tabLabel;
-          btn.onclick = () => switchTab(sheetName);
-          tabContainer.appendChild(btn);
+          const option = document.createElement('option');
+          option.value = sheetName;
+          option.textContent = tabLabel;
+          dropdown.appendChild(option);
           isFirst = false;
         }
 
@@ -248,9 +274,8 @@
       currentPage = 1;
       closeFilterMenu();
 
-      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-      const activeBtn = document.getElementById('btn-' + cleanId(sheetName));
-      if (activeBtn) activeBtn.classList.add('active');
+      const dropdown = document.getElementById('sheet-dropdown');
+      dropdown.value = sheetName;
 
       applyFiltersAndSort();
     }
@@ -310,82 +335,81 @@
       const frozenRows = (sheetData.meta && sheetData.meta.frozenRows !== undefined) ? sheetData.meta.frozenRows : 1;
       const frozenCols = (sheetData.meta && sheetData.meta.frozenCols !== undefined) ? sheetData.meta.frozenCols : 0;
       
-      // OPTIONAL META CONFIGS FOR EXPLICIT ROW/COL FREEZING
-      const freezeSpecificRowOnly = sheetData.meta.freezeSpecificRowOnly; // e.g., 3 to freeze 3rd row only
-      const freezeSpecificColOnly = sheetData.meta.freezeSpecificColOnly; // e.g., 3 to freeze 3rd col only
-
       const colWidths = (sheetData.meta && sheetData.meta.columnWidths) ? sheetData.meta.columnWidths : [];
 
       const headerRows = filteredRows.slice(0, frozenRows);
       const dataRows = filteredRows.slice(frozenRows);
 
-      // Pagination setup (>300 rows)
+      // Pagination setup
       const pagBar = document.getElementById('pagination-bar');
-      const tableContainer = document.getElementById('table-container');
-
       let visibleDataRows = dataRows;
 
       if (dataRows.length > 300) {
         pagBar.classList.add('visible');
-        tableContainer.style.borderRadius = '0 0 6px 6px';
         const totalPages = Math.max(1, Math.ceil(dataRows.length / pageSize));
         if (currentPage > totalPages) currentPage = totalPages;
 
-        document.getElementById('page-info').textContent = `Page ${currentPage} of ${totalPages} (${dataRows.length} rows)`;
+        document.getElementById('page-info').textContent = `Page ${currentPage}/${totalPages} (${dataRows.length})`;
         const startIdx = (currentPage - 1) * pageSize;
         visibleDataRows = dataRows.slice(startIdx, startIdx + pageSize);
       } else {
         pagBar.classList.remove('visible');
-        tableContainer.style.borderRadius = '6px';
       }
 
-      // Compute Grand Total across ALL filtered dataRows
       let maxCols = 0;
       filteredRows.forEach(r => { if(r.length > maxCols) maxCols = r.length; });
 
-      let numericTotals = {};
-      let isNumericCol = {};
+      // ONLY CALCULATE AND RENDER GRAND TOTAL IF FILTERS ARE ENABLED FOR THIS SHEET
+      let rowsToRender = [];
+      let totalRowIndex = -1;
 
-      for (let c = 0; c < maxCols; c++) {
-        let hasValue = false;
-        let isOnlyNumeric = true;
-        let sum = 0;
+      if (enableFilters) {
+        let numericTotals = {};
+        let isNumericCol = {};
 
-        for (let r = 0; r < dataRows.length; r++) {
-          const cell = dataRows[r][c];
-          if (cell && !cell.isCovered && cell.value !== undefined && String(cell.value).trim() !== '') {
-            hasValue = true;
-            let valStr = String(cell.value).replace(/,/g, '').trim();
-            let num = Number(valStr);
+        for (let c = 0; c < maxCols; c++) {
+          let hasValue = false;
+          let isOnlyNumeric = true;
+          let sum = 0;
 
-            if (isNaN(num)) {
-              isOnlyNumeric = false;
-              break;
-            } else {
-              sum += num;
+          for (let r = 0; r < dataRows.length; r++) {
+            const cell = dataRows[r][c];
+            if (cell && !cell.isCovered && cell.value !== undefined && String(cell.value).trim() !== '') {
+              hasValue = true;
+              let valStr = String(cell.value).replace(/,/g, '').trim();
+              let num = Number(valStr);
+
+              if (isNaN(num)) {
+                isOnlyNumeric = false;
+                break;
+              } else {
+                sum += num;
+              }
             }
+          }
+
+          if (hasValue && isOnlyNumeric) {
+            isNumericCol[c] = true;
+            numericTotals[c] = sum;
           }
         }
 
-        if (hasValue && isOnlyNumeric) {
-          isNumericCol[c] = true;
-          numericTotals[c] = sum;
+        let totalRowCells = [];
+        for (let c = 0; c < maxCols; c++) {
+          if (c === 0) {
+            totalRowCells.push({ value: 'GRAND TOTAL', bold: true });
+          } else if (isNumericCol[c]) {
+            totalRowCells.push({ value: Number.isInteger(numericTotals[c]) ? numericTotals[c] : numericTotals[c].toFixed(2), bold: true });
+          } else {
+            totalRowCells.push({ value: '' });
+          }
         }
-      }
 
-      // Build Grand Total Row
-      let totalRowCells = [];
-      for (let c = 0; c < maxCols; c++) {
-        if (c === 0) {
-          totalRowCells.push({ value: 'GRAND TOTAL', bold: true });
-        } else if (isNumericCol[c]) {
-          totalRowCells.push({ value: Number.isInteger(numericTotals[c]) ? numericTotals[c] : numericTotals[c].toFixed(2), bold: true });
-        } else {
-          totalRowCells.push({ value: '' });
-        }
+        rowsToRender = [...headerRows, totalRowCells, ...visibleDataRows];
+        totalRowIndex = frozenRows;
+      } else {
+        rowsToRender = [...headerRows, ...visibleDataRows];
       }
-
-      const rowsToRender = [...headerRows, totalRowCells, ...visibleDataRows];
 
       let pixelWidths = [];
       let leftOffsets = [];
@@ -417,15 +441,16 @@
       rowsToRender.forEach((row, rIndex) => {
         const tr = document.createElement('tr');
         const isHeader = rIndex < frozenRows;
-        const isTotalRow = rIndex === frozenRows;
+        const isTotalRow = (rIndex === totalRowIndex);
 
         if (isTotalRow) tr.classList.add('total-row');
 
-        const rowHeight = 32;
+        // Grand total row height is reduced by 50% (~18px vs regular header ~34px)
+        const rowHeight = isTotalRow ? 18 : (isHeader ? 34 : 30);
         tr.style.height = `${rowHeight}px`;
 
-        // Freeze calculations for Header & Total Row
-        if (rIndex <= frozenRows) {
+        const maxFrozenRowLimit = enableFilters ? (frozenRows + 1) : frozenRows;
+        if (rIndex < maxFrozenRowLimit) {
           topRowOffsets[rIndex] = currentTopOffset;
           currentTopOffset += rowHeight;
         }
@@ -449,29 +474,15 @@
           if (cell.bold) td.style.fontWeight = 'bold';
 
           // ROW FREEZE LOGIC
-          let isRowFrozen = false;
-          if (freezeSpecificRowOnly !== undefined) {
-            isRowFrozen = (rIndex + 1) === freezeSpecificRowOnly;
-          } else {
-            isRowFrozen = rIndex <= frozenRows; // Freeze headers + total row by default
-          }
-
-          if (isRowFrozen) {
+          if (rIndex < maxFrozenRowLimit) {
             td.classList.add('freeze-row');
             td.style.top = `${topRowOffsets[rIndex] || 0}px`;
           }
 
           // COLUMN FREEZE LOGIC
-          let isColFrozen = false;
-          if (freezeSpecificColOnly !== undefined) {
-            isColFrozen = (cIndex + 1) === freezeSpecificColOnly;
-          } else {
-            isColFrozen = cIndex < frozenCols;
-          }
-
-          if (isColFrozen) {
+          if (cIndex < frozenCols) {
             td.classList.add('freeze-col');
-            td.style.left = freezeSpecificColOnly !== undefined ? '0px' : `${leftOffsets[cIndex]}px`;
+            td.style.left = `${leftOffsets[cIndex]}px`;
           }
 
           if (isHeader && rIndex === frozenRows - 1 && enableFilters) {
@@ -506,7 +517,7 @@
       table.appendChild(fragment);
     }
 
-    /* CASCADING FILTER MENU HANDLER */
+    /* FILTER MENU DROPDOWN LOGIC */
     function openFilterMenu(event, colIndex) {
       activeMenuColIndex = colIndex;
       const menu = document.getElementById('filter-menu');
@@ -515,7 +526,6 @@
       
       const activeFilters = sheetFilters[currentActiveSheetName] || {};
 
-      // Compute valid unique options based on ALL OTHER active filters
       let uniqueVals = new Set();
       for (let r = frozenRows; r < sheetData.rows.length; r++) {
         const row = sheetData.rows[r];
@@ -524,7 +534,7 @@
         let rowMatchesOtherFilters = true;
 
         for (const [otherColIdx, allowedSet] of Object.entries(activeFilters)) {
-          if (parseInt(otherColIdx, 10) === colIndex) continue; // Skip target column
+          if (parseInt(otherColIdx, 10) === colIndex) continue;
           const cellVal = row[otherColIdx] ? String(row[otherColIdx].value || '').trim() : '';
           if (!allowedSet.has(cellVal)) {
             rowMatchesOtherFilters = false;
