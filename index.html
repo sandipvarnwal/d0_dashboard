@@ -253,7 +253,6 @@
       applyFiltersAndSort();
     }
 
-    // Dependent/Cascading Filter Logic: Get remaining data excluding current target column
     function getFilteredRowsExcept(targetColIndex) {
       const sheetData = globalDashboardData[currentActiveSheetName];
       if (!sheetData || !sheetData.rows) return [];
@@ -265,7 +264,7 @@
       const activeFilters = sheetFilters[currentActiveSheetName] || {};
 
       Object.keys(activeFilters).forEach(colIdx => {
-        if (parseInt(colIdx, 10) === targetColIndex) return; // Exclude current target column
+        if (parseInt(colIdx, 10) === targetColIndex) return;
         
         const allowedValues = activeFilters[colIdx];
         if (allowedValues) {
@@ -293,7 +292,6 @@
       const activeFilters = sheetFilters[currentActiveSheetName] || {};
       const currentSort = sheetSorts[currentActiveSheetName];
 
-      // Filter rows
       Object.keys(activeFilters).forEach(colIdx => {
         const allowedValues = activeFilters[colIdx];
         if (allowedValues) {
@@ -304,7 +302,6 @@
         }
       });
 
-      // Sort rows
       if (currentSort) {
         const idx = currentSort.colIndex;
         const dir = currentSort.direction;
@@ -337,24 +334,13 @@
       const filterableCols = sheetData.meta && sheetData.meta.filterableCols ? sheetData.meta.filterableCols : null;
       
       const frozenRows = (sheetData.meta && sheetData.meta.frozenRows !== undefined) ? sheetData.meta.frozenRows : 1;
-      const freezeModeRows = sheetData.meta && sheetData.meta.freezeModeRows ? sheetData.meta.freezeModeRows : "UP_TO_INDEX";
-      const freezeModeCols = sheetData.meta && sheetData.meta.freezeModeCols ? sheetData.meta.freezeModeCols : "UP_TO_INDEX";
-
-      // Array of column indexes to freeze (0-based indexing)
-      const frozenColsList = (sheetData.meta && sheetData.meta.frozenColsList) 
-        ? sheetData.meta.frozenColsList.map(c => c - 1) 
-        : [];
+      const frozenColsCount = (sheetData.meta && sheetData.meta.frozenCols !== undefined) ? sheetData.meta.frozenCols : 0;
       
       const colWidths = (sheetData.meta && sheetData.meta.columnWidths) ? sheetData.meta.columnWidths : [];
 
-      // Determine starting row offset if ONLY_SPECIFIC_INDEX is configured for rows
-      let rowStartOffset = (freezeModeRows === "ONLY_SPECIFIC_INDEX" && frozenRows > 1) ? frozenRows - 1 : 0;
-      const activeRows = filteredRows.slice(rowStartOffset);
+      const headerRows = filteredRows.slice(0, frozenRows);
+      const dataRows = filteredRows.slice(frozenRows);
 
-      const headerRows = activeRows.slice(0, frozenRows - rowStartOffset);
-      const dataRows = activeRows.slice(frozenRows - rowStartOffset);
-
-      // Pagination setup (>300 rows)
       const pagBar = document.getElementById('pagination-bar');
       const tableContainer = document.getElementById('table-container');
 
@@ -374,73 +360,34 @@
         tableContainer.style.borderRadius = '6px';
       }
 
-      // Compute Grand Total across ALL filtered dataRows
       let maxCols = 0;
       filteredRows.forEach(r => { if(r.length > maxCols) maxCols = r.length; });
 
-      let numericTotals = {};
-      let isNumericCol = {};
-
-      for (let c = 0; c < maxCols; c++) {
-        let hasValue = false;
-        let isOnlyNumeric = true;
-        let sum = 0;
-
-        for (let r = 0; r < dataRows.length; r++) {
-          const cell = dataRows[r][c];
-          if (cell && !cell.isCovered && cell.value !== undefined && String(cell.value).trim() !== '') {
-            hasValue = true;
-            let valStr = String(cell.value).replace(/,/g, '').trim();
-            let num = Number(valStr);
-
-            if (isNaN(num)) {
-              isOnlyNumeric = false;
-              break;
-            } else {
-              sum += num;
-            }
-          }
-        }
-
-        if (hasValue && isOnlyNumeric) {
-          isNumericCol[c] = true;
-          numericTotals[c] = sum;
-        }
-      }
-
-      // Build Grand Total Row
-      let totalRowCells = [];
-      for (let c = 0; c < maxCols; c++) {
-        if (c === 0) {
-          totalRowCells.push({ value: 'GRAND TOTAL', bold: true });
-        } else if (isNumericCol[c]) {
-          totalRowCells.push({ value: Number.isInteger(numericTotals[c]) ? numericTotals[c] : numericTotals[c].toFixed(2), bold: true });
-        } else {
-          totalRowCells.push({ value: '' });
-        }
-      }
-
-      const rowsToRender = [...headerRows, totalRowCells, ...visibleDataRows];
+      const rowsToRender = [...headerRows, ...visibleDataRows];
 
       let pixelWidths = [];
       let totalTableWidth = 0;
 
-      // Check if preceding columns should be hidden
-      let colStartOffset = (freezeModeCols === "ONLY_SPECIFIC_INDEX" && frozenColsList.length === 1 && frozenColsList[0] > 0) 
-        ? frozenColsList[0] 
-        : 0;
+      // Cumulative left positions for sticky columns
+      let stickyLeftPositions = [];
+      let currentStickyLeft = 0;
 
-      for (let c = colStartOffset; c < maxCols; c++) {
+      for (let c = 0; c < maxCols; c++) {
         const charCount = colWidths[c] !== undefined ? colWidths[c] : 12;
         const px = Math.round(charCount * 10) + 35; 
         pixelWidths[c] = px;
         totalTableWidth += px;
+
+        stickyLeftPositions[c] = currentStickyLeft;
+        if (c < frozenColsCount) {
+          currentStickyLeft += px;
+        }
       }
 
       table.style.width = `${totalTableWidth}px`;
 
       const colGroup = document.createElement('colgroup');
-      for (let c = colStartOffset; c < maxCols; c++) {
+      for (let c = 0; c < maxCols; c++) {
         const col = document.createElement('col');
         col.style.width = `${pixelWidths[c]}px`;
         colGroup.appendChild(col);
@@ -456,21 +403,16 @@
       rowsToRender.forEach((row, rIndex) => {
         const tr = document.createElement('tr');
         const isHeader = rIndex < numHeaderRows;
-        const isTotalRow = rIndex === numHeaderRows;
-
-        if (isTotalRow) tr.classList.add('total-row');
 
         const rowHeight = 32;
         tr.style.height = `${rowHeight}px`;
 
-        // Calculate sticky positions for header and grand total rows
-        if (rIndex <= numHeaderRows) {
+        if (isHeader) {
           topRowOffsets[rIndex] = currentTopOffset;
           currentTopOffset += rowHeight;
         }
 
         row.forEach((cell, cIndex) => {
-          if (cIndex < colStartOffset) return; // Skip hidden preceding columns
           if (cell.isCovered) return;
 
           const td = document.createElement(isHeader ? 'th' : 'td');
@@ -484,20 +426,20 @@
           td.style.width = `${pixelWidths[cIndex]}px`;
           td.style.minWidth = `${pixelWidths[cIndex]}px`;
 
-          if (cell.bg && !isHeader && !isTotalRow) td.style.backgroundColor = cell.bg;
-          if (cell.color && !isHeader && !isTotalRow) td.style.color = cell.color;
+          if (cell.bg && !isHeader) td.style.backgroundColor = cell.bg;
+          if (cell.color && !isHeader) td.style.color = cell.color;
           if (cell.bold) td.style.fontWeight = 'bold';
 
-          // Apply row freezing (Headers + Grand Total)
-          if (rIndex <= numHeaderRows) { 
+          // Apply row freezing
+          if (isHeader) { 
             td.classList.add('freeze-row'); 
             td.style.top = `${topRowOffsets[rIndex]}px`; 
           }
 
-          // Apply selective column freezing
-          if (frozenColsList.includes(cIndex)) { 
+          // Apply column freezing sequentially up to frozenColsCount
+          if (cIndex < frozenColsCount) { 
             td.classList.add('freeze-col'); 
-            td.style.left = `0px`; 
+            td.style.left = `${stickyLeftPositions[cIndex]}px`; 
           }
 
           const isColumnFilterable = enableFilters && (!filterableCols || filterableCols.includes(cIndex + 1));
@@ -538,7 +480,6 @@
       activeMenuColIndex = colIndex;
       const menu = document.getElementById('filter-menu');
       
-      // Fetch remaining options based on active filters on OTHER columns
       const availableRows = getFilteredRowsExcept(colIndex);
       
       let uniqueVals = new Set();
