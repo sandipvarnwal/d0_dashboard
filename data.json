@@ -2,7 +2,7 @@
   "GM RM AM Summary D0 FKMP": {
     "meta": {
       "displayName": "FKMP GM RM AM Summary",
-      "enableFilters": true,
+      "enableFilters": false,
       "frozenRows": 3,
       "frozenCols": 1,
       "columnWidths": [
@@ -2402,7 +2402,7 @@
   "GM RM AM Summary D0 MYE": {
     "meta": {
       "displayName": "MYE GM RM AM Summary",
-      "enableFilters": true,
+      "enableFilters": false,
       "frozenRows": 3,
       "frozenCols": 1,
       "columnWidths": [
@@ -10582,7 +10582,7 @@
   "Top Sellers Not Picked": {
     "meta": {
       "displayName": "Top Sellers Not Picked",
-      "enableFilters": true,
+      "enableFilters": false,
       "frozenRows": 2,
       "frozenCols": 0,
       "columnWidths": [
