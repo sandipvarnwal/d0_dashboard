@@ -10582,7 +10582,7 @@
   "Top Sellers Not Picked": {
     "meta": {
       "displayName": "Top Sellers Not Picked",
-      "enableFilters": false,
+      "enableFilters": true,
       "frozenRows": 2,
       "frozenCols": 0,
       "columnWidths": [
