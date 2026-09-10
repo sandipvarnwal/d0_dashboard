@@ -13,7 +13,7 @@
       color: #333;
     }
 
-    /* HEADER & DROPDOWN SINGLE ROW WITH REDUCED FONT SIZES */
+    /* HEADER & DROPDOWN SINGLE ROW */
     .header-bar { 
       display: flex;
       align-items: center;
@@ -164,7 +164,7 @@
       color: #000;
     }
 
-    /* CRITICAL STICKY POSITIONING & Z-INDEX LAYERING */
+    /* STICKY STACKING Z-INDEX */
     .freeze-row { 
       position: sticky !important; 
       z-index: 100 !important;
@@ -478,7 +478,6 @@
       }
       table.appendChild(colGroup);
 
-      // DOM-BASED EXACT OFFSET CALCULATIONS FOR STICKY HEADERS & GRAND TOTAL ROW
       const fragment = document.createDocumentFragment();
       const totalStickyRowsCount = enableFilters ? (frozenRows + 1) : frozenRows;
 
@@ -487,10 +486,8 @@
         const isHeader = rIndex < frozenRows;
         const isTotalRow = (rIndex === totalRowIndex);
 
+        if (isHeader) tr.classList.add('header-row');
         if (isTotalRow) tr.classList.add('total-row');
-
-        const rowHeight = isTotalRow ? 24 : (isHeader ? 34 : 30);
-        tr.style.height = `${rowHeight}px`;
 
         row.forEach((cell, cIndex) => {
           if (cell.isCovered) return;
@@ -510,16 +507,10 @@
           if (cell.color && !isHeader && !isTotalRow) td.style.color = cell.color;
           if (cell.bold) td.style.fontWeight = 'bold';
 
-          // DYNAMIC STICKY OFFSETS
+          // ATTACH FREEZE CLASSES
           if (rIndex < totalStickyRowsCount) {
             td.classList.add('freeze-row');
-            if (isTotalRow) {
-              td.classList.add('total-cell');
-              // Offset Grand Total row below header rows dynamically (34px * number of header rows)
-              td.style.top = `${frozenRows * 34}px`;
-            } else {
-              td.style.top = `${rIndex * 34}px`;
-            }
+            if (isTotalRow) td.classList.add('total-cell');
           }
 
           if (cIndex < frozenCols) {
@@ -575,6 +566,22 @@
       });
 
       table.appendChild(fragment);
+
+      // DYNAMIC CALCULATED HEIGHT OFFSETS (FIXES OVERLAPPING)
+      requestAnimationFrame(() => {
+        const trElements = table.querySelectorAll('tr');
+        let accumulatedTop = 0;
+
+        trElements.forEach((tr, rIdx) => {
+          if (rIdx < totalStickyRowsCount) {
+            const cells = tr.querySelectorAll('td, th');
+            cells.forEach(cell => {
+              cell.style.top = `${accumulatedTop}px`;
+            });
+            accumulatedTop += tr.getBoundingClientRect().height;
+          }
+        });
+      });
     }
 
     /* FILTER MENU LOGIC */
