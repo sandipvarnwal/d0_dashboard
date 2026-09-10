@@ -8,86 +8,83 @@
     * { box-sizing: border-box; }
     body { 
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
-      margin: 6px; 
+      margin: 4px; 
       background-color: #f4f6f8; 
       color: #333;
     }
 
-    /* HEADER & DROPDOWN SINGLE ROW */
-    .header-bar { 
+    /* COMPACT SINGLE ROW TOOLBAR FOR MOBILE & DESKTOP */
+    .toolbar-row { 
       display: flex;
       align-items: center;
-      gap: 6px;
-      margin-bottom: 6px; 
-      flex-wrap: nowrap;
+      gap: 4px;
+      margin-bottom: 4px; 
       width: 100%;
-    }
-    .header-title { 
-      font-size: 10px; 
-      font-weight: 700; 
-      color: #1a73e8; 
-      margin: 0; 
-      white-space: nowrap;
-      flex-shrink: 0;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      background: #fff;
+      padding: 3px 4px;
+      border: 1px solid #bbb;
+      border-radius: 4px;
     }
     
     .sheet-select {
-      padding: 3px 6px;
+      padding: 2px 4px;
       font-size: 9px;
       font-weight: 600;
       color: #1a73e8;
       background-color: #ffffff;
       border: 1px solid #1a73e8;
-      border-radius: 4px;
+      border-radius: 3px;
       outline: none;
       cursor: pointer;
-      flex-grow: 1;
-      height: 24px;
+      flex: 1 1 auto;
+      min-width: 90px;
+      height: 22px;
     }
 
-    /* COMPACT PAGINATION BAR */
-    .pagination-bar {
-      display: none;
-      align-items: center;
-      justify-content: space-between;
-      background: #fff;
-      padding: 3px 6px;
-      border: 1px solid #bbb;
-      border-bottom: none;
-      border-radius: 4px 4px 0 0;
-      font-size: 10px;
-      white-space: nowrap;
-    }
-    .pagination-bar.visible { display: flex; }
-    
-    .pagination-group {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .pagination-bar button {
-      padding: 2px 5px;
-      font-size: 9.5px;
+    .btn-toolbar {
+      padding: 2px 4px;
+      font-size: 8.5px;
+      font-weight: 600;
       cursor: pointer;
       border-radius: 3px;
       border: 1px solid #ccc;
       background: #f8f9fa;
+      white-space: nowrap;
+      height: 22px;
+      flex-shrink: 0;
+    }
+    .btn-clear-all {
+      background-color: #fce8e6;
+      color: #c5221f;
+      border-color: #fad2cf;
     }
 
-    .pagination-bar select {
-      font-size: 9.5px;
+    .page-info-label {
+      font-size: 8.5px;
+      font-weight: bold;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .page-size-select {
+      font-size: 8.5px;
       padding: 1px 2px;
+      height: 22px;
+      border-radius: 3px;
+      border: 1px solid #ccc;
+      flex-shrink: 0;
     }
 
     /* TABLE CONTAINER */
     .table-container { 
       width: 100%; 
-      max-height: 82vh; 
+      max-height: 84vh; 
       overflow-x: auto; 
       overflow-y: auto;
       border: 1px solid #bbb; 
-      border-radius: 0 0 4px 4px;
+      border-radius: 4px;
       background: #ffffff; 
       position: relative;
     }
@@ -101,9 +98,9 @@
     td, th { 
       border-right: 1px solid #d0d0d0 !important; 
       border-bottom: 1px solid #d0d0d0 !important; 
-      padding: 4px 6px !important; 
-      font-size: 10.5px; 
-      line-height: 1.3;
+      padding: 4px 5px !important; 
+      font-size: 10px; 
+      line-height: 1.2;
       white-space: normal !important; 
       word-wrap: break-word !important; 
       overflow-wrap: break-word !important; 
@@ -127,18 +124,18 @@
       color: #1a73e8 !important;
       border-bottom: 2px solid #1a73e8 !important;
       padding: 2px 4px !important; 
-      font-size: 10px !important;
+      font-size: 9.5px !important;
       line-height: 1.1 !important;
     }
 
     .summary-mode-select {
-      font-size: 9.5px;
+      font-size: 9px;
       font-weight: bold;
       color: #1a73e8;
       background: transparent;
       border: 1px solid #1a73e8;
       border-radius: 3px;
-      padding: 1px 2px;
+      padding: 0 2px;
       outline: none;
       cursor: pointer;
     }
@@ -147,7 +144,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 4px;
+      gap: 2px;
     }
 
     .filter-btn {
@@ -155,8 +152,8 @@
       border: none;
       color: #fff;
       border-radius: 3px;
-      padding: 1px 4px;
-      font-size: 8.5px;
+      padding: 1px 3px;
+      font-size: 8px;
       cursor: pointer;
     }
     .filter-btn:hover, .filter-btn.active-filter {
@@ -184,53 +181,48 @@
     /* FILTER MENU */
     .filter-menu {
       position: absolute;
-      width: 220px;
+      width: 210px;
       background: #ffffff;
       border: 1px solid #ccc;
       box-shadow: 0 4px 12px rgba(0,0,0,0.15);
       border-radius: 6px;
-      padding: 8px;
+      padding: 6px;
       z-index: 1000;
       display: none;
-      font-size: 10.5px;
+      font-size: 10px;
       color: #333;
     }
     .filter-menu.show { display: block; }
 
-    .menu-section { margin-bottom: 6px; padding-bottom: 6px; border-bottom: 1px solid #eee; }
-    .menu-sort-btn { width: 100%; text-align: left; padding: 4px 6px; background: #f8f9fa; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 4px; cursor: pointer; font-size: 9.5px; }
-    .menu-sort-btn:hover { background: #e9ecef; }
-    .search-box { width: 100%; padding: 4px; font-size: 10px; border: 1px solid #ccc; border-radius: 4px; margin-bottom: 6px; }
-    .value-list { max-height: 130px; overflow-y: auto; border: 1px solid #eee; padding: 4px; border-radius: 4px; }
-    .value-item { display: flex; align-items: center; gap: 6px; padding: 2px 0; font-size: 10px; }
-    .menu-actions { display: flex; justify-content: space-between; margin-top: 6px; }
-    .btn-menu-action { padding: 3px 6px; font-size: 9.5px; border-radius: 4px; cursor: pointer; border: 1px solid #ccc; }
+    .menu-section { margin-bottom: 4px; padding-bottom: 4px; border-bottom: 1px solid #eee; }
+    .menu-sort-btn { width: 100%; text-align: left; padding: 3px 5px; background: #f8f9fa; border: 1px solid #ddd; border-radius: 3px; margin-bottom: 3px; cursor: pointer; font-size: 9px; }
+    .search-box { width: 100%; padding: 3px; font-size: 9.5px; border: 1px solid #ccc; border-radius: 3px; margin-bottom: 4px; }
+    .value-list { max-height: 120px; overflow-y: auto; border: 1px solid #eee; padding: 3px; border-radius: 3px; }
+    .value-item { display: flex; align-items: center; gap: 4px; padding: 2px 0; font-size: 9.5px; }
+    .menu-actions { display: flex; justify-content: space-between; margin-top: 4px; }
+    .btn-menu-action { padding: 2px 5px; font-size: 9px; border-radius: 3px; cursor: pointer; border: 1px solid #ccc; }
     .btn-apply-filter { background: #1a73e8; color: #fff; border-color: #1a73e8; }
     .btn-clear-filter { background: #f8f9fa; color: #333; }
   </style>
 </head>
 <body>
 
-  <div class="header-bar">
-    <h1 class="header-title">D0 DASHBOARD</h1>
+  <!-- SINGLE ROW MOBILE-FRIENDLY TOOLBAR -->
+  <div class="toolbar-row">
     <select class="sheet-select" id="sheet-dropdown" onchange="switchTab(this.value)"></select>
-  </div>
+    
+    <button class="btn-toolbar btn-clear-all" onclick="clearAllSheetFilters()" title="Clear All Active Filters">Clear All Filters</button>
 
-  <div class="pagination-bar" id="pagination-bar">
-    <div class="pagination-group">
-      <button onclick="changePage(-1)">◀ Prev</button>
-      <span id="page-info" style="font-weight: bold;">Page 1</span>
-      <button onclick="changePage(1)">Next ▶</button>
-    </div>
-    <div class="pagination-group">
-      <label>Per page: </label>
-      <select id="page-size-select" onchange="onPageSizeChange()">
-        <option value="50">50</option>
-        <option value="100">100</option>
-        <option value="200">200</option>
-        <option value="300" selected>300</option>
-      </select>
-    </div>
+    <button class="btn-toolbar" onclick="changePage(-1)">◀</button>
+    <span class="page-info-label" id="page-info">1/1</span>
+    <button class="btn-toolbar" onclick="changePage(1)">▶</button>
+
+    <select class="page-size-select" id="page-size-select" onchange="onPageSizeChange()">
+      <option value="50">50</option>
+      <option value="100">100</option>
+      <option value="200">200</option>
+      <option value="300" selected>300</option>
+    </select>
   </div>
 
   <div class="table-container" id="table-container">
@@ -245,8 +237,8 @@
     <div class="menu-section">
       <input type="text" class="search-box" id="menu-search" placeholder="Search values..." oninput="filterMenuValues()">
       <div style="margin-bottom: 4px;">
-        <a href="#" style="font-size: 9.5px; margin-right: 8px;" onclick="toggleSelectAll(true); return false;">Select All</a>
-        <a href="#" style="font-size: 9.5px;" onclick="toggleSelectAll(false); return false;">Clear</a>
+        <a href="#" style="font-size: 9px; margin-right: 6px;" onclick="toggleSelectAll(true); return false;">Select All</a>
+        <a href="#" style="font-size: 9px;" onclick="toggleSelectAll(false); return false;">Clear</a>
       </div>
       <div class="value-list" id="menu-value-list"></div>
     </div>
@@ -313,6 +305,13 @@
       renderTablePage();
     }
 
+    function clearAllSheetFilters() {
+      sheetFilters[currentActiveSheetName] = {};
+      sheetSorts[currentActiveSheetName] = null;
+      closeFilterMenu();
+      applyFiltersAndSort();
+    }
+
     function applyFiltersAndSort() {
       const sheetData = globalDashboardData[currentActiveSheetName];
       if (!sheetData || !sheetData.rows) return;
@@ -371,20 +370,14 @@
       const headerRows = filteredRows.slice(0, frozenRows);
       const dataRows = filteredRows.slice(frozenRows);
 
-      const pagBar = document.getElementById('pagination-bar');
       let visibleDataRows = dataRows;
 
-      if (dataRows.length > 300) {
-        pagBar.classList.add('visible');
-        const totalPages = Math.max(1, Math.ceil(dataRows.length / pageSize));
-        if (currentPage > totalPages) currentPage = totalPages;
+      const totalPages = Math.max(1, Math.ceil(dataRows.length / pageSize));
+      if (currentPage > totalPages) currentPage = totalPages;
 
-        document.getElementById('page-info').textContent = `Page ${currentPage}/${totalPages} (${dataRows.length})`;
-        const startIdx = (currentPage - 1) * pageSize;
-        visibleDataRows = dataRows.slice(startIdx, startIdx + pageSize);
-      } else {
-        pagBar.classList.remove('visible');
-      }
+      document.getElementById('page-info').textContent = `${currentPage}/${totalPages}`;
+      const startIdx = (currentPage - 1) * pageSize;
+      visibleDataRows = dataRows.slice(startIdx, startIdx + pageSize);
 
       let maxCols = 0;
       filteredRows.forEach(r => { if(r.length > maxCols) maxCols = r.length; });
@@ -507,7 +500,6 @@
           if (cell.color && !isHeader && !isTotalRow) td.style.color = cell.color;
           if (cell.bold) td.style.fontWeight = 'bold';
 
-          // ATTACH FREEZE CLASSES
           if (rIndex < totalStickyRowsCount) {
             td.classList.add('freeze-row');
             if (isTotalRow) td.classList.add('total-cell');
@@ -567,7 +559,7 @@
 
       table.appendChild(fragment);
 
-      // DYNAMIC CALCULATED HEIGHT OFFSETS (FIXES OVERLAPPING)
+      // EXACT DYNAMIC HEIGHT MEASUREMENT (PREVENTS OVERLAPPING DOWNSCROLL)
       requestAnimationFrame(() => {
         const trElements = table.querySelectorAll('tr');
         let accumulatedTop = 0;
@@ -635,7 +627,7 @@
       document.getElementById('menu-search').value = '';
       const rect = event.target.getBoundingClientRect();
       menu.style.top = (rect.bottom + window.scrollY) + 'px';
-      menu.style.left = Math.min(rect.left + window.scrollX, window.innerWidth - 230) + 'px';
+      menu.style.left = Math.min(rect.left + window.scrollX, window.innerWidth - 220) + 'px';
       menu.classList.add('show');
     }
 
