@@ -8,13 +8,13 @@
     * { box-sizing: border-box; }
     body { 
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
-      margin: 10px; 
+      margin: 8px; 
       background-color: #f4f6f8; 
       color: #333;
     }
 
-    .header-bar { margin-bottom: 12px; }
-    .header-title { font-size: 18px; font-weight: 700; color: #1a73e8; margin: 0 0 10px 0; }
+    .header-bar { margin-bottom: 8px; }
+    .header-title { font-size: 18px; font-weight: 700; color: #1a73e8; margin: 0 0 8px 0; }
     
     .tabs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; }
     .tab-btn { 
@@ -33,56 +33,32 @@
       color: #ffffff; 
     }
 
-    .top-controls {
-      background: #ffffff;
-      border: 1px solid #dcdfe6;
-      border-radius: 6px;
-      padding: 12px;
-      margin-bottom: 12px;
-      display: none;
-      flex-wrap: wrap;
-      gap: 16px;
-      align-items: center;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    }
-    .top-controls.visible { display: flex; }
-
-    .control-group { display: flex; flex-direction: column; gap: 4px; }
-    .control-group label { font-size: 11px; font-weight: 700; color: #555; text-transform: uppercase; }
-    .control-group select, .control-group button {
-      padding: 6px 10px; font-size: 12px; border: 1px solid #ccc; border-radius: 4px; background: #fff;
-    }
-
-    .sort-radios { display: flex; gap: 10px; align-items: center; height: 30px; font-size: 12px; }
-
-    .btn-apply {
-      background-color: #1a73e8 !important; color: #ffffff; border-color: #1a73e8 !important;
-      font-weight: 600; cursor: pointer; margin-top: auto;
-    }
-    .btn-reset {
-      background-color: #f8f9fa !important; color: #333; border-color: #ccc !important;
-      cursor: pointer; margin-top: auto;
-    }
-
     .pagination-bar {
-      display: flex;
+      display: none;
       align-items: center;
       justify-content: space-between;
       background: #fff;
-      padding: 8px 12px;
-      border: 1px solid #ccc;
+      padding: 6px 10px;
+      border: 1px solid #bbb;
       border-bottom: none;
       border-radius: 6px 6px 0 0;
       font-size: 12px;
     }
+    .pagination-bar.visible { display: flex; }
+    
+    .pagination-bar button {
+      padding: 4px 8px;
+      font-size: 12px;
+      cursor: pointer;
+    }
 
     .table-container { 
       width: 100%; 
-      max-height: 70vh; 
+      max-height: 80vh; 
       overflow-x: auto; 
       overflow-y: auto;
-      border: 2px solid #555; 
-      border-radius: 0 0 6px 6px;
+      border: 1px solid #bbb; 
+      border-radius: 6px;
       background: #ffffff; 
       position: relative;
     }
@@ -94,8 +70,8 @@
     }
     
     td, th { 
-      border-right: 1px solid #666666 !important; 
-      border-bottom: 1px solid #666666 !important; 
+      border-right: 1px solid #d0d0d0 !important; 
+      border-bottom: 1px solid #d0d0d0 !important; 
       padding: 6px 8px !important; 
       font-size: 11px; 
       line-height: 1.35;
@@ -106,9 +82,70 @@
       position: relative;
     }
 
+    th.header-cell {
+      background-color: #2b579a;
+      color: #ffffff;
+      font-weight: 600;
+      text-align: left;
+      user-select: none;
+    }
+
+    .total-row {
+      background-color: #e8f0fe !important;
+      font-weight: bold !important;
+      color: #1a73e8 !important;
+    }
+
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 4px;
+    }
+
+    .filter-btn {
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      color: #fff;
+      border-radius: 3px;
+      padding: 2px 5px;
+      font-size: 10px;
+      cursor: pointer;
+    }
+    .filter-btn:hover, .filter-btn.active-filter {
+      background: #ffc107;
+      color: #000;
+    }
+
     .freeze-row { position: sticky; z-index: 10; }
     .freeze-col { position: sticky; z-index: 10; }
     .freeze-row.freeze-col { z-index: 20; }
+
+    .filter-menu {
+      position: absolute;
+      width: 230px;
+      background: #ffffff;
+      border: 1px solid #ccc;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      border-radius: 6px;
+      padding: 10px;
+      z-index: 1000;
+      display: none;
+      font-size: 12px;
+      color: #333;
+    }
+    .filter-menu.show { display: block; }
+
+    .menu-section { margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px solid #eee; }
+    .menu-sort-btn { width: 100%; text-align: left; padding: 6px; background: #f8f9fa; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 4px; cursor: pointer; font-size: 11px; }
+    .menu-sort-btn:hover { background: #e9ecef; }
+    .search-box { width: 100%; padding: 5px; font-size: 11px; border: 1px solid #ccc; border-radius: 4px; margin-bottom: 6px; }
+    .value-list { max-height: 140px; overflow-y: auto; border: 1px solid #eee; padding: 4px; border-radius: 4px; }
+    .value-item { display: flex; align-items: center; gap: 6px; padding: 2px 0; font-size: 11px; }
+    .menu-actions { display: flex; justify-content: space-between; margin-top: 8px; }
+    .btn-menu-action { padding: 4px 10px; font-size: 11px; border-radius: 4px; cursor: pointer; border: 1px solid #ccc; }
+    .btn-apply-filter { background: #1a73e8; color: #fff; border-color: #1a73e8; }
+    .btn-clear-filter { background: #f8f9fa; color: #333; }
   </style>
 </head>
 <body>
@@ -118,54 +155,19 @@
     <div class="tabs" id="tab-container"></div>
   </div>
 
-  <div class="top-controls" id="top-controls-panel">
-    <div class="control-group">
-      <label for="top-row-select">1. Primary Header Row</label>
-      <select id="top-row-select" onchange="onHeaderRowChange()"></select>
-    </div>
-
-    <div class="control-group">
-      <label for="top-col-select">2. Select Column</label>
-      <select id="top-col-select" onchange="onColumnSelectChange()">
-        <option value="">-- Choose Column --</option>
-      </select>
-    </div>
-
-    <div class="control-group">
-      <label for="top-val-select">3. Select Value</label>
-      <select id="top-val-select">
-        <option value="">-- All Values --</option>
-      </select>
-    </div>
-
-    <div class="control-group">
-      <label>4. Sort Order</label>
-      <div class="sort-radios">
-        <label><input type="radio" name="top-sort" value="ASC" checked> A → Z / 0 → 9</label>
-        <label><input type="radio" name="top-sort" value="DESC"> Z → A / 9 → 0</label>
-      </div>
-    </div>
-
-    <div class="control-group">
-      <button class="btn-apply" onclick="applyTopFiltersAndSort()">Apply Filter & Sort</button>
-    </div>
-    <div class="control-group">
-      <button class="btn-reset" onclick="resetTopFilters()">Reset</button>
-    </div>
-  </div>
-
   <div class="pagination-bar" id="pagination-bar">
     <div>
       <button onclick="changePage(-1)">◀ Prev</button>
-      <span id="page-info" style="margin: 0 10px; font-weight: bold;">Page 1</span>
+      <span id="page-info" style="margin: 0 8px; font-weight: bold;">Page 1</span>
       <button onclick="changePage(1)">Next ▶</button>
     </div>
     <div>
       <label>Rows per page: </label>
       <select id="page-size-select" onchange="onPageSizeChange()">
         <option value="50">50</option>
-        <option value="100" selected>100</option>
+        <option value="100">100</option>
         <option value="200">200</option>
+        <option value="300" selected>300</option>
       </select>
     </div>
   </div>
@@ -174,16 +176,37 @@
     <table id="dashboard-table"></table>
   </div>
 
+  <div class="filter-menu" id="filter-menu">
+    <div class="menu-section">
+      <button class="menu-sort-btn" onclick="applySort('ASC')">▲ Sort A → Z / Smallest to Largest</button>
+      <button class="menu-sort-btn" onclick="applySort('DESC')">▼ Sort Z → A / Largest to Smallest</button>
+    </div>
+    <div class="menu-section">
+      <input type="text" class="search-box" id="menu-search" placeholder="Search values..." oninput="filterMenuValues()">
+      <div style="margin-bottom: 4px;">
+        <a href="#" style="font-size: 10px; margin-right: 8px;" onclick="toggleSelectAll(true); return false;">Select All</a>
+        <a href="#" style="font-size: 10px;" onclick="toggleSelectAll(false); return false;">Clear</a>
+      </div>
+      <div class="value-list" id="menu-value-list"></div>
+    </div>
+    <div class="menu-actions">
+      <button class="btn-menu-action btn-clear-filter" onclick="clearCurrentFilter()">Clear Filter</button>
+      <button class="btn-menu-action btn-apply-filter" onclick="confirmFilter()">Apply</button>
+    </div>
+  </div>
+
   <script>
     var globalDashboardData = {};
     var currentActiveSheetName = '';
+    var sheetFilters = {}; 
+    var sheetSorts = {};   
+    var activeMenuColIndex = null;
+
     var filteredRows = [];
     var currentPage = 1;
-    var pageSize = 100;
+    var pageSize = 300;
 
-    function cleanId(str) {
-      return str.replace(/[^a-zA-Z0-9]/g, '_');
-    }
+    function cleanId(str) { return str.replace(/[^a-zA-Z0-9]/g, '_'); }
 
     async function loadDashboard() {
       try {
@@ -192,12 +215,13 @@
         
         const tabContainer = document.getElementById('tab-container');
         tabContainer.innerHTML = '';
-
         let isFirst = true;
 
         for (const [sheetName, data] of Object.entries(globalDashboardData)) {
-          const tabLabel = (data && data.meta && data.meta.displayName) ? data.meta.displayName : sheetName;
+          sheetFilters[sheetName] = {};
+          sheetSorts[sheetName] = null;
 
+          const tabLabel = (data && data.meta && data.meta.displayName) ? data.meta.displayName : sheetName;
           if (isFirst) currentActiveSheetName = sheetName;
 
           const btn = document.createElement('button');
@@ -206,12 +230,10 @@
           btn.textContent = tabLabel;
           btn.onclick = () => switchTab(sheetName);
           tabContainer.appendChild(btn);
-
           isFirst = false;
         }
 
         switchTab(currentActiveSheetName);
-
       } catch (err) {
         console.error('Error loading dashboard data:', err);
       }
@@ -220,15 +242,56 @@
     function switchTab(sheetName) {
       currentActiveSheetName = sheetName;
       currentPage = 1;
+      closeFilterMenu();
 
       document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
       const activeBtn = document.getElementById('btn-' + cleanId(sheetName));
       if (activeBtn) activeBtn.classList.add('active');
 
-      const sheetData = globalDashboardData[sheetName];
-      filteredRows = sheetData ? (sheetData.rows || []) : [];
+      applyFiltersAndSort();
+    }
 
-      updateFilterControlsForTab();
+    function applyFiltersAndSort() {
+      const sheetData = globalDashboardData[currentActiveSheetName];
+      if (!sheetData || !sheetData.rows) return;
+
+      const frozenRows = (sheetData.meta && sheetData.meta.frozenRows) ? sheetData.meta.frozenRows : 1;
+      const headers = sheetData.rows.slice(0, frozenRows);
+      let dataRows = sheetData.rows.slice(frozenRows);
+
+      const activeFilters = sheetFilters[currentActiveSheetName] || {};
+      const currentSort = sheetSorts[currentActiveSheetName];
+
+      // Filter rows
+      Object.keys(activeFilters).forEach(colIdx => {
+        const allowedValues = activeFilters[colIdx];
+        if (allowedValues) {
+          dataRows = dataRows.filter(row => {
+            const val = row[colIdx] ? String(row[colIdx].value || '').trim() : '';
+            return allowedValues.has(val);
+          });
+        }
+      });
+
+      // Sort rows
+      if (currentSort) {
+        const idx = currentSort.colIndex;
+        const dir = currentSort.direction;
+        dataRows.sort((a, b) => {
+          let valA = a[idx] ? String(a[idx].value || '').trim() : '';
+          let valB = b[idx] ? String(b[idx].value || '').trim() : '';
+          let numA = parseFloat(valA.replace(/[^0-9.-]+/g, ""));
+          let numB = parseFloat(valB.replace(/[^0-9.-]+/g, ""));
+
+          if (!isNaN(numA) && !isNaN(numB)) {
+            return dir === 'ASC' ? numA - numB : numB - numA;
+          }
+          return dir === 'ASC' ? valA.localeCompare(valB) : valB.localeCompare(valA);
+        });
+      }
+
+      filteredRows = [...headers, ...dataRows];
+      currentPage = 1;
       renderTablePage();
     }
 
@@ -239,26 +302,81 @@
       const sheetData = globalDashboardData[currentActiveSheetName];
       if (!sheetData || !filteredRows || filteredRows.length === 0) return;
 
-      const frozenRows = (sheetData.meta && sheetData.meta.frozenRows !== undefined) ? sheetData.meta.frozenRows : 0;
+      const enableFilters = (sheetData.meta && sheetData.meta.enableFilters !== undefined) ? sheetData.meta.enableFilters : true;
+      const frozenRows = (sheetData.meta && sheetData.meta.frozenRows !== undefined) ? sheetData.meta.frozenRows : 1;
       const frozenCols = (sheetData.meta && sheetData.meta.frozenCols !== undefined) ? sheetData.meta.frozenCols : 0;
       const colWidths = (sheetData.meta && sheetData.meta.columnWidths) ? sheetData.meta.columnWidths : [];
-      const customRowHeights = (sheetData.meta && sheetData.meta.rowHeights) ? sheetData.meta.rowHeights : {};
 
-      // Separate Headers from Data
       const headerRows = filteredRows.slice(0, frozenRows);
       const dataRows = filteredRows.slice(frozenRows);
 
-      const totalPages = Math.max(1, Math.ceil(dataRows.length / pageSize));
-      if (currentPage > totalPages) currentPage = totalPages;
+      // Pagination setup (>300 rows)
+      const pagBar = document.getElementById('pagination-bar');
+      const tableContainer = document.getElementById('table-container');
 
-      document.getElementById('page-info').textContent = `Page ${currentPage} of ${totalPages} (${dataRows.length} rows)`;
+      let visibleDataRows = dataRows;
 
-      const startIdx = (currentPage - 1) * pageSize;
-      const visibleDataRows = dataRows.slice(startIdx, startIdx + pageSize);
-      const rowsToRender = [...headerRows, ...visibleDataRows];
+      if (dataRows.length > 300) {
+        pagBar.classList.add('visible');
+        tableContainer.style.borderRadius = '0 0 6px 6px';
+        const totalPages = Math.max(1, Math.ceil(dataRows.length / pageSize));
+        if (currentPage > totalPages) currentPage = totalPages;
 
+        document.getElementById('page-info').textContent = `Page ${currentPage} of ${totalPages} (${dataRows.length} rows)`;
+        const startIdx = (currentPage - 1) * pageSize;
+        visibleDataRows = dataRows.slice(startIdx, startIdx + pageSize);
+      } else {
+        pagBar.classList.remove('visible');
+        tableContainer.style.borderRadius = '6px';
+      }
+
+      // Compute Grand Total across ALL filtered dataRows (all pages)
       let maxCols = 0;
-      rowsToRender.forEach(r => { if(r.length > maxCols) maxCols = r.length; });
+      filteredRows.forEach(r => { if(r.length > maxCols) maxCols = r.length; });
+
+      let numericTotals = {};
+      let isNumericCol = {};
+
+      for (let c = 0; c < maxCols; c++) {
+        let hasValue = false;
+        let isOnlyNumeric = true;
+        let sum = 0;
+
+        for (let r = 0; r < dataRows.length; r++) {
+          const cell = dataRows[r][c];
+          if (cell && !cell.isCovered && cell.value !== undefined && String(cell.value).trim() !== '') {
+            hasValue = true;
+            let valStr = String(cell.value).replace(/,/g, '').trim();
+            let num = Number(valStr);
+
+            if (isNaN(num)) {
+              isOnlyNumeric = false;
+              break;
+            } else {
+              sum += num;
+            }
+          }
+        }
+
+        if (hasValue && isOnlyNumeric) {
+          isNumericCol[c] = true;
+          numericTotals[c] = sum;
+        }
+      }
+
+      // Build Grand Total Row
+      let totalRowCells = [];
+      for (let c = 0; c < maxCols; c++) {
+        if (c === 0) {
+          totalRowCells.push({ value: 'GRAND TOTAL', bold: true });
+        } else if (isNumericCol[c]) {
+          totalRowCells.push({ value: Number.isInteger(numericTotals[c]) ? numericTotals[c] : numericTotals[c].toFixed(2), bold: true });
+        } else {
+          totalRowCells.push({ value: '' });
+        }
+      }
+
+      const rowsToRender = [...headerRows, totalRowCells, ...visibleDataRows];
 
       let pixelWidths = [];
       let leftOffsets = [];
@@ -266,12 +384,10 @@
 
       for (let c = 0; c < maxCols; c++) {
         const charCount = colWidths[c] !== undefined ? colWidths[c] : 12;
-        const px = Math.round(charCount * 10) + 30; 
+        const px = Math.round(charCount * 10) + 35; 
         pixelWidths[c] = px;
 
-        if (c < frozenCols) {
-          leftOffsets[c] = totalTableWidth;
-        }
+        if (c < frozenCols) leftOffsets[c] = totalTableWidth;
         totalTableWidth += px;
       }
 
@@ -291,31 +407,38 @@
 
       rowsToRender.forEach((row, rIndex) => {
         const tr = document.createElement('tr');
-        const rowHeight = customRowHeights[rIndex + 1] ? customRowHeights[rIndex + 1] : 32;
-        
+        const isHeader = rIndex < frozenRows;
+        const isTotalRow = rIndex === frozenRows;
+
+        if (isTotalRow) tr.classList.add('total-row');
+
+        const rowHeight = 32;
         tr.style.height = `${rowHeight}px`;
-        topRowOffsets[rIndex] = currentTopOffset;
-        currentTopOffset += rowHeight;
+
+        if (rIndex <= frozenRows) {
+          topRowOffsets[rIndex] = currentTopOffset;
+          currentTopOffset += rowHeight;
+        }
 
         row.forEach((cell, cIndex) => {
           if (cell.isCovered) return;
 
-          const td = document.createElement('td');
+          const td = document.createElement(isHeader ? 'th' : 'td');
+          if (isHeader) td.classList.add('header-cell');
+
           let cellVal = cell.value !== undefined ? String(cell.value) : '';
 
           if (cell.rowSpan && cell.rowSpan > 1) td.rowSpan = cell.rowSpan;
           if (cell.colSpan && cell.colSpan > 1) td.colSpan = cell.colSpan;
 
-          if (!cell.colSpan || cell.colSpan === 1) {
-            td.style.width = `${pixelWidths[cIndex]}px`;
-            td.style.minWidth = `${pixelWidths[cIndex]}px`;
-          }
+          td.style.width = `${pixelWidths[cIndex]}px`;
+          td.style.minWidth = `${pixelWidths[cIndex]}px`;
 
-          if (cell.bg) td.style.backgroundColor = cell.bg;
-          if (cell.color) td.style.color = cell.color;
+          if (cell.bg && !isHeader && !isTotalRow) td.style.backgroundColor = cell.bg;
+          if (cell.color && !isHeader && !isTotalRow) td.style.color = cell.color;
           if (cell.bold) td.style.fontWeight = 'bold';
 
-          if (rIndex < frozenRows) { 
+          if (rIndex <= frozenRows) { 
             td.classList.add('freeze-row'); 
             td.style.top = `${topRowOffsets[rIndex]}px`; 
           }
@@ -324,7 +447,29 @@
             td.style.left = `${leftOffsets[cIndex]}px`; 
           }
 
-          td.textContent = cellVal.replace(/_/g, '_ ');
+          if (isHeader && rIndex === frozenRows - 1 && enableFilters) {
+            const container = document.createElement('div');
+            container.className = 'header-content';
+
+            const title = document.createElement('span');
+            title.textContent = cellVal.replace(/_/g, '_ ');
+
+            const activeFilters = sheetFilters[currentActiveSheetName] || {};
+            const btn = document.createElement('button');
+            btn.className = 'filter-btn' + (activeFilters[cIndex] ? ' active-filter' : '');
+            btn.textContent = activeFilters[cIndex] ? '▼ 🔍' : '▼';
+            btn.onclick = (e) => {
+              e.stopPropagation();
+              openFilterMenu(e, cIndex);
+            };
+
+            container.appendChild(title);
+            container.appendChild(btn);
+            td.appendChild(container);
+          } else {
+            td.textContent = cellVal.replace(/_/g, '_ ');
+          }
+
           tr.appendChild(td);
         });
 
@@ -332,6 +477,86 @@
       });
 
       table.appendChild(fragment);
+    }
+
+    function openFilterMenu(event, colIndex) {
+      activeMenuColIndex = colIndex;
+      const menu = document.getElementById('filter-menu');
+      const sheetData = globalDashboardData[currentActiveSheetName];
+      const frozenRows = (sheetData.meta && sheetData.meta.frozenRows) ? sheetData.meta.frozenRows : 1;
+      
+      let uniqueVals = new Set();
+      for (let r = frozenRows; r < sheetData.rows.length; r++) {
+        const row = sheetData.rows[r];
+        if (row[colIndex] && !row[colIndex].isCovered) {
+          uniqueVals.add(String(row[colIndex].value || '').trim());
+        }
+      }
+
+      const valList = document.getElementById('menu-value-list');
+      valList.innerHTML = '';
+      
+      const activeFilters = sheetFilters[currentActiveSheetName] || {};
+      const currentlyAllowed = activeFilters[colIndex];
+
+      Array.from(uniqueVals).sort().forEach(val => {
+        const item = document.createElement('label');
+        item.className = 'value-item';
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.value = val;
+        checkbox.checked = currentlyAllowed ? currentlyAllowed.has(val) : true;
+
+        item.appendChild(checkbox);
+        item.appendChild(document.createTextNode(val === '' ? '(Blanks)' : val));
+        valList.appendChild(item);
+      });
+
+      document.getElementById('menu-search').value = '';
+      const rect = event.target.getBoundingClientRect();
+      menu.style.top = (rect.bottom + window.scrollY) + 'px';
+      menu.style.left = Math.min(rect.left + window.scrollX, window.innerWidth - 240) + 'px';
+      menu.classList.add('show');
+    }
+
+    function closeFilterMenu() { document.getElementById('filter-menu').classList.remove('show'); }
+
+    function filterMenuValues() {
+      const q = document.getElementById('menu-search').value.toLowerCase();
+      document.querySelectorAll('#menu-value-list .value-item').forEach(item => {
+        item.style.display = item.textContent.toLowerCase().includes(q) ? 'flex' : 'none';
+      });
+    }
+
+    function toggleSelectAll(selectAll) {
+      document.querySelectorAll('#menu-value-list input[type="checkbox"]').forEach(cb => {
+        if (cb.parentElement.style.display !== 'none') cb.checked = selectAll;
+      });
+    }
+
+    function confirmFilter() {
+      const checkedVals = new Set();
+      document.querySelectorAll('#menu-value-list input[type="checkbox"]:checked').forEach(cb => checkedVals.add(cb.value));
+
+      if (!sheetFilters[currentActiveSheetName]) sheetFilters[currentActiveSheetName] = {};
+      sheetFilters[currentActiveSheetName][activeMenuColIndex] = checkedVals;
+
+      closeFilterMenu();
+      applyFiltersAndSort();
+    }
+
+    function clearCurrentFilter() {
+      if (sheetFilters[currentActiveSheetName]) {
+        delete sheetFilters[currentActiveSheetName][activeMenuColIndex];
+      }
+      closeFilterMenu();
+      applyFiltersAndSort();
+    }
+
+    function applySort(direction) {
+      sheetSorts[currentActiveSheetName] = { colIndex: activeMenuColIndex, direction: direction };
+      closeFilterMenu();
+      applyFiltersAndSort();
     }
 
     function changePage(delta) {
@@ -345,148 +570,12 @@
       renderTablePage();
     }
 
-    function updateFilterControlsForTab() {
-      const topPanel = document.getElementById('top-controls-panel');
-      const sheetData = globalDashboardData[currentActiveSheetName];
-
-      const enableFilters = (sheetData && sheetData.meta && sheetData.meta.enableFilters !== undefined) 
-                            ? sheetData.meta.enableFilters 
-                            : true;
-
-      if (enableFilters) {
-        topPanel.classList.add('visible');
-        populateHeaderRowSelector();
-      } else {
-        topPanel.classList.remove('visible');
+    document.addEventListener('click', (e) => {
+      const menu = document.getElementById('filter-menu');
+      if (menu.classList.contains('show') && !menu.contains(e.target) && !e.target.classList.contains('filter-btn')) {
+        closeFilterMenu();
       }
-    }
-
-    function populateHeaderRowSelector() {
-      const rowSelect = document.getElementById('top-row-select');
-      rowSelect.innerHTML = '';
-
-      const sheetData = globalDashboardData[currentActiveSheetName];
-      if (!sheetData || !sheetData.rows || sheetData.rows.length === 0) return;
-
-      const frozenRows = (sheetData.meta && sheetData.meta.frozenRows) ? sheetData.meta.frozenRows : 1;
-      const totalRows = Math.min(sheetData.rows.length, Math.max(frozenRows, 5));
-
-      for (let r = 0; r < totalRows; r++) {
-        const opt = document.createElement('option');
-        opt.value = r;
-        opt.textContent = `Row ${r + 1}`;
-        rowSelect.appendChild(opt);
-      }
-
-      rowSelect.value = frozenRows > 0 ? frozenRows - 1 : 0;
-      populateTopColumns();
-    }
-
-    function onHeaderRowChange() {
-      populateTopColumns();
-    }
-
-    function populateTopColumns() {
-      const colSelect = document.getElementById('top-col-select');
-      colSelect.innerHTML = '<option value="">-- Choose Column --</option>';
-
-      const selectedRowIndex = parseInt(document.getElementById('top-row-select').value, 10);
-      const sheetData = globalDashboardData[currentActiveSheetName];
-      
-      if (!sheetData || !sheetData.rows || isNaN(selectedRowIndex) || !sheetData.rows[selectedRowIndex]) return;
-
-      const headerRow = sheetData.rows[selectedRowIndex];
-      headerRow.forEach((cell, index) => {
-        if (!cell.isCovered && cell.value !== undefined && String(cell.value).trim() !== '') {
-          const opt = document.createElement('option');
-          opt.value = index;
-          opt.textContent = String(cell.value).trim();
-          colSelect.appendChild(opt);
-        }
-      });
-
-      onColumnSelectChange();
-    }
-
-    function onColumnSelectChange() {
-      const colIndex = document.getElementById('top-col-select').value;
-      const valSelect = document.getElementById('top-val-select');
-      valSelect.innerHTML = '<option value="">-- All Values --</option>';
-
-      if (colIndex === "") return;
-
-      const selectedRowIndex = parseInt(document.getElementById('top-row-select').value, 10);
-      const sheetData = globalDashboardData[currentActiveSheetName];
-      const startDataRow = selectedRowIndex + 1;
-      
-      let uniqueVals = new Set();
-      for (let r = startDataRow; r < sheetData.rows.length; r++) {
-        const row = sheetData.rows[r];
-        if (row[colIndex] && !row[colIndex].isCovered) {
-          let val = String(row[colIndex].value || '').trim();
-          if (val !== '') uniqueVals.add(val);
-        }
-      }
-
-      Array.from(uniqueVals).sort().forEach(val => {
-        const opt = document.createElement('option');
-        opt.value = val;
-        opt.textContent = val;
-        valSelect.appendChild(opt);
-      });
-    }
-
-    function applyTopFiltersAndSort() {
-      const selectedRowIndex = parseInt(document.getElementById('top-row-select').value, 10);
-      const colIndex = document.getElementById('top-col-select').value;
-      const selectedVal = document.getElementById('top-val-select').value;
-      const sortDirection = document.querySelector('input[name="top-sort"]:checked').value;
-
-      const sheetData = globalDashboardData[currentActiveSheetName];
-      if (!sheetData || !sheetData.rows) return;
-
-      const startDataRow = selectedRowIndex + 1;
-      const headers = sheetData.rows.slice(0, startDataRow);
-      let dataRows = sheetData.rows.slice(startDataRow);
-
-      if (colIndex !== "" && selectedVal !== "") {
-        dataRows = dataRows.filter(row => {
-          const cellVal = row[colIndex] ? String(row[colIndex].value || '').trim() : '';
-          return cellVal === selectedVal;
-        });
-      }
-
-      if (colIndex !== "") {
-        const idx = parseInt(colIndex, 10);
-        dataRows.sort((a, b) => {
-          let valA = a[idx] ? String(a[idx].value || '').trim() : '';
-          let valB = b[idx] ? String(b[idx].value || '').trim() : '';
-
-          let numA = parseFloat(valA.replace(/[^0-9.-]+/g, ""));
-          let numB = parseFloat(valB.replace(/[^0-9.-]+/g, ""));
-
-          if (!isNaN(numA) && !isNaN(numB)) {
-            return sortDirection === 'ASC' ? numA - numB : numB - numA;
-          }
-
-          return sortDirection === 'ASC' ? valA.localeCompare(valB) : valB.localeCompare(valA);
-        });
-      }
-
-      filteredRows = [...headers, ...dataRows];
-      currentPage = 1;
-      renderTablePage();
-    }
-
-    function resetTopFilters() {
-      populateHeaderRowSelector();
-      document.querySelector('input[name="top-sort"][value="ASC"]').checked = true;
-
-      const sheetData = globalDashboardData[currentActiveSheetName];
-      filteredRows = sheetData ? (sheetData.rows || []) : [];
-      currentPage = 1;
-      renderTablePage();
-    }
+    });
 
     loadDashboard();
   </script>
