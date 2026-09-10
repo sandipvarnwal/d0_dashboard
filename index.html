@@ -110,8 +110,6 @@
       overflow-wrap: break-word !important; 
       vertical-align: middle;
       position: relative;
-      background-color: #1e1e1e; /* Default Dark background */
-      color: #ffffff;            /* Default White text */
       text-align: left;
     }
 
@@ -129,10 +127,10 @@
     }
 
     .total-row td, .total-row th {
-      background-color: #0d324d !important;
+      background-color: #e8f0fe !important;
       font-weight: bold !important;
-      color: #8ab4f8 !important;
-      border-bottom: 2px solid #8ab4f8 !important;
+      color: #1a73e8 !important;
+      border-bottom: 2px solid #1a73e8 !important;
       padding: 2px 4px !important; 
       font-size: 9.5px !important;
       line-height: 1.1 !important;
@@ -141,9 +139,9 @@
     .summary-mode-select {
       font-size: 9px;
       font-weight: bold;
-      color: #8ab4f8;
-      background: #1e1e1e;
-      border: 1px solid #8ab4f8;
+      color: #1a73e8;
+      background: transparent;
+      border: 1px solid #1a73e8;
       border-radius: 3px;
       padding: 0 2px;
       outline: none;
@@ -177,7 +175,7 @@
     }
     .freeze-row.total-cell {
       z-index: 150 !important;
-      background-color: #0d324d !important;
+      background-color: #e8f0fe !important;
     }
     .freeze-col { 
       position: sticky !important; 
@@ -276,16 +274,16 @@
       return cleanVal !== '' && !isNaN(Number(cleanVal));
     }
 
-    // Helper to detect if background color is white or near-white
+    // Helper to detect if background color is white, light, or unassigned
     function isWhiteOrLightBg(bg) {
-      if (!bg) return true; // Default/missing background is treated as white/light
+      if (!bg) return true; 
       const val = String(bg).toLowerCase().trim();
       if (val === '#ffffff' || val === '#fff' || val === 'white' || val === 'transparent') return true;
       if (val.startsWith('rgb')) {
         const matches = val.match(/\d+/g);
         if (matches && matches.length >= 3) {
           const [r, g, b] = matches.map(Number);
-          return r > 220 && g > 220 && b > 220; // High brightness / white
+          return r > 220 && g > 220 && b > 220;
         }
       }
       return false;
@@ -537,14 +535,20 @@
           td.style.width = `${pixelWidths[cIndex]}px`;
           td.style.minWidth = `${pixelWidths[cIndex]}px`;
 
-          // DARK THEME CHECK FOR WHITE BACKGROUNDS
+          // STRICT CONDITIONAL THEMING LOGIC
           if (!isHeader && !isTotalRow) {
             if (isWhiteOrLightBg(cell.bg)) {
+              // Apply dark background AND strictly white text ONLY for default/white cells
               td.style.backgroundColor = '#1e1e1e';
               td.style.color = '#ffffff';
             } else {
+              // Preserve original sheet highlight background and text color
               if (cell.bg) td.style.backgroundColor = cell.bg;
-              if (cell.color) td.style.color = cell.color;
+              if (cell.color) {
+                td.style.color = cell.color;
+              } else {
+                td.style.color = '#000000'; // Default text color for custom light highlights
+              }
             }
           }
 
