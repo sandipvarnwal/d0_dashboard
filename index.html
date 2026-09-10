@@ -19,6 +19,7 @@
       align-items: center;
       gap: 12px;
       margin-bottom: 8px; 
+      flex-wrap: wrap;
     }
     .header-title { 
       font-size: 16px; 
@@ -40,6 +41,26 @@
       cursor: pointer;
       flex-grow: 1;
       max-width: 250px;
+    }
+
+    /* SUMMARY ROW TOGGLE OPTIONS */
+    .summary-toggle-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: #ffffff;
+      border: 1px solid #1a73e8;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #1a73e8;
+    }
+    .summary-toggle-group label {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 3px;
     }
 
     /* COMPACT PAGINATION BAR */
@@ -117,7 +138,7 @@
       user-select: none;
     }
 
-    /* 50% REDUCED HEIGHT GRAND TOTAL ROW */
+    /* REDUCED HEIGHT GRAND TOTAL / COUNT ROW */
     .total-row td, .total-row th {
       background-color: #e8f0fe !important;
       font-weight: bold !important;
@@ -187,6 +208,12 @@
   <div class="header-bar">
     <h1 class="header-title">D0 DASHBOARD</h1>
     <select class="sheet-select" id="sheet-dropdown" onchange="switchTab(this.value)"></select>
+
+    <div class="summary-toggle-group">
+      <span>Summary:</span>
+      <label><input type="radio" name="summaryMode" value="SUM" checked onchange="toggleSummaryMode(this.value)"> Sum</label>
+      <label><input type="radio" name="summaryMode" value="COUNT" onchange="toggleSummaryMode(this.value)"> Count</label>
+    </div>
   </div>
 
   <div class="pagination-bar" id="pagination-bar">
@@ -239,6 +266,7 @@
     var filteredRows = [];
     var currentPage = 1;
     var pageSize = 300;
+    var currentSummaryMode = 'SUM'; // Default mode: 'SUM' or 'COUNT'
 
     async function loadDashboard() {
       try {
@@ -278,6 +306,11 @@
       dropdown.value = sheetName;
 
       applyFiltersAndSort();
+    }
+
+    function toggleSummaryMode(mode) {
+      currentSummaryMode = mode;
+      renderTablePage();
     }
 
     function applyFiltersAndSort() {
@@ -359,49 +392,70 @@
       let maxCols = 0;
       filteredRows.forEach(r => { if(r.length > maxCols) maxCols = r.length; });
 
-      // Build Grand Total Row if enabled
+      // Build Summary Row (GRAND TOTAL / COUNT)
       let rowsToRender = [];
       let totalRowIndex = -1;
 
       if (enableFilters) {
-        let numericTotals = {};
+        let colMetrics = {};
         let isNumericCol = {};
 
         for (let c = 0; c < maxCols; c++) {
           let hasValue = false;
           let isOnlyNumeric = true;
           let sum = 0;
+          let nonBlankCount = 0;
 
           for (let r = 0; r < dataRows.length; r++) {
             const cell = dataRows[r][c];
             if (cell && !cell.isCovered && cell.value !== undefined && String(cell.value).trim() !== '') {
               hasValue = true;
+              nonBlankCount++;
+
               let valStr = String(cell.value).replace(/,/g, '').trim();
               let num = Number(valStr);
 
               if (isNaN(num)) {
                 isOnlyNumeric = false;
-                break;
               } else {
                 sum += num;
               }
             }
           }
 
-          if (hasValue && isOnlyNumeric) {
-            isNumericCol[c] = true;
-            numericTotals[c] = sum;
-          }
+          isNumericCol[c] = hasValue && isOnlyNumeric;
+          colMetrics[c] = {
+            sum: sum,
+            count: nonBlankCount
+          };
         }
 
         let totalRowCells = [];
+        const isSumMode = (currentSummaryMode === 'SUM');
+
         for (let c = 0; c < maxCols; c++) {
           if (c === 0) {
-            totalRowCells.push({ value: 'GRAND TOTAL', bold: true });
-          } else if (isNumericCol[c]) {
-            totalRowCells.push({ value: Number.isInteger(numericTotals[c]) ? numericTotals[c] : numericTotals[c].toFixed(2), bold: true });
+            totalRowCells.push({ 
+              value: isSumMode ? 'GRAND TOTAL' : 'TOTAL COUNT', 
+              bold: true 
+            });
           } else {
-            totalRowCells.push({ value: '' });
+            if (isSumMode) {
+              if (isNumericCol[c]) {
+                const totalVal = colMetrics[c].sum;
+                totalRowCells.push({ 
+                  value: Number.isInteger(totalVal) ? totalVal : totalVal.toFixed(2), 
+                  bold: true 
+                });
+              } else {
+                totalRowCells.push({ value: '' });
+              }
+            } else { // COUNT MODE
+              totalRowCells.push({ 
+                value: colMetrics[c].count, 
+                bold: true 
+              });
+            }
           }
         }
 
@@ -442,7 +496,6 @@
       rowsToRender.forEach((row, rIndex) => {
         if (rIndex < totalStickyRowsCount) {
           topRowOffsets[rIndex] = currentTopOffset;
-          // Allocate 18px height for Grand Total row and 34px for normal header rows
           const h = (rIndex === totalRowIndex) ? 18 : 34;
           currentTopOffset += h;
         }
@@ -478,11 +531,10 @@
           if (cell.color && !isHeader && !isTotalRow) td.style.color = cell.color;
           if (cell.bold) td.style.fontWeight = 'bold';
 
-          // STICKY TOP OFFSET FIX: Set precise top offset and z-index for headers and Grand Total row
+          // STICKY TOP OFFSET FIX
           if (rIndex < totalStickyRowsCount) {
             td.classList.add('freeze-row');
             td.style.top = `${topRowOffsets[rIndex]}px`;
-            // Ensure proper stacking order so headers stay on top of the Grand Total row
             td.style.zIndex = isHeader ? '25' : '20';
           }
 
