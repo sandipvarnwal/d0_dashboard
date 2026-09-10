@@ -43,11 +43,14 @@
       border-radius: 6px;
       padding: 12px;
       margin-bottom: 12px;
-      display: flex;
+      display: none; /* Hidden by default, toggled via JS based on enableFilters */
       flex-wrap: wrap;
       gap: 16px;
       align-items: center;
       box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .top-controls.visible {
+      display: flex;
     }
 
     .control-group {
@@ -143,7 +146,7 @@
   </div>
 
   <!-- TOP CONTROL OPTIONS -->
-  <div class="top-controls">
+  <div class="top-controls" id="top-controls-panel">
     <!-- Option 1: Primary Header Row Selection -->
     <div class="control-group">
       <label for="top-row-select">1. Primary Header Row</label>
@@ -207,8 +210,8 @@
       if (targetBtn) targetBtn.classList.add('active');
       if (targetContainer) targetContainer.classList.add('active');
 
-      // Populate Top Row & Column Selectors for active tab
-      populateHeaderRowSelector();
+      // Update Filter Controls visibility and options for the active tab
+      updateFilterControlsForTab();
     }
 
     async function loadDashboard() {
@@ -335,11 +338,28 @@
           isFirst = false;
         }
 
-        // Initialize top control options
-        populateHeaderRowSelector();
+        // Initialize top control options for the first tab
+        updateFilterControlsForTab();
 
       } catch (err) {
         console.error('Error loading dashboard data:', err);
+      }
+    }
+
+    // Toggle Top Controls Panel based on sheet's enableFilters meta property
+    function updateFilterControlsForTab() {
+      const topPanel = document.getElementById('top-controls-panel');
+      const sheetData = getActiveSheetData();
+
+      const enableFilters = (sheetData && sheetData.meta && sheetData.meta.enableFilters !== undefined) 
+                            ? sheetData.meta.enableFilters 
+                            : true;
+
+      if (enableFilters) {
+        topPanel.classList.add('visible');
+        populateHeaderRowSelector();
+      } else {
+        topPanel.classList.remove('visible');
       }
     }
 
@@ -353,7 +373,6 @@
 
       const frozenRows = (sheetData.meta && sheetData.meta.frozenRows) ? sheetData.meta.frozenRows : 1;
       
-      // Limit choices to frozen rows or top 5 rows
       const maxRowsToSearch = Math.max(frozenRows, 5);
       const totalRows = Math.min(sheetData.rows.length, maxRowsToSearch);
 
@@ -364,7 +383,6 @@
         rowSelect.appendChild(opt);
       }
 
-      // Default to the last frozen row or Row 1
       rowSelect.value = frozenRows > 0 ? frozenRows - 1 : 0;
       populateTopColumns();
     }
@@ -406,7 +424,7 @@
 
       const selectedRowIndex = parseInt(document.getElementById('top-row-select').value, 10);
       const sheetData = getActiveSheetData();
-      const startDataRow = selectedRowIndex + 1; // Filter data below header row
+      const startDataRow = selectedRowIndex + 1;
       
       let uniqueVals = new Set();
       for (let r = startDataRow; r < sheetData.rows.length; r++) {
@@ -442,7 +460,7 @@
       rows.forEach(row => {
         const rIdx = parseInt(row.dataset.rowIndex, 10);
         if (rIdx < startDataRow) {
-          row.style.display = ''; // Keep all headers visible
+          row.style.display = '';
           return;
         }
 
