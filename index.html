@@ -80,17 +80,18 @@
       overflow-wrap: break-word !important; 
       vertical-align: middle;
       position: relative;
+      background-color: #ffffff;
     }
 
     th.header-cell {
-      background-color: #2b579a;
-      color: #ffffff;
+      background-color: #2b579a !important;
+      color: #ffffff !important;
       font-weight: 600;
       text-align: left;
       user-select: none;
     }
 
-    .total-row {
+    .total-row td {
       background-color: #e8f0fe !important;
       font-weight: bold !important;
       color: #1a73e8 !important;
@@ -117,6 +118,7 @@
       color: #000;
     }
 
+    /* STICKY FREEZING CLASSES */
     .freeze-row { position: sticky; z-index: 10; }
     .freeze-col { position: sticky; z-index: 10; }
     .freeze-row.freeze-col { z-index: 20; }
@@ -251,13 +253,42 @@
       applyFiltersAndSort();
     }
 
+    // Dependent/Cascading Filter Logic: Get remaining data excluding current target column
+    function getFilteredRowsExcept(targetColIndex) {
+      const sheetData = globalDashboardData[currentActiveSheetName];
+      if (!sheetData || !sheetData.rows) return [];
+
+      const frozenRows = (sheetData.meta && sheetData.meta.frozenRows) ? sheetData.meta.frozenRows : 1;
+      const filterMaxRow = (sheetData.meta && sheetData.meta.filterMaxRow) ? sheetData.meta.filterMaxRow : sheetData.rows.length;
+      
+      let rowsToFilter = sheetData.rows.slice(frozenRows, filterMaxRow);
+      const activeFilters = sheetFilters[currentActiveSheetName] || {};
+
+      Object.keys(activeFilters).forEach(colIdx => {
+        if (parseInt(colIdx, 10) === targetColIndex) return; // Exclude current target column
+        
+        const allowedValues = activeFilters[colIdx];
+        if (allowedValues) {
+          rowsToFilter = rowsToFilter.filter(row => {
+            const val = row[colIdx] ? String(row[colIdx].value || '').trim() : '';
+            return allowedValues.has(val);
+          });
+        }
+      });
+
+      return rowsToFilter;
+    }
+
     function applyFiltersAndSort() {
       const sheetData = globalDashboardData[currentActiveSheetName];
       if (!sheetData || !sheetData.rows) return;
 
       const frozenRows = (sheetData.meta && sheetData.meta.frozenRows) ? sheetData.meta.frozenRows : 1;
+      const filterMaxRow = (sheetData.meta && sheetData.meta.filterMaxRow) ? sheetData.meta.filterMaxRow : sheetData.rows.length;
+
       const headers = sheetData.rows.slice(0, frozenRows);
-      let dataRows = sheetData.rows.slice(frozenRows);
+      let dataRows = sheetData.rows.slice(frozenRows, filterMaxRow);
+      let trailingRows = sheetData.rows.slice(filterMaxRow);
 
       const activeFilters = sheetFilters[currentActiveSheetName] || {};
       const currentSort = sheetSorts[currentActiveSheetName];
@@ -290,7 +321,7 @@
         });
       }
 
-      filteredRows = [...headers, ...dataRows];
+      filteredRows = [...headers, ...dataRows, ...trailingRows];
       currentPage = 1;
       renderTablePage();
     }
@@ -303,12 +334,25 @@
       if (!sheetData || !filteredRows || filteredRows.length === 0) return;
 
       const enableFilters = (sheetData.meta && sheetData.meta.enableFilters !== undefined) ? sheetData.meta.enableFilters : true;
+      const filterableCols = sheetData.meta && sheetData.meta.filterableCols ? sheetData.meta.filterableCols : null;
+      
       const frozenRows = (sheetData.meta && sheetData.meta.frozenRows !== undefined) ? sheetData.meta.frozenRows : 1;
-      const frozenCols = (sheetData.meta && sheetData.meta.frozenCols !== undefined) ? sheetData.meta.frozenCols : 0;
+      const freezeModeRows = sheetData.meta && sheetData.meta.freezeModeRows ? sheetData.meta.freezeModeRows : "UP_TO_INDEX";
+      const freezeModeCols = sheetData.meta && sheetData.meta.freezeModeCols ? sheetData.meta.freezeModeCols : "UP_TO_INDEX";
+
+      // Array of column indexes to freeze (0-based indexing)
+      const frozenColsList = (sheetData.meta && sheetData.meta.frozenColsList) 
+        ? sheetData.meta.frozenColsList.map(c => c - 1) 
+        : [];
+      
       const colWidths = (sheetData.meta && sheetData.meta.columnWidths) ? sheetData.meta.columnWidths : [];
 
-      const headerRows = filteredRows.slice(0, frozenRows);
-      const dataRows = filteredRows.slice(frozenRows);
+      // Determine starting row offset if ONLY_SPECIFIC_INDEX is configured for rows
+      let rowStartOffset = (freezeModeRows === "ONLY_SPECIFIC_INDEX" && frozenRows > 1) ? frozenRows - 1 : 0;
+      const activeRows = filteredRows.slice(rowStartOffset);
+
+      const headerRows = activeRows.slice(0, frozenRows - rowStartOffset);
+      const dataRows = activeRows.slice(frozenRows - rowStartOffset);
 
       // Pagination setup (>300 rows)
       const pagBar = document.getElementById('pagination-bar');
@@ -330,7 +374,7 @@
         tableContainer.style.borderRadius = '6px';
       }
 
-      // Compute Grand Total across ALL filtered dataRows (all pages)
+      // Compute Grand Total across ALL filtered dataRows
       let maxCols = 0;
       filteredRows.forEach(r => { if(r.length > maxCols) maxCols = r.length; });
 
@@ -379,22 +423,24 @@
       const rowsToRender = [...headerRows, totalRowCells, ...visibleDataRows];
 
       let pixelWidths = [];
-      let leftOffsets = [];
       let totalTableWidth = 0;
 
-      for (let c = 0; c < maxCols; c++) {
+      // Check if preceding columns should be hidden
+      let colStartOffset = (freezeModeCols === "ONLY_SPECIFIC_INDEX" && frozenColsList.length === 1 && frozenColsList[0] > 0) 
+        ? frozenColsList[0] 
+        : 0;
+
+      for (let c = colStartOffset; c < maxCols; c++) {
         const charCount = colWidths[c] !== undefined ? colWidths[c] : 12;
         const px = Math.round(charCount * 10) + 35; 
         pixelWidths[c] = px;
-
-        if (c < frozenCols) leftOffsets[c] = totalTableWidth;
         totalTableWidth += px;
       }
 
       table.style.width = `${totalTableWidth}px`;
 
       const colGroup = document.createElement('colgroup');
-      for (let c = 0; c < maxCols; c++) {
+      for (let c = colStartOffset; c < maxCols; c++) {
         const col = document.createElement('col');
         col.style.width = `${pixelWidths[c]}px`;
         colGroup.appendChild(col);
@@ -405,22 +451,26 @@
       let currentTopOffset = 0;
       const fragment = document.createDocumentFragment();
 
+      const numHeaderRows = headerRows.length;
+
       rowsToRender.forEach((row, rIndex) => {
         const tr = document.createElement('tr');
-        const isHeader = rIndex < frozenRows;
-        const isTotalRow = rIndex === frozenRows;
+        const isHeader = rIndex < numHeaderRows;
+        const isTotalRow = rIndex === numHeaderRows;
 
         if (isTotalRow) tr.classList.add('total-row');
 
         const rowHeight = 32;
         tr.style.height = `${rowHeight}px`;
 
-        if (rIndex <= frozenRows) {
+        // Calculate sticky positions for header and grand total rows
+        if (rIndex <= numHeaderRows) {
           topRowOffsets[rIndex] = currentTopOffset;
           currentTopOffset += rowHeight;
         }
 
         row.forEach((cell, cIndex) => {
+          if (cIndex < colStartOffset) return; // Skip hidden preceding columns
           if (cell.isCovered) return;
 
           const td = document.createElement(isHeader ? 'th' : 'td');
@@ -438,16 +488,21 @@
           if (cell.color && !isHeader && !isTotalRow) td.style.color = cell.color;
           if (cell.bold) td.style.fontWeight = 'bold';
 
-          if (rIndex <= frozenRows) { 
+          // Apply row freezing (Headers + Grand Total)
+          if (rIndex <= numHeaderRows) { 
             td.classList.add('freeze-row'); 
             td.style.top = `${topRowOffsets[rIndex]}px`; 
           }
-          if (cIndex < frozenCols) { 
+
+          // Apply selective column freezing
+          if (frozenColsList.includes(cIndex)) { 
             td.classList.add('freeze-col'); 
-            td.style.left = `${leftOffsets[cIndex]}px`; 
+            td.style.left = `0px`; 
           }
 
-          if (isHeader && rIndex === frozenRows - 1 && enableFilters) {
+          const isColumnFilterable = enableFilters && (!filterableCols || filterableCols.includes(cIndex + 1));
+
+          if (isHeader && rIndex === numHeaderRows - 1 && isColumnFilterable) {
             const container = document.createElement('div');
             container.className = 'header-content';
 
@@ -482,12 +537,13 @@
     function openFilterMenu(event, colIndex) {
       activeMenuColIndex = colIndex;
       const menu = document.getElementById('filter-menu');
-      const sheetData = globalDashboardData[currentActiveSheetName];
-      const frozenRows = (sheetData.meta && sheetData.meta.frozenRows) ? sheetData.meta.frozenRows : 1;
+      
+      // Fetch remaining options based on active filters on OTHER columns
+      const availableRows = getFilteredRowsExcept(colIndex);
       
       let uniqueVals = new Set();
-      for (let r = frozenRows; r < sheetData.rows.length; r++) {
-        const row = sheetData.rows[r];
+      for (let r = 0; r < availableRows.length; r++) {
+        const row = availableRows[r];
         if (row[colIndex] && !row[colIndex].isCovered) {
           uniqueVals.add(String(row[colIndex].value || '').trim());
         }
