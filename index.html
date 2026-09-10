@@ -107,6 +107,12 @@
       vertical-align: middle;
       position: relative;
       background-color: #ffffff;
+      text-align: left; /* Default text alignment */
+    }
+
+    /* Center alignment utility for numeric cells */
+    .text-center {
+      text-align: center !important;
     }
 
     th.header-cell {
@@ -258,6 +264,13 @@
     var pageSize = 300;
     var currentSummaryMode = 'SUM';
 
+    // Helper to determine if a value is purely numeric
+    function isNumericValue(val) {
+      if (val === undefined || val === null || val === '') return false;
+      const cleanVal = String(val).replace(/,/g, '').trim();
+      return cleanVal !== '' && !isNaN(Number(cleanVal));
+    }
+
     async function loadDashboard() {
       try {
         const response = await fetch('./data.json?t=' + new Date().getTime());
@@ -295,7 +308,6 @@
       const dropdown = document.getElementById('sheet-dropdown');
       dropdown.value = sheetName;
 
-      // UPDATE TOOLBAR VISIBILITY BASED ON enableFilters CONFIG
       const sheetData = globalDashboardData[sheetName];
       const enableFilters = (sheetData && sheetData.meta && sheetData.meta.enableFilters !== undefined) ? sheetData.meta.enableFilters : true;
 
@@ -379,7 +391,6 @@
 
       let visibleDataRows = dataRows;
 
-      // APPLY PAGINATION ONLY IF FILTERS ARE ENABLED
       if (enableFilters) {
         const totalPages = Math.max(1, Math.ceil(dataRows.length / pageSize));
         if (currentPage > totalPages) currentPage = totalPages;
@@ -395,7 +406,6 @@
       let rowsToRender = [];
       let totalRowIndex = -1;
 
-      // GRAND TOTAL ROW CREATION (ONLY WHEN FILTERS ARE ENABLED)
       if (enableFilters) {
         let colMetrics = {};
         let isNumericCol = {};
@@ -510,6 +520,11 @@
           if (cell.bg && !isHeader && !isTotalRow) td.style.backgroundColor = cell.bg;
           if (cell.color && !isHeader && !isTotalRow) td.style.color = cell.color;
           if (cell.bold) td.style.fontWeight = 'bold';
+
+          // CENTER ALIGN ALL NUMERICAL VALUES (INCLUDING GRAND TOTAL & REGULAR ROWS)
+          if (isNumericValue(cellVal)) {
+            td.classList.add('text-center');
+          }
 
           if (rIndex < totalStickyRowsCount) {
             td.classList.add('freeze-row');
