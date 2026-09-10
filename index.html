@@ -142,27 +142,35 @@
     <div class="tabs" id="tab-container"></div>
   </div>
 
-  <!-- TOP 3 CONTROL OPTIONS -->
+  <!-- TOP CONTROL OPTIONS -->
   <div class="top-controls">
-    <!-- Option 1: Select Column -->
+    <!-- Option 1: Primary Header Row Selection -->
     <div class="control-group">
-      <label for="top-col-select">1. Select Column</label>
+      <label for="top-row-select">1. Primary Header Row</label>
+      <select id="top-row-select" onchange="onHeaderRowChange()">
+        <!-- Populated dynamically -->
+      </select>
+    </div>
+
+    <!-- Option 2: Select Column -->
+    <div class="control-group">
+      <label for="top-col-select">2. Select Column</label>
       <select id="top-col-select" onchange="onColumnSelectChange()">
         <option value="">-- Choose Column --</option>
       </select>
     </div>
 
-    <!-- Option 2: Select Column Value -->
+    <!-- Option 3: Select Column Value -->
     <div class="control-group">
-      <label for="top-val-select">2. Select Value</label>
+      <label for="top-val-select">3. Select Value</label>
       <select id="top-val-select">
         <option value="">-- All Values --</option>
       </select>
     </div>
 
-    <!-- Option 3: Sort Order -->
+    <!-- Option 4: Sort Order -->
     <div class="control-group">
-      <label>3. Sort Order</label>
+      <label>4. Sort Order</label>
       <div class="sort-radios">
         <label><input type="radio" name="top-sort" value="ASC" checked> A → Z / 0 → 9</label>
         <label><input type="radio" name="top-sort" value="DESC"> Z → A / 9 → 0</label>
@@ -199,8 +207,8 @@
       if (targetBtn) targetBtn.classList.add('active');
       if (targetContainer) targetContainer.classList.add('active');
 
-      // Populate Top Column Selector for active tab
-      populateTopColumns();
+      // Populate Top Row & Column Selectors for active tab
+      populateHeaderRowSelector();
     }
 
     async function loadDashboard() {
@@ -328,24 +336,56 @@
         }
 
         // Initialize top control options
-        populateTopColumns();
+        populateHeaderRowSelector();
 
       } catch (err) {
         console.error('Error loading dashboard data:', err);
       }
     }
 
-    // Populate Option 1: Column Dropdown
-    function populateTopColumns() {
-      const colSelect = document.getElementById('top-col-select');
-      colSelect.innerHTML = '<option value="">-- Choose Column --</option>';
+    // Populate Option 1: Header Row Selector
+    function populateHeaderRowSelector() {
+      const rowSelect = document.getElementById('top-row-select');
+      rowSelect.innerHTML = '';
 
       const sheetData = getActiveSheetData();
       if (!sheetData || !sheetData.rows || sheetData.rows.length === 0) return;
 
-      const headerRow = sheetData.rows[0];
+      const frozenRows = (sheetData.meta && sheetData.meta.frozenRows) ? sheetData.meta.frozenRows : 1;
+      
+      // Limit choices to frozen rows or top 5 rows
+      const maxRowsToSearch = Math.max(frozenRows, 5);
+      const totalRows = Math.min(sheetData.rows.length, maxRowsToSearch);
+
+      for (let r = 0; r < totalRows; r++) {
+        const opt = document.createElement('option');
+        opt.value = r;
+        opt.textContent = `Row ${r + 1}`;
+        rowSelect.appendChild(opt);
+      }
+
+      // Default to the last frozen row or Row 1
+      rowSelect.value = frozenRows > 0 ? frozenRows - 1 : 0;
+      populateTopColumns();
+    }
+
+    function onHeaderRowChange() {
+      populateTopColumns();
+    }
+
+    // Populate Option 2: Column Dropdown based on Selected Header Row
+    function populateTopColumns() {
+      const colSelect = document.getElementById('top-col-select');
+      colSelect.innerHTML = '<option value="">-- Choose Column --</option>';
+
+      const selectedRowIndex = parseInt(document.getElementById('top-row-select').value, 10);
+      const sheetData = getActiveSheetData();
+      
+      if (!sheetData || !sheetData.rows || isNaN(selectedRowIndex) || !sheetData.rows[selectedRowIndex]) return;
+
+      const headerRow = sheetData.rows[selectedRowIndex];
       headerRow.forEach((cell, index) => {
-        if (!cell.isCovered && cell.value) {
+        if (!cell.isCovered && cell.value !== undefined && String(cell.value).trim() !== '') {
           const opt = document.createElement('option');
           opt.value = index;
           opt.textContent = String(cell.value).trim();
@@ -353,11 +393,10 @@
         }
       });
 
-      // Clear values dropdown when sheet switches
       onColumnSelectChange();
     }
 
-    // Populate Option 2: Unique Values Dropdown based on Option 1
+    // Populate Option 3: Unique Values Dropdown based on Option 2
     function onColumnSelectChange() {
       const colIndex = document.getElementById('top-col-select').value;
       const valSelect = document.getElementById('top-val-select');
@@ -365,11 +404,12 @@
 
       if (colIndex === "") return;
 
+      const selectedRowIndex = parseInt(document.getElementById('top-row-select').value, 10);
       const sheetData = getActiveSheetData();
-      const frozenRows = (sheetData.meta && sheetData.meta.frozenRows !== undefined) ? sheetData.meta.frozenRows : 1;
+      const startDataRow = selectedRowIndex + 1; // Filter data below header row
       
       let uniqueVals = new Set();
-      for (let r = frozenRows; r < sheetData.rows.length; r++) {
+      for (let r = startDataRow; r < sheetData.rows.length; r++) {
         const row = sheetData.rows[r];
         if (row[colIndex] && !row[colIndex].isCovered) {
           let val = String(row[colIndex].value || '').trim();
@@ -385,8 +425,9 @@
       });
     }
 
-    // Apply Filter (Option 2) & Sort (Option 3)
+    // Apply Filter & Sort
     function applyTopFiltersAndSort() {
+      const selectedRowIndex = parseInt(document.getElementById('top-row-select').value, 10);
       const colIndex = document.getElementById('top-col-select').value;
       const selectedVal = document.getElementById('top-val-select').value;
       const sortDirection = document.querySelector('input[name="top-sort"]:checked').value;
@@ -394,27 +435,29 @@
       const table = document.getElementById('table-' + currentActiveSheetId);
       if (!table) return;
 
-      const sheetData = getActiveSheetData();
-      const frozenRowsCount = (sheetData.meta && sheetData.meta.frozenRows !== undefined) ? sheetData.meta.frozenRows : 1;
+      const startDataRow = selectedRowIndex + 1;
       const rows = Array.from(table.querySelectorAll('tr'));
 
       // 1. FILTER ROWS
       rows.forEach(row => {
         const rIdx = parseInt(row.dataset.rowIndex, 10);
-        if (rIdx < frozenRowsCount) return; // Keep headers visible
+        if (rIdx < startDataRow) {
+          row.style.display = ''; // Keep all headers visible
+          return;
+        }
 
         if (colIndex !== "" && selectedVal !== "") {
           const cell = row.querySelector(`td[data-col-index="${colIndex}"]`);
           const cellVal = cell ? (cell.dataset.rawVal || '').trim() : '';
           row.style.display = (cellVal === selectedVal) ? '' : 'none';
         } else {
-          row.style.display = ''; // Reset visibility
+          row.style.display = '';
         }
       });
 
-      // 2. SORT ROWS (Option 3)
+      // 2. SORT ROWS
       if (colIndex !== "") {
-        const dataRows = rows.slice(frozenRowsCount);
+        const dataRows = rows.slice(startDataRow);
 
         dataRows.sort((a, b) => {
           const cellA = a.querySelector(`td[data-col-index="${colIndex}"]`);
@@ -440,8 +483,7 @@
 
     // Reset Top Filters
     function resetTopFilters() {
-      document.getElementById('top-col-select').value = '';
-      onColumnSelectChange();
+      populateHeaderRowSelector();
       document.querySelector('input[name="top-sort"][value="ASC"]').checked = true;
 
       const table = document.getElementById('table-' + currentActiveSheetId);
@@ -450,7 +492,6 @@
       }
     }
 
-    // Helper to extract active sheet object
     function getActiveSheetData() {
       for (const [sheetName, data] of Object.entries(globalDashboardData)) {
         if (cleanId(sheetName) === currentActiveSheetId) {
