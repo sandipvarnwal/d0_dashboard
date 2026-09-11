@@ -10,7 +10,8 @@
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
       margin: 4px; 
       background-color: #f8f9fa; 
-      color: #333333;
+      color: #000000;
+      font-weight: bold;
     }
 
     /* COMPACT TOOLBAR */
@@ -24,17 +25,17 @@
       overflow-x: auto;
       background: #ffffff;
       padding: 3px 4px;
-      border: 1px solid #dcdcdc;
+      border: 1.5px solid #333333;
       border-radius: 4px;
     }
     
     .sheet-select {
       padding: 2px 4px;
       font-size: 9px;
-      font-weight: 600;
+      font-weight: bold;
       color: #1a73e8;
       background-color: #ffffff;
-      border: 1px solid #1a73e8;
+      border: 1.5px solid #1a73e8;
       border-radius: 3px;
       outline: none;
       cursor: pointer;
@@ -46,12 +47,12 @@
     .btn-toolbar {
       padding: 2px 4px;
       font-size: 8.5px;
-      font-weight: 600;
+      font-weight: bold;
       cursor: pointer;
       border-radius: 3px;
-      border: 1px solid #ccc;
+      border: 1px solid #333333;
       background: #f1f3f4;
-      color: #333;
+      color: #000000;
       white-space: nowrap;
       height: 22px;
       flex-shrink: 0;
@@ -62,30 +63,31 @@
     .btn-clear-all {
       background-color: #fce8e6;
       color: #c5221f;
-      border-color: #f5c2c7;
+      border-color: #c5221f;
     }
     .btn-export {
       background-color: #e6f4ea;
       color: #137333;
-      border-color: #ceead6;
+      border-color: #137333;
     }
 
     .page-info-label {
       font-size: 8.5px;
       font-weight: bold;
-      color: #555;
+      color: #000000;
       white-space: nowrap;
       flex-shrink: 0;
     }
 
     .page-size-select {
       font-size: 8.5px;
+      font-weight: bold;
       padding: 1px 2px;
       height: 22px;
       border-radius: 3px;
-      border: 1px solid #ccc;
+      border: 1px solid #333333;
       background: #ffffff;
-      color: #333;
+      color: #000000;
       flex-shrink: 0;
     }
 
@@ -95,7 +97,7 @@
       max-height: 84vh; 
       overflow-x: auto; 
       overflow-y: auto;
-      border: 1px solid #dcdcdc; 
+      border: 1.5px solid #333333; 
       border-radius: 4px;
       background: #ffffff; 
       position: relative;
@@ -109,10 +111,11 @@
     }
     
     td, th { 
-      border-right: 1px solid #e0e0e0 !important; 
-      border-bottom: 1px solid #e0e0e0 !important; 
+      border-right: 1px solid #333333 !important; 
+      border-bottom: 1px solid #333333 !important; 
       padding: 4px 5px !important; 
       font-size: 10px; 
+      font-weight: bold !important; /* Forces all table text to bold */
       line-height: 1.2;
       white-space: normal !important; 
       word-wrap: break-word !important; 
@@ -120,7 +123,7 @@
       vertical-align: middle;
       position: relative;
       text-align: left;
-      background-color: #ffffff; /* Explicit background to prevent transparency overlap */
+      background-color: #ffffff;
     }
 
     /* Center alignment utility for numeric cells */
@@ -131,16 +134,18 @@
     th.header-cell {
       background-color: #1a365d !important;
       color: #ffffff !important;
-      font-weight: 600;
+      font-weight: bold !important;
       text-align: left;
       user-select: none;
+      border-right: 1px solid #333333 !important;
+      border-bottom: 1.5px solid #333333 !important;
     }
 
     .total-row td, .total-row th {
       background-color: #e8f0fe !important;
       font-weight: bold !important;
       color: #1a73e8 !important;
-      border-bottom: 2px solid #1a73e8 !important;
+      border-bottom: 2px solid #333333 !important;
       padding: 2px 4px !important; 
       font-size: 9.5px !important;
       line-height: 1.1 !important;
@@ -167,8 +172,9 @@
 
     .filter-btn {
       background: rgba(255, 255, 255, 0.3);
-      border: none;
+      border: 1px solid #ffffff;
       color: #fff;
+      font-weight: bold;
       border-radius: 3px;
       padding: 1px 3px;
       font-size: 8px;
@@ -177,6 +183,7 @@
     .filter-btn:hover, .filter-btn.active-filter {
       background: #ffc107;
       color: #000;
+      border-color: #ffc107;
     }
 
     /* FIXED & STICKY FREEZE COLUMNS & ROWS FIX */
@@ -187,42 +194,44 @@
     .freeze-col { 
       position: sticky !important; 
       z-index: 200 !important; 
-      background-color: #ffffff; /* Prevent underlying scrolling content bleed-through */
+      background-color: #ffffff; 
     }
     .freeze-row.freeze-col { 
       z-index: 300 !important; 
     }
     
-    /* Subtle divider shadow for frozen columns */
+    /* Dark border indicator for frozen columns */
     .freeze-col-last {
-      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+      border-right: 2px solid #000000 !important;
+      box-shadow: 2px 0 5px rgba(0,0,0,0.2);
     }
 
     .filter-menu {
       position: absolute;
       width: 210px;
       background: #ffffff;
-      border: 1px solid #ccc;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      border: 1.5px solid #333333;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
       border-radius: 6px;
       padding: 6px;
       z-index: 1000;
       display: none;
       font-size: 10px;
-      color: #333;
+      font-weight: bold;
+      color: #000000;
     }
     .filter-menu.show { display: block; }
 
-    .menu-section { margin-bottom: 4px; padding-bottom: 4px; border-bottom: 1px solid #eee; }
-    .menu-sort-btn { width: 100%; text-align: left; padding: 3px 5px; background: #f8f9fa; color: #333; border: 1px solid #ccc; border-radius: 3px; margin-bottom: 3px; cursor: pointer; font-size: 9px; }
+    .menu-section { margin-bottom: 4px; padding-bottom: 4px; border-bottom: 1px solid #333333; }
+    .menu-sort-btn { width: 100%; text-align: left; padding: 3px 5px; background: #f8f9fa; color: #000000; font-weight: bold; border: 1px solid #333333; border-radius: 3px; margin-bottom: 3px; cursor: pointer; font-size: 9px; }
     .menu-sort-btn:hover { background: #e9ecef; }
-    .search-box { width: 100%; padding: 3px; font-size: 9.5px; border: 1px solid #ccc; background: #ffffff; color: #333; border-radius: 3px; margin-bottom: 4px; }
-    .value-list { max-height: 120px; overflow-y: auto; border: 1px solid #eee; padding: 3px; border-radius: 3px; background: #ffffff; }
-    .value-item { display: flex; align-items: center; gap: 4px; padding: 2px 0; font-size: 9.5px; color: #333; }
+    .search-box { width: 100%; padding: 3px; font-size: 9.5px; font-weight: bold; border: 1px solid #333333; background: #ffffff; color: #000000; border-radius: 3px; margin-bottom: 4px; }
+    .value-list { max-height: 120px; overflow-y: auto; border: 1px solid #333333; padding: 3px; border-radius: 3px; background: #ffffff; }
+    .value-item { display: flex; align-items: center; gap: 4px; padding: 2px 0; font-size: 9.5px; font-weight: bold; color: #000000; }
     .menu-actions { display: flex; justify-content: space-between; margin-top: 4px; }
-    .btn-menu-action { padding: 2px 5px; font-size: 9px; border-radius: 3px; cursor: pointer; border: 1px solid #ccc; }
+    .btn-menu-action { padding: 2px 5px; font-size: 9px; font-weight: bold; border-radius: 3px; cursor: pointer; border: 1px solid #333333; }
     .btn-apply-filter { background: #1a73e8; color: #fff; border-color: #1a73e8; }
-    .btn-clear-filter { background: #f1f3f4; color: #333; }
+    .btn-clear-filter { background: #f1f3f4; color: #000; }
   </style>
 </head>
 <body>
@@ -259,8 +268,8 @@
     <div class="menu-section">
       <input type="text" class="search-box" id="menu-search" placeholder="Search values..." oninput="filterMenuValues()">
       <div style="margin-bottom: 4px;">
-        <a href="#" style="font-size: 9px; margin-right: 6px; color: #1a73e8;" onclick="toggleSelectAll(true); return false;">Select All</a>
-        <a href="#" style="font-size: 9px; color: #1a73e8;" onclick="toggleSelectAll(false); return false;">Clear</a>
+        <a href="#" style="font-size: 9px; margin-right: 6px; color: #1a73e8; font-weight: bold;" onclick="toggleSelectAll(true); return false;">Select All</a>
+        <a href="#" style="font-size: 9px; color: #1a73e8; font-weight: bold;" onclick="toggleSelectAll(false); return false;">Clear</a>
       </div>
       <div class="value-list" id="menu-value-list"></div>
     </div>
@@ -568,8 +577,6 @@
             if (cell.color) td.style.color = cell.color;
           }
 
-          if (cell.bold) td.style.fontWeight = 'bold';
-
           // CENTER ALIGN NUMERICAL VALUES
           if (isNumericValue(cellVal)) {
             td.classList.add('text-center');
@@ -586,12 +593,10 @@
             td.classList.add('freeze-col');
             td.style.left = `${leftOffsets[cIndex]}px`;
             
-            // If background was unspecified, ensure white opacity so scrolling text doesn't show
             if (!cell.bg && !isHeader && !isTotalRow) {
               td.style.backgroundColor = '#ffffff';
             }
 
-            // Add border shadow indicator to the last frozen column
             if (cIndex === frozenCols - 1) {
               td.classList.add('freeze-col-last');
             }
