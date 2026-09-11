@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -121,6 +120,7 @@
       vertical-align: middle;
       position: relative;
       text-align: left;
+      background-color: #ffffff; /* Explicit background to prevent transparency overlap */
     }
 
     /* Center alignment utility for numeric cells */
@@ -150,7 +150,7 @@
       font-size: 9px;
       font-weight: bold;
       color: #1a73e8;
-      background: transparent;
+      background: #ffffff;
       border: 1px solid #1a73e8;
       border-radius: 3px;
       padding: 0 2px;
@@ -179,20 +179,23 @@
       color: #000;
     }
 
+    /* FIXED & STICKY FREEZE COLUMNS & ROWS FIX */
     .freeze-row { 
       position: sticky !important; 
       z-index: 100 !important;
     }
-    .freeze-row.total-cell {
-      z-index: 150 !important;
-      background-color: #e8f0fe !important;
-    }
     .freeze-col { 
       position: sticky !important; 
-      z-index: 50 !important; 
+      z-index: 200 !important; 
+      background-color: #ffffff; /* Prevent underlying scrolling content bleed-through */
     }
     .freeze-row.freeze-col { 
-      z-index: 200 !important; 
+      z-index: 300 !important; 
+    }
+    
+    /* Subtle divider shadow for frozen columns */
+    .freeze-col-last {
+      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
     }
 
     .filter-menu {
@@ -355,7 +358,6 @@
       filteredRows.forEach(row => {
         const rowString = row.map(cell => {
           let val = cell && cell.value !== undefined ? String(cell.value) : "";
-          // Escape quotes inside value
           val = val.replace(/"/g, '""');
           return `"${val}"`;
         }).join(",");
@@ -560,9 +562,9 @@
           td.style.width = `${pixelWidths[cIndex]}px`;
           td.style.minWidth = `${pixelWidths[cIndex]}px`;
 
-          // STRICT ORIGINAL COLOR RETENTION
+          // PRESERVE ORIGINAL COLORS WITH SAFE DEFAULT BACKGROUND
           if (!isHeader && !isTotalRow) {
-            if (cell.bg) td.style.backgroundColor = cell.bg;
+            td.style.backgroundColor = cell.bg ? cell.bg : '#ffffff';
             if (cell.color) td.style.color = cell.color;
           }
 
@@ -573,14 +575,26 @@
             td.classList.add('text-center');
           }
 
+          // STICKY ROW FORMATTING
           if (rIndex < totalStickyRowsCount) {
             td.classList.add('freeze-row');
             if (isTotalRow) td.classList.add('total-cell');
           }
 
+          // STICKY COLUMN FORMATTING BASED ON FROZEN COLS FROM SCRIPT
           if (cIndex < frozenCols) {
             td.classList.add('freeze-col');
             td.style.left = `${leftOffsets[cIndex]}px`;
+            
+            // If background was unspecified, ensure white opacity so scrolling text doesn't show
+            if (!cell.bg && !isHeader && !isTotalRow) {
+              td.style.backgroundColor = '#ffffff';
+            }
+
+            // Add border shadow indicator to the last frozen column
+            if (cIndex === frozenCols - 1) {
+              td.classList.add('freeze-col-last');
+            }
           }
 
           if (cell.isSummaryControlCell) {
