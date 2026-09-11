@@ -61,6 +61,11 @@
       color: #f28b82;
       border-color: #a50e0e;
     }
+    .btn-export {
+      background-color: #1b4d3e;
+      color: #81c995;
+      border-color: #0d652d;
+    }
 
     .page-info-label {
       font-size: 8.5px;
@@ -217,8 +222,9 @@
   <div class="toolbar-row">
     <select class="sheet-select" id="sheet-dropdown" onchange="switchTab(this.value)"></select>
     
-    <!-- FILTER & PAGINATION CONTROLS -->
+    <!-- FILTER, EXPORT & PAGINATION CONTROLS -->
     <button class="btn-toolbar btn-clear-all filter-control" id="btn-clear-all" onclick="clearAllSheetFilters()" title="Clear All Active Filters">Clear All Filters</button>
+    <button class="btn-toolbar btn-export filter-control" id="btn-export-csv" onclick="exportFilteredDataToCSV()" title="Export Filtered Data to CSV (Excel)">Export CSV</button>
 
     <button class="btn-toolbar filter-control" id="btn-prev-page" onclick="changePage(-1)">◀</button>
     <span class="page-info-label filter-control" id="page-info">1/1</span>
@@ -347,6 +353,34 @@
       sheetSorts[currentActiveSheetName] = null;
       closeFilterMenu();
       applyFiltersAndSort();
+    }
+
+    // EXPORT FILTERED DATA TO CSV
+    function exportFilteredDataToCSV() {
+      if (!filteredRows || filteredRows.length === 0) return;
+
+      let csvContent = "";
+
+      filteredRows.forEach(row => {
+        const rowString = row.map(cell => {
+          let val = cell && cell.value !== undefined ? String(cell.value) : "";
+          // Escape quotes inside value
+          val = val.replace(/"/g, '""');
+          return `"${val}"`;
+        }).join(",");
+        csvContent += rowString + "\r\n";
+      });
+
+      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      
+      const fileName = `${currentActiveSheetName}_filtered_data.csv`;
+      link.setAttribute("href", url);
+      link.setAttribute("download", fileName);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     }
 
     function applyFiltersAndSort() {
@@ -538,16 +572,14 @@
           // STRICT CONDITIONAL THEMING LOGIC
           if (!isHeader && !isTotalRow) {
             if (isWhiteOrLightBg(cell.bg)) {
-              // Apply dark background AND strictly white text ONLY for default/white cells
               td.style.backgroundColor = '#1e1e1e';
               td.style.color = '#ffffff';
             } else {
-              // Preserve original sheet highlight background and text color
               if (cell.bg) td.style.backgroundColor = cell.bg;
               if (cell.color) {
                 td.style.color = cell.color;
               } else {
-                td.style.color = '#000000'; // Default text color for custom light highlights
+                td.style.color = '#000000';
               }
             }
           }
