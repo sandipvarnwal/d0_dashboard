@@ -298,34 +298,45 @@
       return cleanVal !== '' && !isNaN(Number(cleanVal));
     }
 
-    async function loadDashboard() {
-      try {
-        const response = await fetch('./data.json?t=' + new Date().getTime());
-        globalDashboardData = await response.json();
-        
-        const dropdown = document.getElementById('sheet-dropdown');
-        dropdown.innerHTML = '';
-        let isFirst = true;
+async function loadDashboard() {
+  const container = document.getElementById('table-container');
+  try {
+    // Optional loading indicator
+    container.style.opacity = '0.5';
 
-        for (const [sheetName, data] of Object.entries(globalDashboardData)) {
-          sheetFilters[sheetName] = {};
-          sheetSorts[sheetName] = null;
-
-          const tabLabel = (data && data.meta && data.meta.displayName) ? data.meta.displayName : sheetName;
-          if (isFirst) currentActiveSheetName = sheetName;
-
-          const option = document.createElement('option');
-          option.value = sheetName;
-          option.textContent = tabLabel;
-          dropdown.appendChild(option);
-          isFirst = false;
-        }
-
-        switchTab(currentActiveSheetName);
-      } catch (err) {
-        console.error('Error loading dashboard data:', err);
-      }
+    const response = await fetch('./data.json?t=' + new Date().getTime());
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
     }
+
+    globalDashboardData = await response.json();
+    
+    const dropdown = document.getElementById('sheet-dropdown');
+    dropdown.innerHTML = '';
+    let isFirst = true;
+
+    for (const [sheetName, data] of Object.entries(globalDashboardData)) {
+      sheetFilters[sheetName] = {};
+      sheetSorts[sheetName] = null;
+
+      const tabLabel = (data && data.meta && data.meta.displayName) ? data.meta.displayName : sheetName;
+      if (isFirst) currentActiveSheetName = sheetName;
+
+      const option = document.createElement('option');
+      option.value = sheetName;
+      option.textContent = tabLabel;
+      dropdown.appendChild(option);
+      isFirst = false;
+    }
+
+    switchTab(currentActiveSheetName);
+  } catch (err) {
+    console.error('Error loading dashboard data:', err);
+    container.innerHTML = `<div style="padding: 20px; color: red; font-weight: bold;">Failed to load data: ${err.message}. Please check if data.json exists and is valid.</div>`;
+  } finally {
+    container.style.opacity = '1';
+  }
+}
 
     function switchTab(sheetName) {
       currentActiveSheetName = sheetName;
