@@ -3,6 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
   <title>D0 DASHBOARD</title>
   <style>
     * { box-sizing: border-box; }
@@ -280,10 +283,19 @@
   </div>
 
   <script>
+    // Force-clear any registered Service Workers that might intercept static resources
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(function(registrations) {
+        for (let registration of registrations) {
+          registration.unregister();
+        }
+      });
+    }
+
     var globalDashboardData = {};
     var currentActiveSheetName = '';
     var sheetFilters = {}; 
-    var sheetSorts = {};   
+    var sheetSorts = {};    
     var activeMenuColIndex = null;
 
     var filteredRows = [];
@@ -298,45 +310,56 @@
       return cleanVal !== '' && !isNaN(Number(cleanVal));
     }
 
-async function loadDashboard() {
-  const container = document.getElementById('table-container');
-  try {
-    // Optional loading indicator
-    container.style.opacity = '0.5';
+    async function loadDashboard() {
+      const container = document.getElementById('table-container');
+      try {
+        container.style.opacity = '0.5';
 
-    const response = await fetch('./data.json?t=' + new Date().getTime());
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
+        // Force browser and CDN bypass with timestamp + anti-cache headers
+        const cacheBuster = Date.now() + '_' + Math.random().toString(36).substring(7);
+        const response = await fetch('./data.json?v=' + cacheBuster, {
+          cache: 'no-store',
+          headers: {
+            'Cache-Control': 'no-cache, no-store, must-revalidate',
+            'Pragma': 'no-cache'
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        // Complete state reset on fresh fetch
+        globalDashboardData = await response.json();
+        sheetFilters = {};
+        sheetSorts = {};
+        
+        const dropdown = document.getElementById('sheet-dropdown');
+        dropdown.innerHTML = '';
+        let isFirst = true;
+
+        for (const [sheetName, data] of Object.entries(globalDashboardData)) {
+          sheetFilters[sheetName] = {};
+          sheetSorts[sheetName] = null;
+
+          const tabLabel = (data && data.meta && data.meta.displayName) ? data.meta.displayName : sheetName;
+          if (isFirst) currentActiveSheetName = sheetName;
+
+          const option = document.createElement('option');
+          option.value = sheetName;
+          option.textContent = tabLabel;
+          dropdown.appendChild(option);
+          isFirst = false;
+        }
+
+        switchTab(currentActiveSheetName);
+      } catch (err) {
+        console.error('Error loading dashboard data:', err);
+        container.innerHTML = `<div style="padding: 20px; color: red; font-weight: bold;">Failed to load data: ${err.message}. Please check if data.json exists and is valid.</div>`;
+      } finally {
+        container.style.opacity = '1';
+      }
     }
-
-    globalDashboardData = await response.json();
-    
-    const dropdown = document.getElementById('sheet-dropdown');
-    dropdown.innerHTML = '';
-    let isFirst = true;
-
-    for (const [sheetName, data] of Object.entries(globalDashboardData)) {
-      sheetFilters[sheetName] = {};
-      sheetSorts[sheetName] = null;
-
-      const tabLabel = (data && data.meta && data.meta.displayName) ? data.meta.displayName : sheetName;
-      if (isFirst) currentActiveSheetName = sheetName;
-
-      const option = document.createElement('option');
-      option.value = sheetName;
-      option.textContent = tabLabel;
-      dropdown.appendChild(option);
-      isFirst = false;
-    }
-
-    switchTab(currentActiveSheetName);
-  } catch (err) {
-    console.error('Error loading dashboard data:', err);
-    container.innerHTML = `<div style="padding: 20px; color: red; font-weight: bold;">Failed to load data: ${err.message}. Please check if data.json exists and is valid.</div>`;
-  } finally {
-    container.style.opacity = '1';
-  }
-}
 
     function switchTab(sheetName) {
       currentActiveSheetName = sheetName;
